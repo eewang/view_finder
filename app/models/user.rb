@@ -6,6 +6,11 @@ class User < ActiveRecord::Base
 
   has_many :authentications
 
+  has_many :photos
+
+  has_many :guesses
+  has_many :photos, :through => :guesses
+
   has_secure_password
 
 # provider, uid, oauth_token # => add to database migration

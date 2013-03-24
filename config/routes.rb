@@ -1,5 +1,11 @@
 ViewFinder::Application.routes.draw do
 
+  resources :photos
+
+
+  resources :guesses
+
+
   match '/auth/:provider/callback/' => 'authentications#create'
   
   resources :authentications

@@ -1,7 +1,6 @@
-<h1>Listing users</h1>
+<h1>Photos</h1>
 
 <% @location_media.each do |p| %>
-  <% binding.pry %>
   <% item_num = @location_media.index(p) %>
   <h3><%= p.user.full_name %></h3><br>
   <%= link_to image_tag(p.images.standard_resolution.url), "#myModal-#{item_num}", :role => "button", :class => "btn", "data-toggle" => "modal" %><br>
@@ -11,9 +10,11 @@
       <h3 id="myModalLabel">Guess Where This Was Taken</h3>
     </div>
     <div class="modal-body">
+        
       <% if !p.location.nil? %>
         <p>Location: Latitude <%= p.location.latitude %>, Longitude: <%= p.location.longitude %></p>
-        <p>Address: <%= Geocoder.search("#{p.location.latitude}, #{p.location.longitude}")[0].address %>
+        <p>Address: <%= Geocoder.search("#{p.location.latitude}, #{p.location.longitude}")[0].address %></p>
+        <p>Location Name: <%= p.location.name %></p>
       <% end %>
     </div>
     <div class="modal-footer">
@@ -36,3 +37,4 @@ longitude - location.longitude
 location - location.name
 link - link
 caption - caption.text -->
+
