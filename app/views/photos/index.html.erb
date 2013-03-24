@@ -12,7 +12,7 @@
     </div>
     <div class="modal-body">
         
-      <% if !p.location.nil? %>
+      <% unless p.location.nil? %>
         <p>Location: Latitude <%= p.location.latitude %>, Longitude: <%= p.location.longitude %></p>
         <p>Address: <%= Geocoder.search("#{p.location.latitude}, #{p.location.longitude}")[0].address %></p>
         <p>Location Name: <%= p.location.name %></p>
