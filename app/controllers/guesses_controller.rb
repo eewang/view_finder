@@ -1,4 +1,5 @@
 class GuessesController < ApplicationController
+
   # GET /guesses
   # GET /guesses.json
   def index
@@ -40,17 +41,14 @@ class GuessesController < ApplicationController
   # POST /guesses
   # POST /guesses.json
   def create
-    @guess = Guess.new(params[:guess])
+    @guess = Guess.new
+    @guess.street_address = params[:guess][:street_address]
+    @guess.photo = Photo.find_by_id(params[:guess][:photo_id])
+    @guess.save
+    @guess.convert_address_to_coordinates
 
-    respond_to do |format|
-      if @guess.save
-        format.html { redirect_to @guess, notice: 'Guess was successfully created.' }
-        format.json { render json: @guess, status: :created, location: @guess }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @guess.errors, status: :unprocessable_entity }
-      end
-    end
+    # binding.pry
+    redirect_to guess_path(@guess)
   end
 
   # PUT /guesses/1

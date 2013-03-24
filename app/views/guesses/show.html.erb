@@ -1,35 +1,32 @@
 <p id="notice"><%= notice %></p>
 
+<h3>
+  Congrats! Your guess was <%= @guess.distance_from_target_in_feet %> feet away from the target! 
+</h3>
+
+<br>
+
+<h5>Your Guess</h5>
 <p>
-  <b>Latitude:</b>
-  <%= @guess.latitude %>
+  Address: <%= @guess.street_address %>
+</p>
+<p>
+  Coordinates: Latitude - <%= @guess.latitude %>, Longitude - <%= @guess.longitude %>
+</p>
+
+<br>
+
+<h5>Correct Location</h5>
+
+<p>
+  Address: <%= @guess.photo.street_address %>
 </p>
 
 <p>
-  <b>Longitude:</b>
-  <%= @guess.longitude %>
+  Coordinates: Latitude - <%= @guess.photo.latitude %>, Longitude - <%= @guess.photo.longitude %>
 </p>
 
-<p>
-  <b>Street address:</b>
-  <%= @guess.street_address %>
-</p>
-
-<p>
-  <b>City:</b>
-  <%= @guess.city %>
-</p>
-
-<p>
-  <b>State:</b>
-  <%= @guess.state %>
-</p>
-
-<p>
-  <b>Country:</b>
-  <%= @guess.country %>
-</p>
-
+<br>
 
 <%= link_to 'Edit', edit_guess_path(@guess) %> |
 <%= link_to 'Back', guesses_path %>

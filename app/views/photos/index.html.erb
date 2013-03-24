@@ -1,10 +1,10 @@
 <h1>Photos</h1>
 
-<% @location_media.each do |p| %>
-  <% item_num = @location_media.index(p) %>
-  <h3><%= p.user.full_name %></h3><br>
-  <h5><%= p.caption.text unless p.caption.nil? %></h5>
-  <%= link_to image_tag(p.images.standard_resolution.url), "#myModal-#{item_num}", :role => "button", :class => "btn", "data-toggle" => "modal" %><br>
+<% @photos.each do |p| %>
+  <% item_num = @photos.index(p) %>
+  <h3><%= p.user_name %></h3><br>
+  <h5><%= p.caption unless p.caption.nil? %></h5>
+  <%= link_to image_tag(p.image), "#myModal-#{item_num}", :role => "button", :class => "btn", "data-toggle" => "modal" %><br>
   <div id="myModal-<%= item_num %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -12,10 +12,18 @@
     </div>
     <div class="modal-body">
         
-      <% unless p.location.nil? %>
-        <p>Location: Latitude <%= p.location.latitude %>, Longitude: <%= p.location.longitude %></p>
-        <p>Address: <%= Geocoder.search("#{p.location.latitude}, #{p.location.longitude}")[0].address %></p>
-        <p>Location Name: <%= p.location.name %></p>
+      <% unless p.latitude.nil? %>
+        <p>Location: Latitude <%= p.latitude %>, Longitude: <%= p.longitude %></p>
+        <p>Address: <%= Geocoder.search("#{p.latitude}, #{p.longitude}")[0].address %></p>
+        <p>Location Name: <%= p.location %></p>
+
+        <%= form_for p.guesses.build, :action => "guesses#create" do |f| %>
+          <%= f.label :street_address %>
+          <%= f.text_field :street_address %>
+          <%= f.hidden_field :photo_id %>
+          <%= f.submit %>
+        <% end %>
+
       <% end %>
     </div>
     <div class="modal-footer">

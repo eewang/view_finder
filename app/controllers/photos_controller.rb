@@ -11,29 +11,7 @@ class PhotosController < ApplicationController
 
     user_id = 305166995
 
-    @recent_media = Instagram.user_recent_media(user_id)
-    @popular_media = Instagram.media_popular
-    @popular_media_with_locations = @popular_media.collect { |item| item if !item.location.nil? }
-
-    @location_media = Instagram.media_search('40.734771', '-73.990722')
-    @location_media_query = @location_media.collect do |pic|
-      unless Photo.find_by_instagram_id(pic.id).nil?
-        @photo = Photo.new({
-          :image => pic.images.standard_resolution.url,
-          :latitude => pic.location.latitude,
-          :longitude => pic.location.longitude,
-          :user_name => pic.user.full_name,        
-          :location => pic.location.name,
-          :link => pic.link,
-          :instagram_id => pic.id
-          })
-        @photo.caption = pic.caption.text unless pic.caption.nil?
-        @photo.save
-      end
-      Photo.find_by_instagram_id(pic.id) || @photo
-    end
-
-    # binding.pry
+    @photos = Photo.instagram_location_search_and_save('40.734771', '-73.990722')
   end
 
   # GET /photos/1
