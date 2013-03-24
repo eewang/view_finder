@@ -3,6 +3,7 @@
 <% @location_media.each do |p| %>
   <% item_num = @location_media.index(p) %>
   <h3><%= p.user.full_name %></h3><br>
+  <h5><%= p.caption.text unless p.caption.nil? %></h5>
   <%= link_to image_tag(p.images.standard_resolution.url), "#myModal-#{item_num}", :role => "button", :class => "btn", "data-toggle" => "modal" %><br>
   <div id="myModal-<%= item_num %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">

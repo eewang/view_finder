@@ -33,7 +33,7 @@ class PhotosController < ApplicationController
       Photo.find_by_instagram_id(pic.id) || @photo
     end
 
-    binding.pry
+    # binding.pry
   end
 
   # GET /photos/1
