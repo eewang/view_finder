@@ -1,10 +1,17 @@
 ViewFinder::Application.routes.draw do
+
+  match '/auth/:provider/callback/' => 'authentications#create'
   
+  resources :authentications
+
+
   root :to => 'users#new'
 
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
   get 'logout' => 'sessions#destroy'
+
+  # get 'auth/instagram/callback/' => 'sessions#auth_instagram'
 
   resources :users, :sessions
 

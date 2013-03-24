@@ -1,14 +1,37 @@
+require 'net/http'
+
 class UsersController < ApplicationController
-  skip_before_filter :login_required, :only => :new
+  skip_before_filter :login_required, :only => [:new, :oauth_failure, :index]
   # GET /users
   # GET /users.json
-  def index
-    @users = User.all
+  
+  def oauth_failure
+    user_code = params[:code]
+    uri = URI('https://api.instagram.com/oauth/access_token/')
+    HTTParty.post(uri, 
+      {'client_id' => ENV['INSTAGRAM_APP_ID'],
+        'client_secret' => ENV['INSTAGRAM_SECRET'],
+        'grant_type' => 'authorization_code',
+        'redirect_uri' => ENV['INSTAGRAM_REDIRECT'],
+        'code' => user_code
+      })
+  end
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @users }
+  def index
+
+    Instagram.configure do |config|
+      config.client_id = ENV['INSTAGRAM_APP_ID']
+      config.access_token = ENV['INSTAGRAM_TOKEN']
     end
+
+    user_id = 305166995
+
+    @recent_media = Instagram.user_recent_media(user_id)
+    @popular_media = Instagram.media_popular
+    @popular_media_with_locations = @popular_media.collect { |item| item if !item.location.nil? }
+
+    @location_media = Instagram.media_search('40.734771', '-73.990722')
+
   end
 
   # GET /users/1
