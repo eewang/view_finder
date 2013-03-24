@@ -1,25 +1,19 @@
 ViewFinder::Application.routes.draw do
 
-  resources :photos
-
-
-  resources :guesses
-
-
   match '/auth/:provider/callback/' => 'authentications#create'
   
-  resources :authentications
-
-
   root :to => 'users#new'
 
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
   get 'logout' => 'sessions#destroy'
 
+  get 'photos/popular' => 'photos#index_popular'
+  get 'photos/location_1' => 'photos#index_location_1'
+  get 'photos/location_2' => 'photos#index_location_2'
   # get 'auth/instagram/callback/' => 'sessions#auth_instagram'
 
-  resources :users, :sessions
+  resources :users, :sessions, :photos, :authentications, :guesses
 
 
   # The priority is based upon order of creation:

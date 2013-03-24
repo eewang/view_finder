@@ -3,15 +3,22 @@ class PhotosController < ApplicationController
 
   # GET /photos
   # GET /photos.json
-  def index
-    Instagram.configure do |config|
-      config.client_id = ENV['INSTAGRAM_APP_ID']
-      config.access_token = ENV['INSTAGRAM_TOKEN']
-    end
-
-    user_id = 305166995
-
+  def index_location_1
     @photos = Photo.instagram_location_search_and_save('40.734771', '-73.990722')
+
+    render "index"
+  end
+
+ def index_location_2
+    @photos = Photo.instagram_location_search_and_save('40.758956', '-73.979464')
+
+    render "index"
+  end
+
+  def index_popular
+    @photos = Photo.instagram_popular_media_and_save
+
+    render "index"
   end
 
   # GET /photos/1

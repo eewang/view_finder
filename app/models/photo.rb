@@ -10,21 +10,37 @@ class Photo < ActiveRecord::Base
     Instagram.media_search(lat, lon) 
   end
 
-  def self.instagram_popular_media
-    Instagram.media_popular
+  def self.instagram_popular_media_with_location
+    popular_media = Instagram.media_popular.collect do |item|
+      if item.location.nil?
+        next
+      else
+        item
+      end
+    end
+    popular_media.delete_if { |i| i.nil? }
   end
 
   def self.instagram_user_recent_media(instagram_user)
-    Instagram.user_recent_media(user_id)
+    Instagram.user_recent_media(instagram_user)
   end
 
   def self.instagram_location_search_and_save(lat, lon)
-    @photo_collection = Photo.instagram_location_search(lat, lon).collect do |pic|
-      @photo = Photo.where(:instagram_id => pic.id).first_or_create
-      @photo.set_attributes(pic)
-      @photo
+    Photo.instagram_location_search(lat, lon).collect do |pic|
+      Photo.save_instagram_photos(pic)
     end
-    @photo_collection
+  end
+
+  def self.instagram_popular_media_and_save
+    Photo.instagram_popular_media_with_location.collect do |pic|
+      Photo.save_instagram_photos(pic)
+    end
+  end
+
+  def self.save_instagram_photos(instagram_pic)
+    @photo = Photo.where(:instagram_id => instagram_pic.id).first_or_create
+    @photo.set_attributes(instagram_pic)
+    @photo
   end
 
   def set_attributes(pic)

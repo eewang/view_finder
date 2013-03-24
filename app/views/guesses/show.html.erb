@@ -1,9 +1,11 @@
 <p id="notice"><%= notice %></p>
 
-<h3>
-  Congrats! Your guess was <%= @guess.distance_from_target_in_feet.round %> feet away from the target! 
-</h3>
+<h4>
+  Congrats! Your guess was about <%= @guess.distance_from_target_in_feet.round %> feet away (~ <%= @guess.distance_from_target_in_miles.round(2) %> miles) from the target! 
+</h4>
 
+<br>
+<%= image_tag(@guess.photo.image) %>
 <br>
 
 <h5>Your Guess</h5>
@@ -11,7 +13,7 @@
   Address: <%= @guess.street_address %>
 </p>
 <p>
-  Coordinates: Latitude - <%= @guess.latitude %>, Longitude - <%= @guess.longitude %>
+  Coordinates: Latitude = <%= @guess.latitude %>, Longitude = <%= @guess.longitude %>
 </p>
 
 <br>
@@ -26,9 +28,12 @@
   Coordinates: Latitude = <%= @guess.photo.latitude %>, Longitude = <%= @guess.photo.longitude %>
 </p>
 
+<br>
+
 <h5>Leaderboard</h5>
-  <% @guess.photo.guesses.sort_by { |p_g| p_g.distance_from_target_in_feet }.each do |g| %>
-    <p><%= g.id %>: <%= g.distance_from_target_in_feet.round %> feet</p>
+  <% @photo_guesses_sorted = @guess.photo.guesses.sort_by { |p_g| p_g.distance_from_target_in_feet } %>
+  <% @photo_guesses_sorted.each do |g| %>
+    <p><%= @photo_guesses_sorted.index(g) + 1 %>: <%= g.distance_from_target_in_feet.round %> feet (<%= g.street_address %>)</p>
     <br>
   <% end %>
 <p>
@@ -37,5 +42,6 @@
 
 <br>
 
+<%= link_to 'View Photos', photos_location_1_path %> |
 <%= link_to 'Edit', edit_guess_path(@guess) %> |
 <%= link_to 'Back', guesses_path %>
