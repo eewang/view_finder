@@ -26,6 +26,9 @@ gem 'omniauth-instagram'
 gem 'instagram'
 gem 'bcrypt-ruby'
 gem 'figaro'
+gem 'pry'
+gem 'httparty'
+gem 'geocoder'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

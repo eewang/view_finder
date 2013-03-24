@@ -22,4 +22,14 @@ class SessionsController < ApplicationController
     redirect_to login_path, :notice => "Logged out!"
   end
 
+  def auth_instagram
+    render :text => "Hello world"
+  end
+
+  protected
+
+  def auth_hash
+      request.env['omniauth.auth']
+    end
+
 end
