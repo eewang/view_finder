@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <h3>
-  Congrats! Your guess was <%= @guess.distance_from_target_in_feet %> feet away from the target! 
+  Congrats! Your guess was <%= @guess.distance_from_target_in_feet.round %> feet away from the target! 
 </h3>
 
 <br>
@@ -23,7 +23,16 @@
 </p>
 
 <p>
-  Coordinates: Latitude - <%= @guess.photo.latitude %>, Longitude - <%= @guess.photo.longitude %>
+  Coordinates: Latitude = <%= @guess.photo.latitude %>, Longitude = <%= @guess.photo.longitude %>
+</p>
+
+<h5>Leaderboard</h5>
+  <% @guess.photo.guesses.sort_by { |p_g| p_g.distance_from_target_in_feet }.each do |g| %>
+    <p><%= g.id %>: <%= g.distance_from_target_in_feet.round %> feet</p>
+    <br>
+  <% end %>
+<p>
+
 </p>
 
 <br>
