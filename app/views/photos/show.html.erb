@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Image:</b>
+  <%= @photo.image %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @photo.user %>
+</p>
+
+<p>
+  <b>Guess:</b>
+  <%= @photo.guess %>
+</p>
+
+<p>
+  <b>Latitude:</b>
+  <%= @photo.latitude %>
+</p>
+
+<p>
+  <b>Longitude:</b>
+  <%= @photo.longitude %>
+</p>
+
+
+<%= link_to 'Edit', edit_photo_path(@photo) %> |
+<%= link_to 'Back', photos_path %>

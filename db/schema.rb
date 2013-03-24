@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130323200742) do
+ActiveRecord::Schema.define(:version => 20130324023542) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -19,6 +19,40 @@ ActiveRecord::Schema.define(:version => 20130323200742) do
     t.string   "uid"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "authorizations", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "provider"
+    t.string   "uid"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "guesses", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "photo_id"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "street_address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "photos", :force => true do |t|
+    t.string   "image"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.string   "user_name"
+    t.string   "location"
+    t.string   "link"
+    t.string   "caption"
+    t.string   "instagram_id"
   end
 
   create_table "users", :force => true do |t|
