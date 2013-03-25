@@ -42,9 +42,8 @@ class UsersController < ApplicationController
     #     :caption => pic.caption.text
     #     })
     #   @photo.save
-    end
-
   end
+
 
   # GET /users/1
   # GET /users/1.json
