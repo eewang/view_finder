@@ -1010,3 +1010,18 @@
 
 
 @import 'foundation';
+.orbit-container {
+  width: 612px;
+}
+.orbit-slides-container {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+.orbit-caption {
+  position: absolute;
+  bottom: 0px;
+  color: #000;
+  width: 100%;
+}

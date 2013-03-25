@@ -1,8 +1,18 @@
-<h1>Photos</h1>
+
+<h1 class="subheader">Testing - Foundation: Orbit</h1>
+<div>
+  <div data-orbit>
+  <% @photos.each do |p| %>
+    <% item_num = @photos.index(p) %>
+    <%= link_to image_tag(p.image) %>
+  <% end %>
+  </div>
+</div>
+<h1 class="subheader">Photos</h1>
 
 <% @photos.each do |p| %>
   <% item_num = @photos.index(p) %>
-  <h3><%= p.user_name %></h3><br>
+  <h3 class="subheader"><%= p.user_name %></h3><br>
   <h5><%= p.caption unless p.caption.nil? %></h5>
   <%= link_to image_tag(p.image), "#myModal-#{item_num}", :role => "button", :class => "btn", "data-toggle" => "modal" %><br>
   <div id="myModal-<%= item_num %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
