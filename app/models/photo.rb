@@ -5,9 +5,10 @@ class Photo < ActiveRecord::Base
 
   attr_accessible :image, :latitude, :longitude, :user_name, :location, :link, :caption, :instagram_id
 
-  def self.instagram_location_search(lat, lon)
+  def self.instagram_location_search(lat, lon, options = {})
     # finds photos within 1000 meters radius of the lat/lon coordinates
-    Instagram.media_search(lat, lon) 
+    options = {:distance => 1000}.merge(options)
+    Instagram.media_search(lat, lon, options) 
   end
 
   def self.instagram_popular_media_with_location
@@ -25,8 +26,8 @@ class Photo < ActiveRecord::Base
     Instagram.user_recent_media(instagram_user)
   end
 
-  def self.instagram_location_search_and_save(lat, lon)
-    Photo.instagram_location_search(lat, lon).collect do |pic|
+  def self.instagram_location_search_and_save(lat, lon, options = {})
+    Photo.instagram_location_search(lat, lon, options).collect do |pic|
       Photo.save_instagram_photos(pic)
     end
   end

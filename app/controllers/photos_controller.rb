@@ -3,6 +3,27 @@ class PhotosController < ApplicationController
 
   # GET /photos
   # GET /photos.json
+  def search
+    render "search"
+  end
+
+  def index
+    @search_query = params[:search_text]
+    @search_distance = params[:distance]
+    search = Geocoder.search(@search_query)
+    unless search.empty?
+      search_lat = search[0].latitude
+      search_lon = search[0].longitude
+      @photos = Photo.instagram_location_search_and_save(
+        search_lat, 
+        search_lon,
+        {:distance => @search_distance})
+      render "index"
+    else
+      render "/guesses/error"
+    end
+  end
+
   def index_location_1
     @photos = Photo.instagram_location_search_and_save('40.734771', '-73.990722')
 

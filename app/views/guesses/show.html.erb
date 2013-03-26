@@ -33,7 +33,7 @@
 <h5>Leaderboard</h5>
   <% @photo_guesses_sorted = @guess.photo.guesses.sort_by { |p_g| p_g.distance_from_target_in_feet } %>
   <% @photo_guesses_sorted.each do |g| %>
-    <p><%= @photo_guesses_sorted.index(g) + 1 %>: <%= g.distance_from_target_in_feet.round %> feet (<%= g.street_address %>)</p>
+    <p><%= @photo_guesses_sorted.index(g) + 1 %>. <%= g.user.name %> guessed <%= g.street_address %>, which is <%= g.distance_from_target_in_feet.round %> feet away (~ <%= g.distance_from_target_in_miles.round(2) %> miles), <%= g.created_at.in_time_zone('Eastern Time (US & Canada)').strftime("at %I:%M %p") %><%= g.created_at.strftime(" on %m/%d/%Y") %></p>
     <br>
   <% end %>
 <p>

@@ -1,0 +1,12 @@
+<br><br>
+<h3>Search by Address or Intersection</h3>
+<%= form_tag "index", :method => 'get' do %>
+  <div id="search_bar">
+    <h5>Search Text</h5>
+    <p><%= text_field_tag :search_text, params[:search], :id => "keyword" %></p>
+    <br>
+    <h5>Search Distance (in meters, default is 1000 m, max is 5000 m)</h5>
+    <p><%= number_field_tag :distance, params[:distance], :id => "distance" %></p>
+    <%= submit_tag "Search", :name => nil, :id => "search" %>
+  </div>
+<% end %>
