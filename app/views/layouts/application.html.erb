@@ -62,6 +62,8 @@
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">Sidebar</li>
+              <li><%= link_to "Search By Address", :controller => "photos", :action => "search" %></li>
+              <hr>
               <li><%= link_to "Location (Union Sq)", photos_location_1_path  %></li>
               <li><%= link_to "Location (30 Rock)", photos_location_2_path  %></li>
               <li><%= link_to "Trending", photos_popular_path %></li>

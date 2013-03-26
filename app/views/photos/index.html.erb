@@ -1,5 +1,8 @@
 <h1>Photos</h1>
-
+<% if @search_query %>
+  <h4>Within <%= @search_distance %> meters of <%= @search_query %></h4>
+<% end %>
+<br>
 <% @photos.each do |p| %>
   <% item_num = @photos.index(p) %>
   <h3><%= p.user_name %></h3><br>

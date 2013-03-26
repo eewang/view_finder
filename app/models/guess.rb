@@ -26,6 +26,10 @@ class Guess < ActiveRecord::Base
     self.set_coordinates(query_lat, query_lon)
   end
 
+  def is_valid?
+    true unless Geocoder.search(self.street_address).empty?
+  end
+
   def set_coordinates(lat, lon)
     self.latitude = lat
     self.longitude = lon
