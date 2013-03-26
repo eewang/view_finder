@@ -22,17 +22,18 @@ class PhotosController < ApplicationController
     else
       render "/guesses/error"
     end
+    # @json = Photo.all.to_gmaps4rails
   end
 
   def index_location_1
     @photos = Photo.instagram_location_search_and_save('40.734771', '-73.990722')
-
+    # @json = @photos.to_gmaps4rails
     render "index"
   end
 
  def index_location_2
     @photos = Photo.instagram_location_search_and_save('40.758956', '-73.979464')
-
+    @json = Photo.all.to_gmaps4rails
     render "index"
   end
 
