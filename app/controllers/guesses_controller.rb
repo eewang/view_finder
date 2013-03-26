@@ -44,11 +44,14 @@ class GuessesController < ApplicationController
     @guess = Guess.new
     @guess.street_address = params[:guess][:street_address]
     @guess.photo = Photo.find_by_id(params[:guess][:photo_id])
-    @guess.save
-    @guess.convert_address_to_coordinates
-
-    # binding.pry
-    redirect_to guess_path(@guess)
+    @guess.user = current_user
+    if !@guess.is_valid?
+      render "error"
+    else   
+      @guess.save
+      @guess.convert_address_to_coordinates  
+      redirect_to guess_path(@guess)
+    end 
   end
 
   # PUT /guesses/1

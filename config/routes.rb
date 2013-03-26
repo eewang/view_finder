@@ -8,6 +8,9 @@ ViewFinder::Application.routes.draw do
   post 'login' => 'sessions#create'
   get 'logout' => 'sessions#destroy'
 
+  get 'photos/search' => 'photos#search'
+  get 'photos/index' => 'photos#index'
+
   get 'photos/popular' => 'photos#index_popular'
   get 'photos/location_1' => 'photos#index_location_1'
   get 'photos/location_2' => 'photos#index_location_2'
