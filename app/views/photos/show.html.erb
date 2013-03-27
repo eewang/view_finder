@@ -1,19 +1,25 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Image:</b>
-  <%= @photo.image %>
-</p>
-
-<p>
   <b>User:</b>
-  <%= @photo.user %>
+  <%= @photo.user_name %>
 </p>
 
 <p>
-  <b>Guess:</b>
-  <%= @photo.guess %>
+  <%= image_tag @photo.image %>
 </p>
+
+<p>
+  <b>Address:</b>
+  <%= @photo.street_address %>
+</p>
+
+<% if @photo.location %>
+<p>
+  <b>Location:</b>
+  <%= @photo.location %>
+</p>
+<% end %>
 
 <p>
   <b>Latitude:</b>
@@ -24,6 +30,19 @@
   <b>Longitude:</b>
   <%= @photo.longitude %>
 </p>
+
+
+
+<% if @photo.guesses %>
+<p>
+  <b>Guesses:</b>
+  <ul>
+  <% @photo.guesses.each do |guess| %>
+    <li><%= guess.user.name %> (<%= guess.street_address %>)</li>
+  <% end %>
+  </ul>
+</p>
+<% end %>
 
 
 <%= link_to 'Edit', edit_photo_path(@photo) %> |
