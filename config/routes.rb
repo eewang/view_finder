@@ -14,6 +14,7 @@ ViewFinder::Application.routes.draw do
   get 'photos/popular' => 'photos#index_popular'
   get 'photos/location_1' => 'photos#index_location_1'
   get 'photos/location_2' => 'photos#index_location_2'
+  get 'photos/vfyw' => 'photos#photo_tag'
   # get 'auth/instagram/callback/' => 'sessions#auth_instagram'
 
   resources :users, :sessions, :photos, :authentications, :guesses
