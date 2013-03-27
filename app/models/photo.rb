@@ -40,6 +40,16 @@ class Photo < ActiveRecord::Base
     end
   end
 
+  def self.instagram_tag_recent_media(tag)
+    Instagram.tag_recent_media(tag)
+  end
+
+  def self.instagram_tag_recent_media_and_save(tag)
+    Photo.instagram_tag_recent_media(tag).collect do |pic|
+      Photo.save_instagram_photos(pic)
+    end
+  end
+
   def self.save_instagram_photos(instagram_pic)
     @photo = Photo.where(:instagram_id => instagram_pic.id).first_or_create
     @photo.set_attributes(instagram_pic)
@@ -48,10 +58,10 @@ class Photo < ActiveRecord::Base
 
   def set_attributes(pic)
     self.image = pic.images.standard_resolution.url
-    self.latitude = pic.location.latitude
-    self.longitude = pic.location.longitude
+    self.latitude = pic.location.latitude unless pic.location.nil?
+    self.longitude = pic.location.longitude unless pic.location.nil?
     self.user_name = pic.user.full_name        
-    self.location = pic.location.name
+    self.location = pic.location.name unless pic.location.nil?
     self.link = pic.link
     self.instagram_id = pic.id
     self.caption = pic.caption.text unless pic.caption.nil?
