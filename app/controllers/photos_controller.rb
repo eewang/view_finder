@@ -43,6 +43,12 @@ class PhotosController < ApplicationController
     render "index"
   end
 
+  def photo_tag
+    @photos = Photo.instagram_tag_recent_media_and_save('vfyw')
+    @json = @photos.to_gmaps4rails
+    render "index"
+  end
+
   # GET /photos/1
   # GET /photos/1.json
   def show
