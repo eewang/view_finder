@@ -1,3 +1,26 @@
 // Place all the styles related to the photos controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.modal {
+  width: 100em;
+  margin-left: -50em;
+  height: 50em;
+}
+
+.modal-body {
+  height: 50em;
+  margin-bottom: -15em;
+}
+
+.modal-footer {
+  clear: both;
+  position: absolute;
+  bottom: 5em;
+  right: 0;
+  width: 100%;
+}
+
+.map_container {
+  clear: both;
+}

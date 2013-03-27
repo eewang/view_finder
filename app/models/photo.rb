@@ -5,6 +5,8 @@ class Photo < ActiveRecord::Base
 
   attr_accessible :image, :latitude, :longitude, :user_name, :location, :link, :caption, :instagram_id
 
+  acts_as_gmappable :process_geocoding => false
+
   def self.instagram_location_search(lat, lon, options = {})
     # finds photos within 1000 meters radius of the lat/lon coordinates
     options = {:distance => 1000}.merge(options)
@@ -60,8 +62,18 @@ class Photo < ActiveRecord::Base
     [self.latitude, self.longitude]
   end
 
+  # def gmaps4rails_address
+  #   self.street_address.collect do |address|
+  #     unless address
+  #       address = "188 Suffolk Street, New York, USA"
+  #     end
+  #   end
+  # end
+
   def street_address
-    Geocoder.search("#{self.latitude}, #{self.longitude}")[0].address
+    unless self.latitude.nil?
+      Geocoder.search("#{self.latitude}, #{self.longitude}")[0].address
+    end
   end
 
 end
