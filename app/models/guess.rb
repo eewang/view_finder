@@ -4,35 +4,31 @@ class Guess < ActiveRecord::Base
   belongs_to :user
   belongs_to :photo
 
+  delegate :latitude, :longitude, :image, :user_name, :location, :guesses, :to => :photo, :prefix => true
+
+  delegate :name, :email, :to => :user, :prefix => true
+
+  include Locatable
+
   geocoded_by :street_address
   after_validation :geocode
-
-  def distance_from_target_in_miles
-    Geocoder::Calculations.distance_between(self.coordinates, self.photo.coordinates)
-  end
 
   def distance_from_target_in_feet
     self.distance_from_target_in_miles * 5280
   end
 
-  def coordinates
-    [self.latitude, self.longitude]
+  def distance_from_target_in_miles
+    Geocoder::Calculations.distance_between(self.coordinates, self.photo.coordinates)
   end
 
-  def convert_address_to_coordinates
-    query = Geocoder.search(self.street_address)
-    query_lat = query[0].latitude
-    query_lon = query[0].longitude
-    self.set_coordinates(query_lat, query_lon)
+  def photo_guesses_sorted
+    self.photo_guesses.sort_by { |g| g.distance_from_target_in_feet }
   end
 
-  def is_valid?
-    true unless Geocoder.search(self.street_address).empty?
-  end
-
-  def set_coordinates(lat, lon)
-    self.latitude = lat
-    self.longitude = lon
+  def set_attributes(params, guesser)
+    self.street_address = params[:guess][:street_address]
+    self.photo = Photo.find_by_id(params[:guess][:photo_id])
+    self.user = guesser
   end
 
 end
