@@ -15,6 +15,7 @@ class GuessesController < ApplicationController
   # GET /guesses/1.json
   def show
     @guess = Guess.find(params[:id])
+    @photo_guesses = @guess.photo_guesses_sorted
 
     respond_to do |format|
       format.html # show.html.erb
@@ -42,16 +43,16 @@ class GuessesController < ApplicationController
   # POST /guesses.json
   def create
     @guess = Guess.new
-    @guess.street_address = params[:guess][:street_address]
-    @guess.photo = Photo.find_by_id(params[:guess][:photo_id])
-    @guess.user = current_user
-    if !@guess.has_valid_location?
-      render "error"
-    else   
+    @guess.set_attributes(params, current_user)
+
+    if @guess.try(:has_valid_location?)
       @guess.save
-      @guess.address_to_coordinates  
+      @guess.address_to_coordinates
       redirect_to guess_path(@guess)
-    end 
+    else
+      render "error"
+    end
+
   end
 
   # PUT /guesses/1
