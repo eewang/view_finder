@@ -1,37 +1,13 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <b>User:</b>
-  <%= @photo.user_name %>
-</p>
-
-<p>
-  <%= image_tag @photo.image %>
-</p>
-
-<p>
-  <b>Address:</b>
-  <%= @photo.street_address %>
-</p>
-
-<% if @photo.location %>
-<p>
-  <b>Location:</b>
-  <%= @photo.location %>
-</p>
-<% end %>
-
-<p>
-  <b>Latitude:</b>
-  <%= @photo.latitude %>
-</p>
-
-<p>
-  <b>Longitude:</b>
-  <%= @photo.longitude %>
-</p>
 
 
+
+
+<div id="mapdiv" style="height: 400px;"></div>
+  <div id="mapoutput" style="background-color: #FFDD22; font-weight: bold;">Latitude:<br>Longitude:</div>
+  <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?v=3&sensor=false&key=AIzaSyDAKHFvdMkBADVQC6MgWfqmhDDX4RUqAjo" %>
+  <%= javascript_include_tag "mapselector.js" %>
+  </div>
+</div>
 
 <% if @photo.guesses %>
 <p>
@@ -44,6 +20,3 @@
 </p>
 <% end %>
 
-
-<%= link_to 'Edit', edit_photo_path(@photo) %> |
-<%= link_to 'Back', photos_path %>
