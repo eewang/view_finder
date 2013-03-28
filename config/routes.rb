@@ -1,9 +1,9 @@
 ViewFinder::Application.routes.draw do
 
+  root :to => 'site#home'
+
   match '/auth/:provider/callback/' => 'authentications#create'
   
-  root :to => 'users#new'
-
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
   get 'logout' => 'sessions#destroy'

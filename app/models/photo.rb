@@ -9,78 +9,31 @@ class Photo < ActiveRecord::Base
 
   acts_as_gmappable :process_geocoding => false
 
-  # def self.acts_as_instagrammable(api_query, options = {})
-  #   define_singleton_method("instagram_#{api_query}") do |options|      
-  #     Instagram.send(api_query, options = {})
-  #   end
-
-  #   define_singleton_method "instagram_#{api_query}_and_save" do 
-  #     Photo.send("instagram_#{api_query}", options).collect do |item|
-  #       Photo.save_instagram_photos(pic)
-  #     end
-  #   end
-
-  # end
-
-  # acts_as_instagrammable :media_search, :options => [:lat, :lon]
-
-  def self.instagram_location_search(lat, lon, options = {})
-    # finds photos within 1000 meters radius of the lat/lon coordinates
-    options = {:distance => 1000}.merge(options)
-    Instagram.media_search(lat, lon, options) 
+  def self.instagram_location_search(options)
+    i = InstagramWrapper.new 
+    i.filter_media_search(options).collect do |pic|
+      Photo.save_instagram_photos(pic)
+    end
   end
 
-  def self.instagram_location_search_and_save(lat, lon, options = {})
-    Photo.instagram_location_search(lat, lon, options).collect do |pic|
+  def self.instagram_tag_recent_media(options)
+    i = InstagramWrapper.new 
+    i.filter_tag_recent_media(options).collect do |pic|
+      Photo.save_instagram_photos(pic)
+    end
+  end
+
+  def self.instagram_media_popular(options)
+    i = InstagramWrapper.new 
+    filtered_images = i.filter_media_popular(options)
+    filtered_images.each do |pic|
+      binding.pry
       Photo.save_instagram_photos(pic)
     end
   end
 
 # '40.734771', '-73.990722
 # :lat => '40.734771', :lon => '-73.990722'
-
-  # acts_as_instagrammable :user_recent_media
-
-  def self.instagram_user_recent_media(instagram_user)
-    Instagram.user_recent_media(instagram_user)
-  end
-
-  # acts_as_instagrammable :media_popular
-
-  def self.instagram_popular_media_and_save
-    Photo.instagram_popular_media_with_location.collect do |pic|
-      Photo.save_instagram_photos(pic)
-    end
-  end
-
-  def self.instagram_popular_media_with_location
-    popular_media = Instagram.media_popular.collect do |item|
-      if item.location.nil?
-        next
-      else
-        item
-      end
-    end
-    popular_media.delete_if { |i| i.nil? }
-  end
-
-  # acts_as_instagrammable :tag_recent_media
-
-  def self.instagram_tag_recent_media(tag)
-    Instagram.tag_recent_media(tag)
-  end
-
-  def self.instagram_tag_recent_media_and_save(tag)
-    Photo.instagram_tag_recent_media(tag).collect do |pic|
-      Photo.save_instagram_photos(pic)
-    end
-  end
-
-  def self.save_instagram_photos(instagram_pic)
-    @photo = Photo.where(:instagram_id => instagram_pic.id).first_or_create
-    @photo.set_attributes(instagram_pic)
-    @photo
-  end
 
   def self.save_instagram_photos(instagram_pic)
     @photo = Photo.where(:instagram_id => instagram_pic.id).first_or_create
