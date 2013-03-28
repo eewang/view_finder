@@ -11,22 +11,22 @@ $(document).ready(function(){
 
   // google.maps.event.trigger(map, "resize");
 
-  $(".btn-primary").click(function(){
-    event.preventDefault();
-    console.log("hello");
-  })
+  // $(".btn-primary").click(function(){
+  //   event.preventDefault();
+  //   console.log("hello");
+  // })
 
-  google.maps.event.addListenerOnce(map, 'idle', function(){
-      $(window).resize();
-      map.setCenter(yourCoordinates);
-  });
+  // google.maps.event.addListenerOnce(map, 'idle', function(){
+  //     $(window).resize();
+  //     map.setCenter(yourCoordinates);
+  // });
 
-  $(window).resize(function() {
-      if ($("#map_canvas").children().length > 0){    
-          resize();
-          if (map)
-          google.maps.event.trigger(map, 'resize');
-      }});
+  // $(window).resize(function() {
+  //     if ($("#map_canvas").children().length > 0){    
+  //         resize();
+  //         if (map)
+  //         google.maps.event.trigger(map, 'resize');
+  //     }});
 
 
 })
