@@ -10,7 +10,7 @@
   <% item_num = @photos.index(p) %>
   <h3><%= p.user_name %></h3><br>
   <h5><%= p.caption unless p.caption.nil? %></h5>
-  <%= link_to image_tag(p.image), users_path, :role => "button", :class => "btn", "data-toggle" => "modal" %><br>
+  <%= link_to image_tag(p.image), "#myModal-#{item_num}", :role => "button", :class => "btn", "data-toggle" => "modal" %><br>
   <div id="myModal-<%= item_num %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
