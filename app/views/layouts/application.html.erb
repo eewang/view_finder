@@ -33,6 +33,16 @@
     <!-- For all other devices -->
     <!-- Size should be 32 x 32 pixels -->
     <%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
+    <script>
+    $(function () {
+
+      // Slideshow 1
+      $(".rslides").responsiveSlides({
+        speed: 1000,
+        maxwidth: 800
+      });
+    });
+  </script>
   </head>
   <body>
 
