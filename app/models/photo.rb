@@ -7,34 +7,21 @@ class Photo < ActiveRecord::Base
 
   include Locatable
 
+  def self.acts_as_instagrammable(query)
+    define_singleton_method "instagram_#{query}" do |options|
+      i = InstagramWrapper.new
+      filtered_images = i.send("filter_#{query}", options)
+      filtered_images.collect do |pic|
+        Photo.save_instagram_photos(pic)
+      end
+    end
+  end
+
   acts_as_gmappable :process_geocoding => false
 
-  def self.instagram_media_search(options)
-    i = InstagramWrapper.new 
-    filtered_images = i.filter_media_search(options)
-    filtered_images.collect do |pic|
-      Photo.save_instagram_photos(pic)
-    end
-  end
-
-  def self.instagram_tag_recent_media(options)
-    i = InstagramWrapper.new 
-    filtered_images = i.filter_tag_recent_media(options)
-    filtered_images.collect do |pic|
-      Photo.save_instagram_photos(pic)
-    end
-  end
-
-  def self.instagram_media_popular(options)
-    i = InstagramWrapper.new 
-    filtered_images = i.filter_media_popular(options)
-    filtered_images.collect do |pic|
-      Photo.save_instagram_photos(pic)
-    end
-  end
-
-# '40.734771', '-73.990722
-# :lat => '40.734771', :lon => '-73.990722'
+  acts_as_instagrammable :media_search
+  acts_as_instagrammable :tag_recent_media
+  acts_as_instagrammable :media_popular
 
   def self.save_instagram_photos(instagram_pic)
     @photo = Photo.where(:instagram_id => instagram_pic.id).first_or_create
@@ -53,13 +40,5 @@ class Photo < ActiveRecord::Base
     self.caption = pic.caption.text unless pic.caption.nil?
     self.save
   end
-
-  # def gmaps4rails_address
-  #   self.street_address.collect do |address|
-  #     unless address
-  #       address = "188 Suffolk Street, New York, USA"
-  #     end
-  #   end
-  # end
 
 end
