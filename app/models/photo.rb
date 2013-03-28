@@ -9,16 +9,18 @@ class Photo < ActiveRecord::Base
 
   acts_as_gmappable :process_geocoding => false
 
-  def self.instagram_location_search(options)
+  def self.instagram_media_search(options)
     i = InstagramWrapper.new 
-    i.filter_media_search(options).collect do |pic|
+    filtered_images = i.filter_media_search(options)
+    filtered_images.collect do |pic|
       Photo.save_instagram_photos(pic)
     end
   end
 
   def self.instagram_tag_recent_media(options)
     i = InstagramWrapper.new 
-    i.filter_tag_recent_media(options).collect do |pic|
+    filtered_images = i.filter_tag_recent_media(options)
+    filtered_images.collect do |pic|
       Photo.save_instagram_photos(pic)
     end
   end
@@ -26,8 +28,7 @@ class Photo < ActiveRecord::Base
   def self.instagram_media_popular(options)
     i = InstagramWrapper.new 
     filtered_images = i.filter_media_popular(options)
-    filtered_images.each do |pic|
-      binding.pry
+    filtered_images.collect do |pic|
       Photo.save_instagram_photos(pic)
     end
   end
