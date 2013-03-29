@@ -30,15 +30,19 @@ class Photo < ActiveRecord::Base
   end
 
   def set_attributes(pic)
-    self.image = pic.images.standard_resolution.url
-    self.latitude = pic.location.latitude unless pic.location.nil?
-    self.longitude = pic.location.longitude unless pic.location.nil?
-    self.user_name = pic.user.full_name        
-    self.location = pic.location.name unless pic.location.nil?
-    self.link = pic.link
-    self.instagram_id = pic.id
-    self.caption = pic.caption.text unless pic.caption.nil?
-    self.save
+    begin
+      self.image = pic.images.standard_resolution unless pic.images.nil
+      self.latitude = pic.location.latitude unless pic.location.nil?
+      self.longitude = pic.location.longitude unless pic.location.nil?
+      self.user_name = pic.user.full_name        
+      self.location = pic.location.name unless pic.location.nil?
+      self.link = pic.link
+      self.instagram_id = pic.id
+      self.caption = pic.caption.text unless pic.caption.nil?
+      self.save
+    rescue => ex
+      puts ex
+    end
   end
 
 end
