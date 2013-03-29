@@ -1,6 +1,6 @@
 ViewFinder::Application.routes.draw do
 
-  match '/auth/:provider/callback/' => 'authentications#create'
+  match 'auth/instagram/callback/' => 'authentications#create'
   
   root :to => 'users#new'
 
