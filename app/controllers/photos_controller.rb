@@ -1,25 +1,49 @@
 class PhotosController < ApplicationController
   skip_before_filter :login_required, :only => "index"
 
-  # GET /photos
-  # GET /photos.json
-
   LOCATION_GAMES = {
-    :union_square => [40.734771, -73.990722],
-    :thirty_rock => [40.758956, -73.979464]
-    # :times_square => 
-    # :world_trade =>
-    # :dumbo =>
+    :union_square => {
+      :coordinates => [40.734771, -73.990722],
+      :radius => 1,
+      :size => 10
+      },
+    :thirty_rock => {
+      :coordinates => [40.758956, -73.979464],
+      :radius => 1,
+      :size => 10
+      },
+    # :times_square => {
+    #   :coordinates => [40.7566, -73.9863],
+    #   :radius => 1,
+    #   :size => 10
+    #   },
+    # :world_trade => {
+    #   :coordinates => [40.7117, -74.0125],
+    #   :radius => 1,
+    #   :size => 10
+    #   },
+    # :williamsburg => {
+    #   :coordinates => [40.706336, -73.953482],
+    #   :radius => 1,
+    #   :size => 10
+    #   }
   }
 
   def self.location_games(*games)
     games.each do |game|
       define_method "#{game}" do
-        coordinates = LOCATION_GAMES[game.to_sym]
+        # Set game parameters
+        coordinates = LOCATION_GAMES[game.to_sym][:coordinates]
+        radius = LOCATION_GAMES[game.to_sym][:radius]
+        size = LOCATION_GAMES[game.to_sym][:size]
         user = User.where(:id => current_user[:id]).first
-        @photos = Photo.game_photos_random(coordinates, 1, user, 10)
+        # Load game photos
+        @photos = Photo.game_photos_random(coordinates, radius, user, size)
+        # Perform asynchronous Instagram API call
         InstagramWorker.perform_async(coordinates)
+        # Convert game photos to map markers
         @json = @photos.to_gmaps4rails
+        # Render view
         render "index"
       end
     end
