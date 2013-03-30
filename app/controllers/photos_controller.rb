@@ -26,25 +26,34 @@ class PhotosController < ApplicationController
   end
 
   def index_location_1
-    @photos = Photo.instagram_location_search_and_save('40.734771', '-73.990722')
+    # @photos = Photo.find(:all, :limit => 20).where(:)
+    # @photos = Photo.instagram_media_search({:lat => '40.734771', :lon => '-73.990722'})
+    coordinates = [40.734771, -73.990722]
+    user = User.where(:id => current_user[:id]).first
+    @photos = Photo.game_photos_random(coordinates, 0.5, user, 10)
     @json = @photos.to_gmaps4rails
     render "index"
   end
 
+  # [40.734771, -73.990722]
+
  def index_location_2
-    @photos = Photo.instagram_location_search_and_save('40.758956', '-73.979464')
+    # @photos = Photo.instagram_media_search({:lat => '40.758956', :lon => '-73.979464'})
+    coordinates = [40.758956, -73.979464]
+    user = User.where(:id => current_user[:id]).first
+    @photos = Photo.game_photos_random(coordinates, 0.5, user, 10)
     @json = @photos.to_gmaps4rails
     render "index"
   end
 
   def index_popular
-    @photos = Photo.instagram_popular_media_and_save
+    @photos = Photo.instagram_media_popular({})
 
     render "index"
   end
 
   def photo_tag
-    @photos = Photo.instagram_tag_recent_media_and_save('vfyw')
+    @photos = Photo.instagram_tag_recent_media({:tag => "vfyw"})
     @json = @photos.to_gmaps4rails
     render "index"
   end

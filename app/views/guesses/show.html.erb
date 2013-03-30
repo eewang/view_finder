@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <h4>
-  Congrats! Your guess was about <%= @guess.distance_from_target_in_feet.round %> feet away (~ <%= @guess.distance_from_target_in_miles.round(2) %> miles) from the target! 
+  Congrats! Your guess was about <%= @guess.distance_from_target_in_feet(@guess.photo).round %> feet away (~ <%= @guess.distance_from_target_in_miles(@guess.photo).round(2) %> miles) from the target! 
 </h4>
 
 <br>
@@ -32,7 +32,7 @@
 
 <h5>Leaderboard</h5>
   <% @photo_guesses.each do |g| %>
-    <p><%= @photo_guesses.index(g) + 1 %>. <%= g.user_name %> guessed <%= g.street_address %>, which is <%= g.distance_from_target_in_feet.round %> feet away (~ <%= g.distance_from_target_in_miles.round(2) %> miles), <%= g.created_at.in_time_zone('Eastern Time (US & Canada)').strftime("at %I:%M %p") %><%= g.created_at.strftime(" on %m/%d/%Y") %></p>
+    <p><%= @photo_guesses.index(g) + 1 %>. <%= g.user_name %> guessed <%= g.street_address %>, which is <%= g.distance_from_target_in_feet(g.photo).round %> feet away (~ <%= g.distance_from_target_in_miles(g.photo).round(2) %> miles), <%= g.created_at.in_time_zone('Eastern Time (US & Canada)').strftime("at %I:%M %p") %><%= g.created_at.strftime(" on %m/%d/%Y") %></p>
     <br>
   <% end %>
 <p>
