@@ -1,8 +1,8 @@
 ViewFinder::Application.routes.draw do
 
-  root :to => 'site#home'
+  match 'auth/instagram/callback/' => 'authentications#create'
 
-  match '/auth/:provider/callback/' => 'authentications#create'
+  root :to => 'site#home'
   
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'

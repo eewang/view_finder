@@ -40,7 +40,7 @@ class AuthenticationsController < ApplicationController
   # POST /authentications
   # POST /authentications.json
   def create
-    render :text => request.env["omniauth.auth"].to_yaml
+      render :text => request.env["omniauth.auth"].to_yaml
   end
 
   # PUT /authentications/1
