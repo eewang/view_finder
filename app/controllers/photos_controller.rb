@@ -31,26 +31,6 @@ class PhotosController < ApplicationController
 
   location_games :union_square, :thirty_rock #, :times_square, :world_trade, :dumbo
 
- #  def index_location_1
- #    coordinates = [40.734771, -73.990722]
- #    user = User.where(:id => current_user[:id]).first
- #    @photos = Photo.game_photos_random(coordinates, 0.5, user, 10)
- #    InstagramWorker.perform_async(coordinates)
- #    @json = @photos.to_gmaps4rails
- #    render "index"
- #  end
-
- #  # [40.734771, -73.990722]
-
- # def index_location_2
- #    coordinates = [40.758956, -73.979464]
- #    user = User.where(:id => current_user[:id]).first
- #    @photos = Photo.game_photos_random(coordinates, 0.5, user, 10)
- #    InstagramWorker.perform_async(coordinates)
- #    @json = @photos.to_gmaps4rails
- #    render "index"
- #  end
-
   def index
     @search_query = params[:search_text]
     @search_distance = params[:distance]
