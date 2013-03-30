@@ -17,7 +17,7 @@ class PhotosController < ApplicationController
       define_method "#{game}" do
         coordinates = LOCATION_GAMES[game.to_sym]
         user = User.where(:id => current_user[:id]).first
-        @photos = Photo.game_photos_random(coordinates, 0.5, user, 10)
+        @photos = Photo.game_photos_random(coordinates, 1, user, 10)
         InstagramWorker.perform_async(coordinates)
         @json = @photos.to_gmaps4rails
         render "index"

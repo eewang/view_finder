@@ -20,7 +20,7 @@ class InstagramWrapper
   def media_search(options)
     lat = options[:lat] ? options[:lat] : nil
     lon = options[:lon] ? options[:lon] : nil
-    dis = options[:distance] ? options[:distance] : 1000
+    dis = options[:distance] ? options[:distance] : 1609.34
     Instagram.media_search(lat, lon, :distance => dis)
   end
 
