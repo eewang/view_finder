@@ -1,6 +1,7 @@
-require 'geocoder'
-
 class Photo < ActiveRecord::Base
+
+  TAGS = ["#vfyw", "#viewfinder"]
+
   belongs_to :user
   has_many :guesses
   has_many :users, :through => :guesses
@@ -60,10 +61,36 @@ class Photo < ActiveRecord::Base
     self.guesses.all.collect { |guess| guess.user.id }.include?(user.id)
   end
 
+  # GAMEPLAY LOGIC
+
+  # Filter photos by tags
+
+  def self.tag_filter
+    where(["caption LIKE ? OR caption LIKE ?", "%#{TAGS[0]}%", "%#{TAGS[1]}%"])
+  end
+
+  # Return all photos that have been guessed by the user and have been tagged. Delete '.tag_filter' to remove tag
+
+  def self.tagged_photos_guessed_by(user)
+    includes(:guesses).where("guesses.user_id = #{user.id}").tag_filter
+  end
+
+  # Return all saved photos that have not been guessed by the user and have been tagged. Delete '.tag_filter' to remove tag
+
+  def self.tagged_photos_not_guessed_by(user)
+    Photo.where("id NOT NULL").tag_filter - Photo.tagged_photos_guessed_by(user)
+  end
+
+  # Check if photo is located within [distance] miles of [coordinates]
+
+  def near?(coordinates, distance)
+    true if self.distance_from_target_in_miles(coordinates) < distance
+  end
+
   # Return a set of photos from the database within [distance] miles from [coordinates] that have not been guessed by [user]
 
   def self.game_photos_set(coordinates, distance, user)
-    game_photos = Photo.photos_not_guessed_by(user).collect do |photo|
+    game_photos = Photo.tagged_photos_not_guessed_by(user).collect do |photo|
       photo unless photo.near?(coordinates, distance).nil?
     end
     game_photos.delete_if { |photo| photo.nil? }
@@ -73,24 +100,6 @@ class Photo < ActiveRecord::Base
 
   def self.game_photos_random(coordinates, distance, user, size)
     Photo.game_photos_set(coordinates, distance, user).shuffle[0..size-1]
-  end
-
-  # Return all photos that have been guessed by the user
-
-  def self.photos_guessed_by(user)
-    includes(:guesses).where("guesses.user_id = #{user.id}")
-  end
-
-  # Return all saved photos that have not been guessed by the user
-
-  def self.photos_not_guessed_by(user)
-    Photo.where("id NOT NULL") - Photo.photos_guessed_by(user)
-  end
-
-  # Check if photo is located within [distance] miles of [coordinates]
-
-  def near?(coordinates, distance)
-    true if self.distance_from_target_in_miles(coordinates) < distance
   end
 
 end
