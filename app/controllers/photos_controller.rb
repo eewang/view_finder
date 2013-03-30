@@ -1,8 +1,73 @@
 class PhotosController < ApplicationController
   skip_before_filter :login_required, :only => "index"
 
-  # GET /photos
-  # GET /photos.json
+  LOCATION_GAMES = {
+    :union_square => {
+      :coordinates => [40.734771, -73.990722],
+      :radius => 1,
+      :size => 10
+      },
+    :thirty_rock => {
+      :coordinates => [40.758956, -73.979464],
+      :radius => 1,
+      :size => 10
+      },
+    :times_square => {
+      :coordinates => [40.7566, -73.9863],
+      :radius => 1,
+      :size => 10
+      },
+    # :world_trade => {
+    #   :coordinates => [40.7117, -74.0125],
+    #   :radius => 1,
+    #   :size => 10
+    #   },
+    # :williamsburg => {
+    #   :coordinates => [40.706336, -73.953482],
+    #   :radius => 1,
+    #   :size => 10
+    #   }
+  }
+
+  def self.location_games(*games)
+    games.each do |game|
+      define_method "#{game}" do
+        # Set game parameters
+        coordinates = LOCATION_GAMES[game.to_sym][:coordinates]
+        radius = LOCATION_GAMES[game.to_sym][:radius]
+        size = LOCATION_GAMES[game.to_sym][:size]
+        user = User.where(:id => current_user[:id]).first
+        # Load game photos
+        @photos = Photo.game_photos_random(coordinates, radius, user, size)
+        # Perform asynchronous Instagram API call
+        InstagramWorker.perform_async(coordinates)
+        # Convert game photos to map markers
+        @json = @photos.to_gmaps4rails
+        # Render view
+        render "index"
+      end
+    end
+  end
+
+  location_games :union_square, :thirty_rock, :times_square #, :world_trade, :dumbo
+
+  def photo_tag
+    @photos = Photo.instagram_tag_recent_media({:tag => "vfyw"})
+    @json = @photos.to_gmaps4rails
+    render "index"
+  end
+
+  # GET /photos/1
+  # GET /photos/1.json
+  def show
+    @photo = Photo.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @photo }
+    end
+  end
+
   def search
     render "search"
   end
@@ -25,98 +90,10 @@ class PhotosController < ApplicationController
     # @json = Photo.all.to_gmaps4rails
   end
 
-  def index_location_1
-    @photos = Photo.instagram_location_search_and_save('40.734771', '-73.990722')
-    @json = @photos.to_gmaps4rails
-    render "index"
-  end
-
- def index_location_2
-    @photos = Photo.instagram_location_search_and_save('40.758956', '-73.979464')
-    @json = @photos.to_gmaps4rails
-    render "index"
-  end
-
   def index_popular
-    @photos = Photo.instagram_popular_media_and_save
+    @photos = Photo.instagram_media_popular({})
 
     render "index"
   end
 
-  def photo_tag
-    @photos = Photo.instagram_tag_recent_media_and_save('vfyw')
-    @json = @photos.to_gmaps4rails
-    render "index"
-  end
-
-  # GET /photos/1
-  # GET /photos/1.json
-  def show
-    @photo = Photo.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @photo }
-    end
-  end
-
-  # GET /photos/new
-  # GET /photos/new.json
-  def new
-    @photo = Photo.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @photo }
-    end
-  end
-
-  # GET /photos/1/edit
-  def edit
-    @photo = Photo.find(params[:id])
-  end
-
-  # POST /photos
-  # POST /photos.json
-  def create
-    @photo = Photo.new(params[:photo])
-
-    respond_to do |format|
-      if @photo.save
-        format.html { redirect_to @photo, notice: 'Photo was successfully created.' }
-        format.json { render json: @photo, status: :created, location: @photo }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @photo.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /photos/1
-  # PUT /photos/1.json
-  def update
-    @photo = Photo.find(params[:id])
-
-    respond_to do |format|
-      if @photo.update_attributes(params[:photo])
-        format.html { redirect_to @photo, notice: 'Photo was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @photo.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /photos/1
-  # DELETE /photos/1.json
-  def destroy
-    @photo = Photo.find(params[:id])
-    @photo.destroy
-
-    respond_to do |format|
-      format.html { redirect_to photos_url }
-      format.json { head :no_content }
-    end
-  end
 end

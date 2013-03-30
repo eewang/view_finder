@@ -8,21 +8,14 @@ class Guess < ActiveRecord::Base
 
   delegate :name, :email, :to => :user, :prefix => true
 
-  include Locatable
+  include Locatable::InstanceMethods
+  extend Locatable::ClassMethods
 
   geocoded_by :street_address
   after_validation :geocode
 
-  def distance_from_target_in_feet
-    self.distance_from_target_in_miles * 5280
-  end
-
-  def distance_from_target_in_miles
-    Geocoder::Calculations.distance_between(self.coordinates, self.photo.coordinates)
-  end
-
   def photo_guesses_sorted
-    self.photo_guesses.sort_by { |g| g.distance_from_target_in_feet }
+    self.photo_guesses.sort_by { |g| g.distance_from_target_in_feet(self.photo) }
   end
 
   def set_attributes(params, guesser)

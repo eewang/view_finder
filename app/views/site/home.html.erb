@@ -1,19 +1,40 @@
-<h1>Site#home</h1>
-<p>Find me in app/views/site/home.html.erb</p>
+<div class="home">
+  <div class="row-fluid">
+    <div class="logo"><%= image_tag("view_finder_logo.png") %></div>
+  </div>
+  <div class="row-fluid">
+    <h2>Play Location</h2>
+  </div>
+  <div class="row-fluid">
+    <div class="cover_photo span4">
+      <%#= image_tag(@union_square.image) %>
+      <%= link_to image_tag("union_square.JPG"), photos_union_square_path %>
+      <p class="headline">Union Square</p>
+    </div>
 
-<%= binding.pry %>
+    <div class="cover_photo span4">
+      <%#= image_tag(@thirty_rock.image) %>
+      <%= link_to image_tag("thirty_rock.jpg"), photos_thirty_rock_path %>
+      <p class="headline">30 Rock</p>
+    </div>
 
-<div class="cover_photo span3">
-  <h3>Union Square<h3>
-  <%= image_tag(@union_square.image) %>
-</div>
+    <div class="cover_photo span4">
+      <%#= image_tag(@vfyw.image) %>
+      <%= link_to image_tag("times_square.jpg"), photos_times_square_path %>
+      <p class="headline">Times Square</p>
+    </div>
+  </div>
 
-<div class="cover_photo span3">
-  <h3>30 Rock<h3>
-  <%= image_tag(@thirty_rock.image) %>
-</div>
+<!--   <div class="row-fluid">
+    <div class="cover_photo span4">
+      <%#= image_tag(@vfyw.image) %>
+      <%#= link_to image_tag("times_square.jpg"), :url => "photos/index_popular" %>
+      <p class="headline">Popular Photos</p>
+    </div>
+  </div> -->
 
-<div class="cover_photo span3">
-  <h3>#vfyw<h3>
-  <%= image_tag(@vfyw.image) %>
+  <div class="row-fluid">
+    <h2><%= link_to "Play Friends", "auth/instagram", :target => "_blank" %></h2>
+  </div>
+
 </div>
