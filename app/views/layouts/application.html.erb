@@ -50,7 +50,7 @@
               <li><%= link_to "Search By Address", :controller => "photos", :action => "search" %></li>
               <li><%= link_to "Union Square", photos_union_square_path %></li>
               <li><%= link_to "30 Rock", photos_thirty_rock_path  %></li>
-              <li><%= link_to "Times Square", photos_vfyw_path %></li>
+              <li><%= link_to "Times Square", photos_times_square_path %></li>
               <li><%= link_to "#VFYW", photos_vfyw_path %></li>
               <li><%= link_to "Trending", photos_popular_path %></li>
             </ul>
@@ -61,7 +61,7 @@
 
     <div class="container-fluid">
       <div class="row-fluid">
-        <div class="span12">
+        <div class="span18">
           <%= bootstrap_flash %>
           <% if current_user %>
             Logged in as: <%= current_user.name %>
@@ -82,7 +82,7 @@
         </div>
       </div><!--/row-->
       <div class="row">
-        <div class="span12">
+        <div>
           <%= yield %>
         </div>
       </div><!--/row-->
@@ -93,7 +93,7 @@
           
 
 
-        <p>&copy; Company 2013</p>
+        <p>&copy; ViewFinder 2013</p>
       </footer>
 
     </div> <!-- /container -->

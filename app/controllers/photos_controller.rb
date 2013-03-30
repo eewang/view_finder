@@ -12,11 +12,11 @@ class PhotosController < ApplicationController
       :radius => 1,
       :size => 10
       },
-    # :times_square => {
-    #   :coordinates => [40.7566, -73.9863],
-    #   :radius => 1,
-    #   :size => 10
-    #   },
+    :times_square => {
+      :coordinates => [40.7566, -73.9863],
+      :radius => 1,
+      :size => 10
+      },
     # :world_trade => {
     #   :coordinates => [40.7117, -74.0125],
     #   :radius => 1,
@@ -49,7 +49,7 @@ class PhotosController < ApplicationController
     end
   end
 
-  location_games :union_square, :thirty_rock #, :times_square, :world_trade, :dumbo
+  location_games :union_square, :thirty_rock, :times_square #, :world_trade, :dumbo
 
   def photo_tag
     @photos = Photo.instagram_tag_recent_media({:tag => "vfyw"})

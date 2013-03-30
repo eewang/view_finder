@@ -75,7 +75,7 @@ class Photo < ActiveRecord::Base
     includes(:guesses).where("guesses.user_id = #{user.id}").tag_filter
   end
 
-  # Return all saved photos that have not been guessed by the user and have been tagged. Delete '.tag_filter' to remove tag
+  # Return all saved photos that have not been guessed by the user and have been tagged. Delete tag_filter to remove tag
 
   def self.tagged_photos_not_guessed_by(user)
     Photo.where("id NOT NULL").tag_filter - Photo.tagged_photos_guessed_by(user)

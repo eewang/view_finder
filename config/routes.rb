@@ -16,6 +16,7 @@ ViewFinder::Application.routes.draw do
 
   get 'photos/union_square' => 'photos#union_square'
   get 'photos/thirty_rock' => 'photos#thirty_rock'
+  get 'photos/times_square' => 'photos#times_square'
 
   get 'photos/popular' => 'photos#index_popular'
   get 'photos/vfyw' => 'photos#photo_tag'
