@@ -2,10 +2,11 @@ require 'sidekiq/web'
 
 ViewFinder::Application.routes.draw do
 
-  root :to => 'site#home'
   mount Sidekiq::Web, at: '/sidekiq'
 
-  match '/auth/:provider/callback/' => 'authentications#create'
+  match 'auth/instagram/callback/' => 'authentications#create'
+
+  root :to => 'site#home'
   
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
