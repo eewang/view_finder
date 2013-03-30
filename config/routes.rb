@@ -1,6 +1,9 @@
+require 'sidekiq/web'
+
 ViewFinder::Application.routes.draw do
 
   root :to => 'site#home'
+  mount Sidekiq::Web, at: '/sidekiq'
 
   match '/auth/:provider/callback/' => 'authentications#create'
   
@@ -11,9 +14,10 @@ ViewFinder::Application.routes.draw do
   get 'photos/search' => 'photos#search'
   get 'photos/index' => 'photos#index'
 
+  get 'photos/union_square' => 'photos#union_square'
+  get 'photos/thirty_rock' => 'photos#thirty_rock'
+
   get 'photos/popular' => 'photos#index_popular'
-  get 'photos/location_1' => 'photos#index_location_1'
-  get 'photos/location_2' => 'photos#index_location_2'
   get 'photos/vfyw' => 'photos#photo_tag'
   # get 'auth/instagram/callback/' => 'sessions#auth_instagram'
 

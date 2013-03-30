@@ -3,9 +3,53 @@ class PhotosController < ApplicationController
 
   # GET /photos
   # GET /photos.json
+
+  GAMES = {
+    :union_square => [40.734771, -73.990722],
+    :thirty_rock => [40.758956, -73.979464]
+    # :times_square => 
+    # :world_trade =>
+    # :dumbo =>
+  }
+
   def search
     render "search"
   end
+
+  def self.location_games(*games)
+    games.each do |game|
+      define_method "#{game}" do
+        coordinates = GAMES[game.to_sym]
+        user = User.where(:id => current_user[:id]).first
+        @photos = Photo.game_photos_random(coordinates, 0.5, user, 10)
+        InstagramWorker.perform_async(coordinates)
+        @json = @photos.to_gmaps4rails
+        render "index"
+      end
+    end
+  end
+
+  location_games :union_square, :thirty_rock #, :times_square, :world_trade, :dumbo
+
+ #  def index_location_1
+ #    coordinates = [40.734771, -73.990722]
+ #    user = User.where(:id => current_user[:id]).first
+ #    @photos = Photo.game_photos_random(coordinates, 0.5, user, 10)
+ #    InstagramWorker.perform_async(coordinates)
+ #    @json = @photos.to_gmaps4rails
+ #    render "index"
+ #  end
+
+ #  # [40.734771, -73.990722]
+
+ # def index_location_2
+ #    coordinates = [40.758956, -73.979464]
+ #    user = User.where(:id => current_user[:id]).first
+ #    @photos = Photo.game_photos_random(coordinates, 0.5, user, 10)
+ #    InstagramWorker.perform_async(coordinates)
+ #    @json = @photos.to_gmaps4rails
+ #    render "index"
+ #  end
 
   def index
     @search_query = params[:search_text]
@@ -23,27 +67,6 @@ class PhotosController < ApplicationController
       render "/guesses/error"
     end
     # @json = Photo.all.to_gmaps4rails
-  end
-
-  def index_location_1
-    # @photos = Photo.find(:all, :limit => 20).where(:)
-    # @photos = Photo.instagram_media_search({:lat => '40.734771', :lon => '-73.990722'})
-    coordinates = [40.734771, -73.990722]
-    user = User.where(:id => current_user[:id]).first
-    @photos = Photo.game_photos_random(coordinates, 0.5, user, 10)
-    @json = @photos.to_gmaps4rails
-    render "index"
-  end
-
-  # [40.734771, -73.990722]
-
- def index_location_2
-    # @photos = Photo.instagram_media_search({:lat => '40.758956', :lon => '-73.979464'})
-    coordinates = [40.758956, -73.979464]
-    user = User.where(:id => current_user[:id]).first
-    @photos = Photo.game_photos_random(coordinates, 0.5, user, 10)
-    @json = @photos.to_gmaps4rails
-    render "index"
   end
 
   def index_popular
