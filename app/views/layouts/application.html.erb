@@ -88,14 +88,19 @@
             <% end %>
           <% end %>
 
+          
+        </div>
+      </div><!--/row-->
+      <div class="row">
+        <div class="span12">
           <%= yield %>
         </div>
       </div><!--/row-->
-
       <footer>
           <%= javascript_include_tag "application" %>
-          <%= yield :scripts %>
           <%= javascript_include_tag "photos" %>
+          <%= yield :scripts %>
+          
 
 
         <p>&copy; Company 2013</p>
