@@ -38,14 +38,14 @@ class PhotosController < ApplicationController
     games.each do |game|
       define_method "#{game}" do
         # Set game parameters
-        coordinates = LOCATION_GAMES[game.to_sym][:coordinates]
+        @coordinates = LOCATION_GAMES[game.to_sym][:coordinates]
         radius = LOCATION_GAMES[game.to_sym][:radius]
         size = LOCATION_GAMES[game.to_sym][:size]
         user = User.where(:id => current_user[:id]).first
         # Load game photos
-        @photos = Photo.game_photos_random(coordinates, radius, user, size)
+        @photos = Photo.game_photos_random(@coordinates, radius, user, size)
         # Perform asynchronous Instagram API call
-        InstagramWorker.perform_async(coordinates)
+        InstagramWorker.perform_async(@coordinates)
         # Convert game photos to map markers
         @json = @photos.to_gmaps4rails
         # Render view
@@ -77,22 +77,28 @@ class PhotosController < ApplicationController
     render "search"
   end
 
-  def index
-    @search_query = params[:search_text]
-    @search_distance = params[:distance]
-    search = Geocoder.search(@search_query)
-    unless search.empty?
-      search_lat = search[0].latitude
-      search_lon = search[0].longitude
-      @photos = Photo.instagram_location_search_and_save(
-        search_lat, 
-        search_lon,
-        {:distance => @search_distance})
-      render "index"
-    else
-      render "/guesses/error"
-    end
-    # @json = Photo.all.to_gmaps4rails
+  # def index
+  #   @search_query = params[:search_text]
+  #   @search_distance = params[:distance]
+  #   search = Geocoder.search(@search_query)
+  #   unless search.empty?
+  #     search_lat = search[0].latitude
+  #     search_lon = search[0].longitude
+  #     @photos = Photo.instagram_location_search_and_save(
+  #       search_lat, 
+  #       search_lon,
+  #       {:distance => @search_distance})
+  #     render "index"
+  #   else
+  #     render "/guesses/error"
+  #   end
+  #   # @json = Photo.all.to_gmaps4rails
+  # end
+
+  def play
+    @loc_lat = params[:coordinates][0]
+    @loc_lon = params[:coordinates][1]
+    redirect_to photo_path(params[:photo_id])
   end
 
   def index_popular
