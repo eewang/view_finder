@@ -1,5 +1,5 @@
 class PhotosController < ApplicationController
-  skip_before_filter :login_required, :only => "index"
+  skip_before_filter :login_required, :only => ["index", "test"]
 
   LOCATION_GAMES = {
     :union_square => {
@@ -110,6 +110,10 @@ class PhotosController < ApplicationController
     lon = coordinates.split(",")[1].gsub("[", "").to_f
 
     redirect_to photo_path(params[:photo_id], :locale_lat => lat, :locale_lon => lon)
+  end
+
+  def test
+    raise params.inspect
   end
 
   def index_popular
