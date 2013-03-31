@@ -8,6 +8,8 @@ ViewFinder::Application.routes.draw do
 
   root :to => 'site#home'
   
+  post '/photos/union_square' => 'photos#play'
+
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
   get 'logout' => 'sessions#destroy'

@@ -26,7 +26,14 @@
         <% @photos.each do |p| %>
           
             <div class="<% if @photos.index(p) == 0 %>active<% end %> item vfyw">
-              <%= image_tag p.image %>
+
+              <%= form_tag do %>
+                <%= image_tag p.image %>
+                <input name="coordinates" type="hidden" value="<%= @coordinates %>" />
+                <input name="photo_id" type="hidden" value="<%= p.id %>" />
+                <%= submit_tag("play") %>
+              <% end %>
+
             </div>
 
           <%# else %>
