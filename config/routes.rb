@@ -8,6 +8,8 @@ ViewFinder::Application.routes.draw do
 
   root :to => 'site#home'
   
+  get '/photos/:id/as_json' => 'photos#as_json', :as => 'photo_json'
+
   post '/photos/union_square' => 'photos#play'
 
   get 'login' => 'sessions#new'

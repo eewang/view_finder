@@ -66,10 +66,26 @@ class PhotosController < ApplicationController
   # GET /photos/1.json
   def show
     @photo = Photo.find(params[:id])
+    @photo_json = JSON.parse(@photo.to_json)
+    @photo_json["locale_lat"] = params[:locale_lat]
+    @photo_json["locale_lon"] = params[:locale_lon]
+
+    # raise @photo_json.inspect
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @photo }
+      format.json { render json: @photo_json }
+    end
+  end
+
+  def as_json
+    @photo = Photo.find(params[:id])
+    @photo_json = JSON.parse(@photo.to_json)
+    @photo_json["locale_lat"] = params[:locale_lat]
+    @photo_json["locale_lon"] = params[:locale_lon]
+
+    respond_to do |format|
+      format.json { render :json => @photo_json }
     end
   end
 
@@ -96,9 +112,11 @@ class PhotosController < ApplicationController
   # end
 
   def play
-    @loc_lat = params[:coordinates][0]
-    @loc_lon = params[:coordinates][1]
-    redirect_to photo_path(params[:photo_id])
+    coordinates = params[:coordinates]
+    lat = coordinates.split(",")[0].gsub("[", "").to_f
+    lon = coordinates.split(",")[1].gsub("[", "").to_f
+
+    redirect_to photo_json_path(params[:photo_id], :locale_lat => lat, :locale_lon => lon)
   end
 
   def index_popular
