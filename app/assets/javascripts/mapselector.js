@@ -1,6 +1,3 @@
-
-
-
 google.maps.event.addDomListener(window, "load", function() {
   //
   // initialize map
@@ -10,7 +7,6 @@ google.maps.event.addDomListener(window, "load", function() {
   var currentPhoto = "/photos/" + photo_id + ".json"
   $.get(currentPhoto, function(data) {
     latlong = data
-    console.log(latlong)
     var map = new google.maps.Map(document.getElementById("mapdiv"), {
       center: new google.maps.LatLng(latlong.locale_lat, latlong.locale_lon),
       zoom: 14,
@@ -24,7 +20,6 @@ google.maps.event.addDomListener(window, "load", function() {
       draggable: true,
       map: map
     });
-    console.log(marker);
     //
     // intercept map and marker movements
     //
@@ -32,6 +27,10 @@ google.maps.event.addDomListener(window, "load", function() {
       marker.setPosition(map.getCenter());
       document.getElementById("mapoutput").innerHTML = "<a href=\"https://maps.google.com/maps?q=" + encodeURIComponent(map.getCenter().toUrlValue()) + "\" target=\"_blank\" style=\"float: right;\">Go to maps.google.com</a>Latitude: " + map.getCenter().lat().toFixed(6) + "<br>Longitude: " + map.getCenter().lng().toFixed(6);
     });
+
+    loc_lat = (map.getCenter().lat().toFixed(6));
+    loc_lon = (map.getCenter().lng().toFixed(6));    
+
     google.maps.event.addListener(marker, "dragend", function(mapEvent) {
       map.panTo(mapEvent.latLng);
     });
@@ -66,4 +65,10 @@ google.maps.event.addDomListener(window, "load", function() {
     });
   })
       
+  // $.ajax({
+  //   type: 'post',
+  //   url: 'test' + '?order=hjgfgh',
+  //   datatype: 'script'
+  // });
+
 });

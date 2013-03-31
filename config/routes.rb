@@ -13,6 +13,7 @@ ViewFinder::Application.routes.draw do
   post '/photos/thirty_rock' => 'photos#play'
   post '/photos/central_park' => 'photos#play'
 
+  post '/test' => 'photos#test'
 
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
