@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130326215503) do
+ActiveRecord::Schema.define(:version => 20130331023603) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20130326215503) do
     t.string   "caption"
     t.string   "instagram_id"
     t.boolean  "gmaps"
+    t.string   "small_image"
   end
 
   create_table "users", :force => true do |t|
