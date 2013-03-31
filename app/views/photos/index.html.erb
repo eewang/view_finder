@@ -1,55 +1,47 @@
 <div class="container">
-<h1>Photos</h1>
-<div class="row-fluid">
-<div class="span8">
-  <%#= gmaps4rails(@json) %>
-  <% if @search_query %>
-    <h4>Within <%= @search_distance %> meters of <%= @search_query %></h4>
-  <% end %>
-    </div>
-  </div>
-</div>
-<br><br>
-<div class="row-fluid">
-  <div class="span8 offset2">
-    <div class="wrapper">
-    <div id="myCarousel" class="carousel slide">
-      <ol class="carousel-indicators">
-    <% (0..@photos.size-1).each do |i|%>
-        <li data-target="#myCarousel" data-slide-to="<%= i %>" class="active"></li>
-    <% end %>
-  </ol>
- 
-  <!-- Carousel Items -->
+  <h1 align="center">Play by Location</h1>
+  <hr>
+  <div class="row-fluid">
+    <div class="span8 offset2">
+      <div class="wrapper">
+      <div id="myCarousel" class="carousel slide">
+        <ol class="carousel-indicators">
+      <% (0..@photos.size-1).each do |i|%>
+          <li data-target="#myCarousel" data-slide-to="<%= i %>" class="active"></li>
+      <% end %>
+        </ol>
+   
+    <!-- Carousel Items -->
 
-      <div class="carousel-inner">
-        <% @photos.each do |p| %>
-          
-            <div class="<% if @photos.index(p) == 0 %>active<% end %> item vfyw">
+        <div class="carousel-inner">
+          <% @photos.each do |p| %>
+            
+              <div class="<% if @photos.index(p) == 0 %>active<% end %> item vfyw">
 
-              <%= form_tag do %>
-                <%= submit_tag("play") %>
-                <%= image_tag p.image %>
-                <input name="coordinates" type="hidden" value="<%= @coordinates %>" />
-                <input name="photo_id" type="hidden" value="<%= p.id %>" />
-              <% end %>
+                <%= form_tag do %>
+                  <center><%= submit_tag "PLAY!", :class => "styled-button-5" %></center>
+                  <br>
+                  <%= image_tag p.image %>
+                  <input name="coordinates" type="hidden" value="<%= @coordinates %>" />
+                  <input name="photo_id" type="hidden" value="<%= p.id %>" />
+                <% end %>
 
-            </div>
+              </div>
 
-          <%# else %>
-    <!--         <div class="item vfyw"><%#= image_tag p.image %></div> -->
-          <%# end %>
-        <% end %>
-      </div>
+            <%# else %>
+      <!--         <div class="item vfyw"><%#= image_tag p.image %></div> -->
+            <%# end %>
+          <% end %>
+        </div>
 
-    <!-- Carousel nav -->
+      <!-- Carousel nav -->
 
-    <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-    <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+      <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+      <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 
 <script>

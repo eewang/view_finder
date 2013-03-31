@@ -10,3 +10,17 @@
  *
  *= require_tree .
  */
+
+.navbar-inner ul {
+	list-style: none;
+	display: inline-block;
+}
+ul > li {
+	margin: 10px;
+	display: inline-block;
+}
+li a:hover {
+	color: #fff;
+	text-decoration: none;
+	background-color: #F89883;
+}

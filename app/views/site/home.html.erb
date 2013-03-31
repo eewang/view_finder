@@ -2,37 +2,61 @@
 <br>
 
   <div class="row-fluid">
-    <%= link_to "Log in with Instagram", "auth/instagram", :class => 'btn-link' %>
+    <div class="span6"><%= link_to "Log in with Instagram", "auth/instagram", :class => 'btn-link' %></div>
+    <div class="span6"><span id="title-placeholder"><%= image_tag "title-placeholder.png" %></span></div>
   </div>
 
   <!-- First row -->
 <br><br>
   <div class="row-fluid">
-      <% carouselcount = 1 %>
-      <% @myfavorite.each do |image_set| %>
+
+    <!-- Union Square -->
     <div class="span4">
-      <div id="myCarousel<%= carouselcount %>" class="carousel slide" <% if carouselcount == 1 %>data-interval="1000"<% end %>>
+      <div id="myCarousel1" class="carousel slide" data-interval="1000">
         <div class="carousel-inner">
-            <% index = 0 %>
-            <div class="item">
-              <% if @myfavorite.index(image_set) == 0 %>
-                <%= link_to image_tag("introbox1.png"), photos_union_square_path, :class => "active" %>
-              <% elsif @myfavorite.index(image_set) == 2 %>
-                <%= link_to image_tag("introbox2.png"), photos_thirty_rock_path, :class => "active" %>
-              <% else @myfavorite.index(image_set) == 1 %>
-                <%= link_to image_tag("introbox3.png"), photos_thirty_rock_path, :class => "active" %>
-              <% end %>
-            </div>
-            <% image_set.each do |f| %>
-              <div class="item">
-                <% index += 1 %>
-            <%= image_tag f.image %></div>
-            <% end %>
+          <div class="item">
+            <%= link_to image_tag("introbox1.png"), photos_union_square_path, :class => "active" %>
+          </div>
+          <% @myfavorite[0].each do |f| %>
+          <div class="item">
+            <%= link_to image_tag(f.image), photos_union_square_path %>
+          </div>
+          <% end %>
         </div>
-      <% carouselcount += 1 %>
       </div>
     </div>
-      <% end %>   
+
+    <!-- Rockefeller -->
+    <div class="span4">
+      <div id="myCarousel2" class="carousel slide" data-interval="2000">
+        <div class="carousel-inner">
+          <div class="item">
+            <%= link_to image_tag("introbox2.png"), photos_thirty_rock_path, :class => "active" %>
+          </div>
+          <% @myfavorite[2].each do |f| %>
+          <div class="item">
+            <%= link_to image_tag(f.image), photos_thirty_rock_path %>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Central Park -->
+    <div class="span4">
+      <div id="myCarousel3" class="carousel slide" data-interval="1500">
+        <div class="carousel-inner">
+          <div class="item">
+            <%= link_to image_tag("introbox3.png"), photos_central_park_path, :class => "active" %>
+          </div>
+          <% @myfavorite[1].each do |f| %>
+          <div class="item">
+            <%= link_to image_tag(f.image), photos_central_park_path %>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Second row  -->
@@ -44,8 +68,8 @@
       <div class="span8">
         <div id="myCarousel" class="carousel slide" >
           <div class="carousel-inner">
-            <div class="active item"><%= link_to image_tag('introfriend1.jpg'), "auth/instagram" %></div>
-            <div class="item"><%= link_to image_tag('introfriend2.jpg'), "auth/instagram" %></div>
+            <div class="active item"><%= link_to image_tag('introfriend1.jpg', {:width => 1000}), "auth/instagram" %></div>
+            <div class="item"><%= link_to image_tag('introfriend2.jpg', {:width => 1000}), "auth/instagram" %></div>
           </div>
         </div>
       </div>
