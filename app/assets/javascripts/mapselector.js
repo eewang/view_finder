@@ -7,13 +7,13 @@ google.maps.event.addDomListener(window, "load", function() {
   //
   var latlong;
   var map;
-  var currentPhoto = "/photos/" + photo_id + "/as_json.json"
+  var currentPhoto = "/photos/" + photo_id + ".json"
   $.get(currentPhoto, function(data) {
     latlong = data
     console.log(latlong)
     var map = new google.maps.Map(document.getElementById("mapdiv"), {
       center: new google.maps.LatLng(latlong.locale_lat, latlong.locale_lon),
-      zoom: 13,
+      zoom: 14,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
     //

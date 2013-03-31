@@ -44,6 +44,11 @@ class PhotosController < ApplicationController
         user = User.where(:id => current_user[:id]).first
         # Load game photos
         @photos = Photo.game_photos_random(@coordinates, radius, user, size)
+        @photos.each do |p|
+          p.locale_lat = LOCATION_GAMES[game.to_sym][:coordinates][0]
+          p.locale_lon = LOCATION_GAMES[game.to_sym][:coordinates][1]
+          p.save
+        end
         # Perform asynchronous Instagram API call
         InstagramWorker.perform_async(@coordinates)
         # Convert game photos to map markers
@@ -54,7 +59,7 @@ class PhotosController < ApplicationController
     end
   end
 
-  location_games :union_square, :thirty_rock, :central_park, #:times_square #, :world_trade, :dumbo
+  location_games :union_square, :thirty_rock, :central_park, :times_square #, :world_trade, :dumbo
 
   def photo_tag
     @photos = Photo.instagram_tag_recent_media({:tag => "vfyw"})
@@ -66,26 +71,14 @@ class PhotosController < ApplicationController
   # GET /photos/1.json
   def show
     @photo = Photo.find(params[:id])
-    @photo_json = JSON.parse(@photo.to_json)
-    @photo_json["locale_lat"] = params[:locale_lat]
-    @photo_json["locale_lon"] = params[:locale_lon]
-
-    # raise @photo_json.inspect
+    @photo.locale_lat
+    # @photo_json = JSON.parse(@photo.to_json)
+    # @photo_json["locale_lat"] = params[:locale_lat]
+    # @photo_json["locale_lon"] = params[:locale_lon]
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @photo_json }
-    end
-  end
-
-  def as_json
-    @photo = Photo.find(params[:id])
-    @photo_json = JSON.parse(@photo.to_json)
-    @photo_json["locale_lat"] = params[:locale_lat]
-    @photo_json["locale_lon"] = params[:locale_lon]
-
-    respond_to do |format|
-      format.json { render :json => @photo_json }
+      format.json { render json: @photo }
     end
   end
 
@@ -116,7 +109,7 @@ class PhotosController < ApplicationController
     lat = coordinates.split(",")[0].gsub("[", "").to_f
     lon = coordinates.split(",")[1].gsub("[", "").to_f
 
-    redirect_to photo_json_path(params[:photo_id], :locale_lat => lat, :locale_lon => lon)
+    redirect_to photo_path(params[:photo_id], :locale_lat => lat, :locale_lon => lon)
   end
 
   def index_popular

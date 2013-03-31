@@ -8,9 +8,10 @@ ViewFinder::Application.routes.draw do
 
   root :to => 'site#home'
   
-  get '/photos/:id/as_json' => 'photos#as_json', :as => 'photo_json'
-
   post '/photos/union_square' => 'photos#play'
+  post '/photos/times_square' => 'photos#play'
+  post '/photos/thirty_rock' => 'photos#play'
+
 
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
@@ -25,7 +26,9 @@ ViewFinder::Application.routes.draw do
 
   get 'photos/popular' => 'photos#index_popular'
   get 'photos/vfyw' => 'photos#photo_tag'
-  resources :users, :sessions, :photos, :authentications, :guesses
+  resources :users, :sessions, :authentications, :guesses
+
+  get 'photos/:id' => 'photos#show', :as => 'photo'
 
 
   # The priority is based upon order of creation:
