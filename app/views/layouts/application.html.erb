@@ -16,13 +16,13 @@
         <div class="container-fluid">
           <strong><a class="brand" href="http://localhost:3000/">ViewFinder</a></strong>
           <!-- <div class="container-fluid nav-collapse"> -->
-            
-              <%= link_to "Search By Address", :controller => "photos", :action => "search" %> || 
-              <%= link_to "Union Square", photos_union_square_path %> || 
-              <%= link_to "30 Rock", photos_thirty_rock_path  %> || 
-              <%= link_to "Times Square", photos_times_square_path %> || 
-              <%= link_to "#VFYW", photos_vfyw_path %> || 
-              <%= link_to "Trending", photos_popular_path %> || 
+            <ul style="list-style: none;">
+              <li style="display: inline-block;"><%= link_to "Search By Address", :controller => "photos", :action => "search" %></li>
+              <li style="display: inline-block;"><%= link_to "Union Square", photos_union_square_path %></li>
+              <li><%= link_to "30 Rock", photos_thirty_rock_path  %></li>
+              <li><%= link_to "Times Square", photos_times_square_path %></li>
+              <li><%= link_to "#VFYW", photos_vfyw_path %></li>
+              <li><%= link_to "Trending", photos_popular_path %></li>
             </ul>
           <!-- </div> --><!--/.nav-collapse -->
         </div>

@@ -9,6 +9,8 @@ ViewFinder::Application.routes.draw do
   root :to => 'site#home'
   
   post '/photos/union_square' => 'photos#play'
+  post '/photos/thirty_rock' => 'photos#play'
+  post '/photos/central_park' => 'photos#play'
 
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
@@ -19,7 +21,8 @@ ViewFinder::Application.routes.draw do
 
   get 'photos/union_square' => 'photos#union_square'
   get 'photos/thirty_rock' => 'photos#thirty_rock'
-  get 'photos/times_square' => 'photos#times_square'
+  # get 'photos/times_square' => 'photos#times_square'
+  get 'photos/central_park' => 'photos#central_park'
 
   get 'photos/popular' => 'photos#index_popular'
   get 'photos/vfyw' => 'photos#photo_tag'

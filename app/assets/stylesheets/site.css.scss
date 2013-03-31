@@ -3,8 +3,15 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .btn-link {
-    padding: 20px 65px;
+    padding: 20px 30px;
     background: #a0e0a9;
     color: #FFF;
     letter-spacing: 5px;
+}
+#title-placeholder {
+	padding: 20px 80px;
+  background-color: #F89883;
+}
+#title-placeholder img {
+	max-width: 150px;
 }
