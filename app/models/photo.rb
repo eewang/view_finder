@@ -6,7 +6,7 @@ class Photo < ActiveRecord::Base
   has_many :guesses
   has_many :users, :through => :guesses
 
-  attr_accessible :image, :latitude, :longitude, :user_name, :location, :link, :caption, :instagram_id
+  attr_accessible :image, :latitude, :longitude, :user_name, :location, :link, :caption, :instagram_id, :locale_lat, :locale_lon
 
   geocoded_by :latitude => :lat, :longitude => :lon
 

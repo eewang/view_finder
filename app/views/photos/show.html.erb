@@ -1,6 +1,8 @@
 
 
-
+<%= javascript_tag do %>
+  window.photo_id = '<%= j @photo.id.to_s %>';
+<% end %>
 
 <div id="mapdiv" style="height: 400px;"></div>
   <div id="mapoutput" style="background-color: #FFDD22; font-weight: bold;">Latitude:<br>Longitude:</div>
