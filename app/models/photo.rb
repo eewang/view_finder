@@ -45,6 +45,7 @@ class Photo < ActiveRecord::Base
 
   def set_attributes(pic)
     self.image = pic.images.standard_resolution.url unless pic.images.nil
+    self.small_image = pic.images.standard_resolution.url unless pic.images.nil
     self.latitude = pic.location.latitude
     self.longitude = pic.location.longitude
     self.user_name = pic.user.full_name        

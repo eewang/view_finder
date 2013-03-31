@@ -1,3 +1,30 @@
 // Place all the styles related to the sessions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.img-wrap{
+overflow:hidden;
+position:relative;
+}
+.img-info{
+background-color:#000;
+bottom:0;
+color:#fff;
+opacity:0;
+filter: alpha(opacity = 0);
+position:absolute;
+width:100%;
+    height:100%;
+z-index:1000;
+}
+.img-info h4, .img-info p{
+padding:40px 10px;
+text-align: center;
+
+}
+.img-wrap:hover .img-info{
+opacity:0.75;
+filter: alpha(opacity = 75);
+transition:opacity 0.25s;
+-moz-transition:opacity 0.25s;
+-webkit-transition:opacity 0.25s;
+}
