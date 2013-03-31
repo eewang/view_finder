@@ -5,6 +5,21 @@
   To use Glyphicons sprites instead of Font Awesome, replace with "require twitter-bootstrap-static/sprites"
   =require twitter-bootstrap-static/fontawesome
   */
+
+.navigator-erin .btn-erinnavbar {
+  display: none;
+  float: right;
+  padding: 7px 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #ededed;
+  border-color: #e5e5e5 #e5e5e5 #bfbfbf;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  *background-color: #e5e5e5;
+}
+
 .clearfix {
   *zoom: 1;
 }
@@ -4362,21 +4377,21 @@ input[type="submit"].btn.btn-mini {
   padding-right: 20px;
   padding-left: 20px;
   background-color: #32373c;
-  background-image: -moz-linear-gradient(top, #3a3f44, #272b30);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3a3f44), to(#272b30));
-  background-image: -webkit-linear-gradient(top, #3a3f44, #272b30);
-  background-image: -o-linear-gradient(top, #3a3f44, #272b30);
-  background-image: linear-gradient(to bottom, #3a3f44, #272b30);
+  background-image: none;
+  background-image: none;
+  background-image: none;
+  background-image: none;
+  background-image: none;
   background-repeat: repeat-x;
   border: 1px solid #0c0d0e;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3a3f44', endColorstr='#ff272b30', GradientType=0);
+  -webkit-border-radius: 0;
+     -moz-border-radius: 0;
+          border-radius: 0;
+  filter: none;
   *zoom: 1;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-     -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
-          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
 }
 
 .navbar-inner:before,
@@ -4638,16 +4653,14 @@ input[type="submit"].btn.btn-mini {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #272a2e;
   *background-color: #1c1e22;
-  background-image: -moz-linear-gradient(top, #2e3236, #1c1e22);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#2e3236), to(#1c1e22));
-  background-image: -webkit-linear-gradient(top, #2e3236, #1c1e22);
-  background-image: -o-linear-gradient(top, #2e3236, #1c1e22);
-  background-image: linear-gradient(to bottom, #2e3236, #1c1e22);
+  background-image: none;
+  background-image: none;
+  background-image: none;
+  background-image: none;
+  background-image: none;
   background-repeat: repeat-x;
   border-color: #1c1e22 #1c1e22 #000000;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff2e3236', endColorstr='#ff1c1e22', GradientType=0);
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.075);
      -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.075);
           box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(255, 255, 255, 0.075);
@@ -4780,11 +4793,11 @@ input[type="submit"].btn.btn-mini {
 
 .navbar-inverse .navbar-inner {
   background-color: #1e2125;
-  background-image: -moz-linear-gradient(top, #272b30, #101214);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#272b30), to(#101214));
-  background-image: -webkit-linear-gradient(top, #272b30, #101214);
-  background-image: -o-linear-gradient(top, #272b30, #101214);
-  background-image: linear-gradient(to bottom, #272b30, #101214);
+  background-image: #272b30;
+  background-image: #272b30;
+  background-image: #272b30;
+  background-image: #272b30;
+  background-image: #272b30;
   background-repeat: repeat-x;
   border-color: #252525;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff272b30', endColorstr='#ff101214', GradientType=0);
@@ -6068,7 +6081,7 @@ a.badge:focus {
 .carousel-indicators li {
   display: block;
   float: left;
-  width: 10px;
+  width: 20px;
   height: 10px;
   margin-left: 5px;
   text-indent: -999px;
@@ -6212,10 +6225,10 @@ hr {
 
 .navbar .nav > li > a:hover {
   background-color: #3a3f44;
-  background-image: -moz-linear-gradient(280deg, #272b30, #3a3f44);
-  background-image: -webkit-linear-gradient(280deg, #272b30, #3a3f44);
-  background-image: -o-linear-gradient(280deg, #272b30, #3a3f44);
-  background-image: linear-gradient(280deg, #272b30, #3a3f44);
+  background-image: #272b30;
+  background-image: #272b30;
+  background-image: #272b30;
+  background-image: #272b30;
   background-repeat: repeat-x;
   border-right: 1px solid transparent;
   border-left: 1px solid transparent;
@@ -6226,10 +6239,11 @@ hr {
   color: #bbbfc2;
   background-color: #3a3f44;
   background-color: #43494f;
-  background-image: -moz-linear-gradient(280deg, #30353b, #43494f);
-  background-image: -webkit-linear-gradient(280deg, #30353b, #43494f);
-  background-image: -o-linear-gradient(280deg, #30353b, #43494f);
-  background-image: linear-gradient(280deg, #30353b, #43494f);
+  background-color: #3a3f44;
+  background-image: #272b30;
+  background-image: #272b30;
+  background-image: #272b30;
+  background-image: #272b30;
   background-repeat: repeat-x;
   border-right: 1px solid #2e3134;
 }
@@ -6254,11 +6268,7 @@ hr {
 
 .navbar-inverse .navbar-inner {
   background-color: #151719;
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#202328), color-stop(70%, #151719), to(#151719));
-  background-image: -webkit-linear-gradient(#202328, #151719 70%, #151719);
-  background-image: -moz-linear-gradient(top, #202328, #151719 70%, #151719);
-  background-image: -o-linear-gradient(#202328, #151719 70%, #151719);
-  background-image: linear-gradient(#202328, #151719 70%, #151719);
+
   background-repeat: no-repeat;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff202328', endColorstr='#ff151719', GradientType=0);
 }
@@ -6272,10 +6282,6 @@ hr {
 .navbar-inverse .nav li.active > a,
 .navbar-inverse .nav li.active > a:hover {
   background-color: #1c1e22;
-  background-image: -moz-linear-gradient(280deg, #101214, #1c1e22);
-  background-image: -webkit-linear-gradient(280deg, #101214, #1c1e22);
-  background-image: -o-linear-gradient(280deg, #101214, #1c1e22);
-  background-image: linear-gradient(280deg, #101214, #1c1e22);
   background-repeat: repeat-x;
 }
 
