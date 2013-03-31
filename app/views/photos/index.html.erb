@@ -1,36 +1,53 @@
+<div class="container">
 <h1>Photos</h1>
-
-<%#= gmaps4rails(@json) %>
-
-<% if @search_query %>
-  <h4>Within <%= @search_distance %> meters of <%= @search_query %></h4>
-<% end %>
-<br>
-
-<div id="myCarousel" class="carousel slide row-fluid span8">
-  <ol class="carousel-indicators">
+<div class="row-fluid">
+<div class="span8">
+  <%#= gmaps4rails(@json) %>
+  <% if @search_query %>
+    <h4>Within <%= @search_distance %> meters of <%= @search_query %></h4>
+  <% end %>
+    </div>
+  </div>
+</div>
+<br><br>
+<div class="row-fluid">
+  <div class="span8 offset2">
+    <div class="wrapper">
+    <div id="myCarousel" class="carousel slide">
+      <ol class="carousel-indicators">
     <% (0..@photos.size-1).each do |i|%>
-      <li data-target="#myCarousel" data-slide-to="<%= i %>" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="<%= i %>" class="active"></li>
     <% end %>
   </ol>
-
+ 
   <!-- Carousel Items -->
 
-  <div class="carousel-inner">
-    <% @photos.each do |p| %>
-      <% if @photos.index(p) == 0 %>
-        <div class="active item vfyw"><%= image_tag p.image %></div>
-      <% else %>
-        <div class="item vfyw"><%= image_tag p.image %></div>
-      <% end %>
-    <% end %>
-  <div>
+      <div class="carousel-inner">
+        <% @photos.each do |p| %>
+          
+            <div class="<% if @photos.index(p) == 0 %>active<% end %> item vfyw">
+              <%= image_tag p.image %>
+            </div>
 
-  <!-- Carousel nav -->
+          <%# else %>
+    <!--         <div class="item vfyw"><%#= image_tag p.image %></div> -->
+          <%# end %>
+        <% end %>
+      </div>
 
-  <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-  <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+    <!-- Carousel nav -->
 
+    <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+    <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 
+<script>
+$(function(){
+  $('.carousel').carousel('pause');
+});
+</script>
 
