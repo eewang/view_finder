@@ -1,114 +1,36 @@
 <h1>Photos</h1>
 
-<%= gmaps4rails(@json) %>
+<%#= gmaps4rails(@json) %>
 
 <% if @search_query %>
   <h4>Within <%= @search_distance %> meters of <%= @search_query %></h4>
 <% end %>
 <br>
-<% @photos.each do |p| %>
-  <% item_num = @photos.index(p) %>
-  <h3><%= p.user_name %></h3><br>
-  <h5><%= p.caption unless p.caption.nil? %></h5>
-  <%= link_to image_tag(p.image), "#myModal-#{item_num}", :role => "button", :class => "btn", "data-toggle" => "modal" %><br>
-  <div id="myModal-<%= item_num %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h3 id="myModalLabel">Guess Where This Was Taken</h3>
-    </div>
 
-      <% unless p.latitude.nil? || p.longitude.nil? %>
-        <div class="modal-body">
-        <%= form_for p.guesses.build, :action => "guesses#create" do |f| %>
-          <%= image_tag(p.image) %>
-          <%= f.label "Address or Intersection" %>
-          <%= f.text_field :street_address %>
-          <%= gmaps(:markers     => { :data => p.to_gmaps4rails },
-                    :center => [p.latitude, p.longitude],
-                    :map_options => { :auto_adjust => true,
-                                      :auto_zoom => false,
-                                      :center_latitude => p.latitude,
-                                      :center_longitude => p.longitude,
-                                      :zoom => 10,
-                                      :center_on_user => true,
-                                      :id => "map_" + @photos.index(p).to_s
-                                       },
-                    :last_map    => false,
-                    :scripts => :none) %>
+<div id="myCarousel" class="carousel slide row-fluid span8">
+  <ol class="carousel-indicators">
+    <% (0..@photos.size-1).each do |i|%>
+      <li data-target="#myCarousel" data-slide-to="<%= i %>" class="active"></li>
+    <% end %>
+  </ol>
 
+  <!-- Carousel Items -->
 
-<%#= gmaps(:markers     => { :data => @json2 },
-          :map_options => { :id => "second_map", :center_on_user => true, :zoom => 5 },
-          :scripts     => :none ) %>
-
-          <%= f.hidden_field :photo_id %>
-      </div>
-      <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        <%= f.submit "Guess!", :class => "btn btn-primary" %>
-    </div>
+  <div class="carousel-inner">
+    <% @photos.each do |p| %>
+      <% if @photos.index(p) == 0 %>
+        <div class="active item vfyw"><%= image_tag p.image %></div>
+      <% else %>
+        <div class="item vfyw"><%= image_tag p.image %></div>
       <% end %>
     <% end %>
-  </div>
-  <hr>
-  <br><br><br>
-<% end %>
+  <div>
 
-<%= link_to 'New User', new_user_path %>
+  <!-- Carousel nav -->
 
-<!-- photo
+  <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+  <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
 
-user_name - user.full_name
-image - images.standard_resolution.url
-latitude - location.latitude
-longitude - location.longitude
-location - location.name
-link - link
-caption - caption.text -->
+</div>
 
-<% content_for :scripts do %>
-<script type="text/javascript" charset="utf-8">
-//   var markersArray = [];
 
-//   Gmaps.map.callback = function(){
-//     google.maps.event.addListener(Gmaps.map.serviceObject, 'click', function(event){
-//       clearOverlays();
-//       placeMarker(event.latLng);
-//       updateFormLocation(event.latLng);
-//     });
-//   };
-
-//   function updateFormLocation(latLng){
-//     $('#location_attributes_latitude').val(latLng.lat());
-//     $('#location_attributes_longitude').val(latLng.lng());
-//     $('#location_attributes_gmaps_zoom').val(Gmaps.map.serviceObject.getZoom());
-//   }
-
-//   function placeMarker(latLng){
-//     var marker = new google.maps.Marker({
-//       position: latLng,
-//       map: Gmaps.map.serviceObject,
-//       draggable: true
-//     });
-//     markersArray.push(marker);
-
-//     var infowindow = new google.maps.InfoWindow({
-//       content: '<div class="popup"><h2>Awesome!</h2><p>Drag me and adjust the zoom level.</p>'
-//     });
-//     infowindow.open(Gmaps.map.serviceObject, marker);
-
-//     google.maps.event.addListener(marker, 'dragend', function(){
-//       updateFormLocation(this.getPosition());
-//     });
-//   }
-
-//   function clearOverlays(){
-//     if(markersArray){
-//       for(var i = 0; i < markersArray.length; i++){
-//         markersArray[i].setMap(null);
-//       }
-//     }
-//     markersArray.length = 0;
-//   }
-// </script>
-<% end %>
