@@ -12,10 +12,10 @@
 
     <!-- Union Square -->
     <div class="span4">
-      <div id="myCarousel1" class="carousel slide" data-interval="1000">
+      <div id="myCarousel1" class="carousel slide" data-interval="100">
         <div class="carousel-inner">
-          <div class="item">
-            <%= link_to image_tag("introbox1.png"), photos_union_square_path, :class => "active" %>
+          <div class="item active">
+            <%= link_to image_tag("introbox1.png"), photos_union_square_path %>
           </div>
           <% @myfavorite[0].each do |f| %>
           <div class="item">
@@ -30,10 +30,10 @@
     <div class="span4">
       <div id="myCarousel2" class="carousel slide" data-interval="2000">
         <div class="carousel-inner">
-          <div class="item">
-            <%= link_to image_tag("introbox2.png"), photos_thirty_rock_path, :class => "active" %>
+          <div class="item active">
+            <%= link_to image_tag("introbox3.png"), photos_thirty_rock_path %>
           </div>
-          <% @myfavorite[2].each do |f| %>
+          <% @myfavorite[1].each do |f| %>
           <div class="item">
             <%= link_to image_tag(f.image), photos_thirty_rock_path %>
           </div>
@@ -46,10 +46,10 @@
     <div class="span4">
       <div id="myCarousel3" class="carousel slide" data-interval="1500">
         <div class="carousel-inner">
-          <div class="item">
-            <%= link_to image_tag("introbox3.png"), photos_central_park_path, :class => "active" %>
+          <div class="item active">
+            <%= link_to image_tag("introbox2.png"), photos_central_park_path %>
           </div>
-          <% @myfavorite[1].each do |f| %>
+          <% @myfavorite[2].each do |f| %>
           <div class="item">
             <%= link_to image_tag(f.image), photos_central_park_path %>
           </div>
