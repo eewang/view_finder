@@ -3,6 +3,7 @@ class InstagramWrapper
   def self.acts_as_locatable(query)
     define_method "filter_#{query}" do |options|
       location_images = self.send(query, options).delete_if { |i| i.location.nil?}
+      # @instagram_wrapper.media_search
       location_images
     end
   end
