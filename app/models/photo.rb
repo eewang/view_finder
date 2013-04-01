@@ -75,10 +75,10 @@ class Photo < ActiveRecord::Base
     includes(:guesses).where("guesses.user_id = #{user.id}").tag_filter
   end
 
-  # Return all saved photos that have not been guessed by the user and have been tagged. Delete tag_filter to remove tag
+  # Return all saved photos that have not been guessed by the user and have been tagged. Delete '.tag_filter 'to remove tag
 
   def self.tagged_photos_not_guessed_by(user)
-    Photo.where("id NOT NULL").tag_filter - Photo.tagged_photos_guessed_by(user)
+    Photo.tag_filter.all - Photo.tagged_photos_guessed_by(user)
   end
 
   # Check if photo is located within [distance] miles of [coordinates]
@@ -101,23 +101,5 @@ class Photo < ActiveRecord::Base
   def self.game_photos_random(coordinates, distance, user, size)
     Photo.game_photos_set(coordinates, distance, user).shuffle[0..size-1]
   end
-
-  # LOAD A GAME INTO APPLICATION
-
-  # def game_info(game)
-  #   [self.game_coordinates, self.game_radius, self.game_size]
-  # end
-
-  # def game_coordinates(game)
-  #   PhotosController::LOCATION_GAMES[game][:coordinates]
-  # end
-
-  # def game_radius(game)
-  #   PhotosController::LOCATION_GAMES[game][:radius]
-  # end
-
-  # def game_size(game)
-  #   PhotosController::LOCATION_GAMES[game][:size]
-  # end
 
 end

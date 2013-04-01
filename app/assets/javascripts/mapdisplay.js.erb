@@ -71,23 +71,23 @@ google.maps.event.addDomListener(window, "load", function() {
 
   })
 
-  var guess = document.getElementById("submit_guess");
-  guess.addEventListener("click", function(){
-    console.log("click works");
+  // var guess = document.getElementById("submit_guess");
+  // guess.addEventListener("click", function(){
+  //   console.log("click works");
 
-    // locallat = map.getCenter().lat().toFixed(6);
-    // locallon = map.getCenter().lng().toFixed(6);
+  //   // locallat = map.getCenter().lat().toFixed(6);
+  //   // locallon = map.getCenter().lng().toFixed(6);
 
-    $.ajax({
-      url: '/guesses',
-      data: { "latitude": locallat, "longitude":locallon, "photo_id":photo_id },
-      dataType: 'json',
-      type: "POST",
-      success: function(){
-        window.location.href = "http://google.com"
-      }
-    });
+  //   $.ajax({
+  //     url: '/guesses',
+  //     data: { "latitude": locallat, "longitude":locallon, "photo_id":photo_id },
+  //     dataType: 'json',
+  //     type: "POST",
+  //     success: function(){
+  //       window.location.href = "http://google.com"
+  //     }
+  //   });
 
-  });
+  // });
 
 });

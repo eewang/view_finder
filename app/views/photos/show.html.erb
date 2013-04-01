@@ -16,8 +16,11 @@
     </div>
     <div class="row"><br>
 
+      <%#= form_for(@guess) do |f| %>
+<!--         <div id="submit_guess"><%#= f.submit "Guess!" %></div>
+      <#% end %> -->
       <div id="submit_guess">
-        <button class="btn"></button>
+        <button class="btn">Guess!</button>
       </div>
 
     </div>
@@ -25,9 +28,9 @@
   </div>
 </div>
 
-<%= link_to "Return to #{@game.split("_").collect { |w| w.capitalize }.join(" ")}", "/photos/#{@game}" %>
+<%= link_to "Return to your #{@game.split("_").collect { |w| w.capitalize }.join(" ")} game", "/users/#{current_user.id}/#{@game}" %>
 
-<% if @photo.guesses %>
+<% if @photo.guesses.size > 1%>
 <p>
   <b>Guesses:</b>
   <ul>
