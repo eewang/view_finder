@@ -5,7 +5,7 @@ class PhotosController < ApplicationController
     :union_square => {
       :coordinates => [40.734771, -73.990722],
       :radius => 1,
-      :size => 10
+      :size => 6
       },
     :thirty_rock => {
       :coordinates => [40.758956, -73.979464],
@@ -38,6 +38,7 @@ class PhotosController < ApplicationController
     games.each do |game|
       define_method "#{game}" do
         # Set game parameters
+        @game = game
         @coordinates = LOCATION_GAMES[game.to_sym][:coordinates]
         radius = LOCATION_GAMES[game.to_sym][:radius]
         size = LOCATION_GAMES[game.to_sym][:size]
@@ -49,6 +50,13 @@ class PhotosController < ApplicationController
           p.locale_lon = LOCATION_GAMES[game.to_sym][:coordinates][1]
           p.save
         end
+        # Loads game photo ids into user session
+        unless session[@game]
+          session[@game] ||= []
+          @photos.each do |photo|
+            session[@game].push(photo.id)
+          end
+        end
         # Perform asynchronous Instagram API call
         InstagramWorker.perform_async(@coordinates)
         # Convert game photos to map markers
@@ -57,6 +65,30 @@ class PhotosController < ApplicationController
         render "index"
       end
     end
+  end
+
+  def saved_union_square_game
+    photo_ids = session[:union_square]
+    @photos = photo_ids.collect do |id|
+      @photo = Photo.find(id) unless Photo.find(id).guessed_by?(user)
+    end
+    render "index"
+  end
+
+  def saved_thirty_rock_game
+    photo_ids = session[:thirty_rock]
+    @photos = photo_ids.collect do |id|
+      Photo.find(id)
+    end
+    render "index"
+  end
+
+  def saved_central_park_game
+    photo_ids = session[:central_park]
+    @photos = photo_ids.collect do |id|
+      Photo.find(id)
+    end
+    render "index"
   end
 
   location_games :union_square, :thirty_rock, :central_park, :times_square #, :world_trade, :dumbo
@@ -70,8 +102,13 @@ class PhotosController < ApplicationController
   # GET /photos/1
   # GET /photos/1.json
   def show
+    @game = params[:game]
     @photo = Photo.find(params[:id])
     @photo.locale_lat
+    if !@photo.guessed_by?(current_user)
+      @guess = @photo.guesses.build
+    end
+
     # @photo_json = JSON.parse(@photo.to_json)
     # @photo_json["locale_lat"] = params[:locale_lat]
     # @photo_json["locale_lon"] = params[:locale_lon]
@@ -106,10 +143,10 @@ class PhotosController < ApplicationController
 
   def play
     coordinates = params[:coordinates]
+    game = params[:game]
     lat = coordinates.split(",")[0].gsub("[", "").to_f
     lon = coordinates.split(",")[1].gsub("[", "").to_f
-
-    redirect_to photo_path(params[:photo_id], :locale_lat => lat, :locale_lon => lon)
+    redirect_to photo_path(params[:photo_id], :locale_lat => lat, :locale_lon => lon, :game => game)
   end
 
   def index_popular

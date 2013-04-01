@@ -44,11 +44,14 @@ class GuessesController < ApplicationController
   def create
     params.delete :controller
     params.delete :action
+    # raise params.inspect
     # lat = params[:latitude]
     # lon = params[:longitude]
     # photo_id = params[:photo_id]
     if current_user.guesses.where(:photo_id => params[:photo_id]).empty?
-      current_user.guesses.create(params)
+      guess = current_user.guesses.create(params)
+      guess.street_address = guess.coordinates_to_address
+      guess.save
     else
       raise "You already guessed..."
     end
