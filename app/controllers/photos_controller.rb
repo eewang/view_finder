@@ -112,7 +112,7 @@ class PhotosController < ApplicationController
     redirect_to photo_path(params[:photo_id], :locale_lat => lat, :locale_lon => lon)
   end
 
-  def test
+  def create_guess
     raise params.inspect
   end
 
