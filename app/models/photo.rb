@@ -102,4 +102,22 @@ class Photo < ActiveRecord::Base
     Photo.game_photos_set(coordinates, distance, user).shuffle[0..size-1]
   end
 
+  # LOAD A GAME INTO APPLICATION
+
+  # def game_info(game)
+  #   [self.game_coordinates, self.game_radius, self.game_size]
+  # end
+
+  # def game_coordinates(game)
+  #   PhotosController::LOCATION_GAMES[game][:coordinates]
+  # end
+
+  # def game_radius(game)
+  #   PhotosController::LOCATION_GAMES[game][:radius]
+  # end
+
+  # def game_size(game)
+  #   PhotosController::LOCATION_GAMES[game][:size]
+  # end
+
 end

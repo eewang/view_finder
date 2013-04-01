@@ -1,6 +1,7 @@
 class SiteController < ApplicationController
 
   def home
+    # @games = [:union_square, :central_park, :thirty_rock]
   	user = User.where(:id => current_user[:id]).first
     @myfavorite = []
 
