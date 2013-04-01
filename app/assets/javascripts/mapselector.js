@@ -4,6 +4,10 @@ google.maps.event.addDomListener(window, "load", function() {
   //
   var latlong;
   var map;
+
+  var locallat;
+  var locallon;
+
   var currentPhoto = "/photos/" + photo_id + ".json"
   $.get(currentPhoto, function(data) {
     latlong = data
@@ -25,11 +29,10 @@ google.maps.event.addDomListener(window, "load", function() {
     //
     google.maps.event.addListener(map, "idle", function() {
       marker.setPosition(map.getCenter());
-      document.getElementById("mapoutput").innerHTML = "<a href=\"https://maps.google.com/maps?q=" + encodeURIComponent(map.getCenter().toUrlValue()) + "\" target=\"_blank\" style=\"float: right;\">Go to maps.google.com</a>Latitude: " + map.getCenter().lat().toFixed(6) + "<br>Longitude: " + map.getCenter().lng().toFixed(6);
-    });
-
-    loc_lat = (map.getCenter().lat().toFixed(6));
-    loc_lon = (map.getCenter().lng().toFixed(6));    
+      locallat = map.getCenter().lat().toFixed(6);
+      locallon = map.getCenter().lng().toFixed(6);
+      // document.getElementById("mapoutput").innerHTML = "<a href=\"https://maps.google.com/maps?q=" + encodeURIComponent(map.getCenter().toUrlValue()) + "\" target=\"_blank\" style=\"float: right;\">Go to maps.google.com</a>Latitude: " + map.getCenter().lat().toFixed(6) + "<br>Longitude: " + map.getCenter().lng().toFixed(6);
+    });    
 
     google.maps.event.addListener(marker, "dragend", function(mapEvent) {
       map.panTo(mapEvent.latLng);
@@ -63,12 +66,25 @@ google.maps.event.addDomListener(window, "load", function() {
         }
       });
     });
+
+
+
   })
-      
-  // $.ajax({
-  //   type: 'post',
-  //   url: 'test' + '?order=hjgfgh',
-  //   datatype: 'script'
-  // });
+
+  var guess = document.getElementById("submit_guess");
+  guess.addEventListener("click", function(){
+    console.log("click works");
+
+    // locallat = map.getCenter().lat().toFixed(6);
+    // locallon = map.getCenter().lng().toFixed(6);
+
+    $.ajax({
+      url: '/guesses',
+      data: { "latitude": locallat, "longitude":locallon, "photo_id":photo_id },
+      dataType: 'json',
+      type: "POST",
+    });
+
+  });
 
 });

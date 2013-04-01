@@ -19,7 +19,7 @@ class Guess < ActiveRecord::Base
   end
 
   def set_attributes(params, guesser)
-    self.street_address = params[:guess][:street_address]
+    # self.street_address = params[:guess][:street_address]
     self.photo = Photo.find_by_id(params[:guess][:photo_id])
     self.user = guesser
   end

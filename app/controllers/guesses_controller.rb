@@ -42,16 +42,26 @@ class GuessesController < ApplicationController
   # POST /guesses
   # POST /guesses.json
   def create
-    @guess = Guess.new
-    @guess.set_attributes(params, current_user)
-
-    if @guess.try(:has_valid_location?)
-      @guess.save
-      @guess.address_to_coordinates
-      redirect_to guess_path(@guess)
+    params.delete :controller
+    params.delete :action
+    # lat = params[:latitude]
+    # lon = params[:longitude]
+    # photo_id = params[:photo_id]
+    if current_user.guesses.where(:photo_id => params[:photo_id]).empty?
+      current_user.guesses.create(params)
     else
-      render "error"
+      raise "You already guessed..."
     end
+
+
+
+    # if @guess.try(:has_valid_location?)
+    #   @guess.save
+    #   @guess.address_to_coordinates
+    #   redirect_to guess_path(@guess)
+    # else
+    #   render "error"
+    # end
 
   end
 
