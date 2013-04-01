@@ -5,7 +5,7 @@ class PhotosController < ApplicationController
     :union_square => {
       :coordinates => [40.734771, -73.990722],
       :radius => 1,
-      :size => 10
+      :size => 6
       },
     :thirty_rock => {
       :coordinates => [40.758956, -73.979464],
@@ -38,6 +38,7 @@ class PhotosController < ApplicationController
     games.each do |game|
       define_method "#{game}" do
         # Set game parameters
+        @game = game
         @coordinates = LOCATION_GAMES[game.to_sym][:coordinates]
         radius = LOCATION_GAMES[game.to_sym][:radius]
         size = LOCATION_GAMES[game.to_sym][:size]
@@ -70,6 +71,7 @@ class PhotosController < ApplicationController
   # GET /photos/1
   # GET /photos/1.json
   def show
+    @game = params[:game]
     @photo = Photo.find(params[:id])
     @photo.locale_lat
     # @photo_json = JSON.parse(@photo.to_json)
@@ -106,10 +108,11 @@ class PhotosController < ApplicationController
 
   def play
     coordinates = params[:coordinates]
+    game = params[:game]
     lat = coordinates.split(",")[0].gsub("[", "").to_f
     lon = coordinates.split(",")[1].gsub("[", "").to_f
 
-    redirect_to photo_path(params[:photo_id], :locale_lat => lat, :locale_lon => lon)
+    redirect_to photo_path(params[:photo_id], :locale_lat => lat, :locale_lon => lon, :game => game)
   end
 
   def index_popular

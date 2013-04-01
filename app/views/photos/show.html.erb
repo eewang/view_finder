@@ -24,6 +24,9 @@
   </div>
   </div>
 </div>
+
+<%= link_to "Return to #{@game.split("_").collect { |w| w.capitalize }.join(" ")}", "/photos/#{@game}" %>
+
 <% if @photo.guesses %>
 <p>
   <b>Guesses:</b>
