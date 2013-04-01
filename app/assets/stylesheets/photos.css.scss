@@ -1,8 +1,20 @@
 // Place all the styles related to the photos controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-h1 {
-  letter-spacing: 7px;
+.show-grid1 [class*="span"] {
+  background-color: #F89883;
+  color: #FFF;
+  text-align: center;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  min-height: 40px;
+  line-height: 40px;
+}
+span {
+  letter-spacing: 5px;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-style: normal;
 }
 .styled-button-5 {
   background-color:#81AC8B;
