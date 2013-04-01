@@ -70,7 +70,7 @@ class PhotosController < ApplicationController
   def saved_union_square_game
     photo_ids = session[:union_square]
     @photos = photo_ids.collect do |id|
-      Photo.find(id)
+      @photo = Photo.find(id) unless Photo.find(id).guessed_by?(user)
     end
     render "index"
   end
