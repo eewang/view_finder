@@ -80,7 +80,7 @@ google.maps.event.addDomListener(window, "load", function() {
 
     $.ajax({
       url: '/guesses',
-      data: "{latitude:" + locallat + ",longitude:" + locallon + "}",
+      data: { "latitude": locallat, "longitude":locallon, "photo_id":photo_id },
       dataType: 'json',
       type: "POST",
     });

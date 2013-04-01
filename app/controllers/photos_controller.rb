@@ -112,10 +112,6 @@ class PhotosController < ApplicationController
     redirect_to photo_path(params[:photo_id], :locale_lat => lat, :locale_lon => lon)
   end
 
-  def create_guess
-    raise params.inspect
-  end
-
   def index_popular
     @photos = Photo.instagram_media_popular({})
 
