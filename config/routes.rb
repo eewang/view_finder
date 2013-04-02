@@ -24,8 +24,11 @@ ViewFinder::Application.routes.draw do
 
   get 'photos/popular' => 'photos#index_popular'
   get 'photos/vfyw' => 'photos#photo_tag'
-  resources :users, :sessions, :authentications, :guesses
 
   get 'photos/:id' => 'photos#show', :as => 'photo'
+
+  get 'users/:id/feed' => "photos#user_media_feed"
+
+  resources :users, :sessions, :authentications, :guesses
 
 end

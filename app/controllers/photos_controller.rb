@@ -2,24 +2,19 @@ class PhotosController < ApplicationController
   skip_before_filter :login_required, :only => ["index", "test"]
 
   LOCATION_GAMES = {
-    :union_square => {
-      :coordinates => [40.734771, -73.990722],
+    :downtown => {
+      :coordinates => [40.72410403, -74.003047943],
+      :radius => 1.25,
+      :size => 6
+      },
+    :midtown => {
+      :coordinates => [40.754853,-73.984124],
       :radius => 1,
       :size => 6
       },
-    :thirty_rock => {
-      :coordinates => [40.758956, -73.979464],
+    :downtown_brooklyn => {
+      :coordinates => [40.6920706, -73.984535],
       :radius => 1,
-      :size => 6
-      },
-    :times_square => {
-      :coordinates => [40.7566, -73.9863],
-      :radius => 1,
-      :size => 6
-      },      
-    :central_park => {
-      :coordinates => [40.773615,-73.971106],
-      :radius => 3,
       :size => 6
       }
     # :world_trade => {
@@ -79,8 +74,13 @@ class PhotosController < ApplicationController
   #   end
   # end
 
-  location_games :union_square, :thirty_rock, :times_square, :central_park #, :world_trade, :dumbo
+  location_games :downtown, :midtown, :downtown_brooklyn #, :world_trade, :dumbo
 
+  def user_media_feed
+    @photos = Photo.instagram_user_media_feed
+
+    render "index"
+  end
 
   def create_game(game, coordinates, photos)
     session[game] = nil

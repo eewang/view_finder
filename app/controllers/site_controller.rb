@@ -1,8 +1,14 @@
 class SiteController < ApplicationController
 
+  skip_before_filter :login_required, :only => ["home"]
+
   def home
-    user = User.where(:id => current_user[:id]).first
-    @games = [:union_square, :central_park, :thirty_rock]
+    if current_user
+      user = User.where(:id => current_user[:id]).first
+    else
+      user = User.find(1)
+    end
+    @games = [:downtown, :midtown, :downtown_brooklyn]
     @myfavorite = @games.collect do |game|
       game_attributes = self.game_info(game)
       Photo.game_photos_random(

@@ -17,21 +17,21 @@ class Photo < ActiveRecord::Base
 
   # Build photo instances from Instagram query that has been filtered to remove non-geotagged images
 
-  def self.acts_as_instagrammable(query)
-    define_singleton_method "instagram_#{query}" do |options|
-      i = InstagramWrapper.new
-      filtered_images = i.send("filter_#{query}", options)
-      filtered_images.collect do |pic|
-        Photo.save_instagram_photos(pic)
+  def self.acts_as_instagrammable(*queries)
+    queries.each do |query|
+      define_singleton_method "instagram_#{query}" do |options|
+        i = InstagramWrapper.new
+        filtered_images = i.send("filter_#{query}", options)
+        filtered_images.collect do |pic|
+          Photo.save_instagram_photos(pic)
+        end
       end
     end
   end
 
   acts_as_gmappable :process_geocoding => false
 
-  acts_as_instagrammable :media_search
-  acts_as_instagrammable :tag_recent_media
-  acts_as_instagrammable :media_popular
+  acts_as_instagrammable :media_search, :tag_recent_media, :media_popular, :user_media_feed
 
   # Find/create photo in database related to Instagram pic
 
@@ -61,7 +61,7 @@ class Photo < ActiveRecord::Base
     self.guesses.all.collect { |guess| guess.user.id }.include?(user.id)
   end
 
-  # GAMEPLAY LOGIC
+  # LOCATION GAMEPLAY LOGIC
 
   # Filter photos by tags
 

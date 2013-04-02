@@ -1,17 +1,16 @@
 class InstagramWrapper
 
-  def self.acts_as_locatable(query)
-    define_method "filter_#{query}" do |options|
-      location_images = self.send(query, options).delete_if { |i| i.location.nil?}
-      # @instagram_wrapper.media_search
-      location_images
+  def self.acts_as_locatable(*queries)
+    queries.each do |query|
+      define_method "filter_#{query}" do |options|
+        location_images = self.send(query, options).delete_if { |i| i.location.nil?}
+        # @instagram_wrapper.media_search
+        location_images
+      end
     end
   end
 
-  acts_as_locatable :tag_recent_media
-  acts_as_locatable :media_search
-  acts_as_locatable :user_recent_media
-  acts_as_locatable :media_popular
+  acts_as_locatable :tag_recent_media, :media_search, :user_recent_media, :media_popular, :user_media_feed
 
   def tag_recent_media(options)
     tag = options[:tag] ? options[:tag] : nil
@@ -32,6 +31,10 @@ class InstagramWrapper
   def user_recent_media(options)
     instagram_user = options[:user] ? options[:user] : nil
     Instagram.user_recent_media(instagram_user)
+  end
+
+  def user_media_feed(options)
+    Instagram.user_media_feed(options)
   end
 
 end
