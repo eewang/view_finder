@@ -1,169 +1,141 @@
 <div class="container">
   <div class="row-fluid" align="center" style="margin-bottom: 10px;">
-  <%= image_tag 'logo.png', :width => "200px" %>
- 
+    <%= image_tag 'logo.png', :width => "200px" %>
 
-<p id="notice"><%= notice %></p>
-<br>
-<h4>
-  Congrats! Your guess was about <%= @guess.distance_from_target_in_feet(@guess.photo).round %> feet away (~ <%= @guess.distance_from_target_in_miles(@guess.photo).round(2) %> miles) from the target! 
-</h4>
+    <p id="notice"><%= notice %></p>
+    <br>
+    <h4>
+      Congrats! Your guess was about <%= @guess.distance_from_target_in_feet(@guess.photo).round %> feet away (~ <%= @guess.distance_from_target_in_miles(@guess.photo).round(2) %> miles) from the target! 
+    </h4>
 
-<br>
-<div class="row-fluid">
-  <div class="span5"> <!-- Map with guesses -->
-    <div id="mapdiv" style="height: 600px; max-width: 600px;">
-    </div>
+    <br>
+    <div class="row-fluid">
+      <div class="span5"> <!-- Map with guesses -->
+        <div id="mapdiv" style="height: 600px; max-width: 600px;"></div>
 
-    <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?v=3&sensor=false&key=AIzaSyDAKHFvdMkBADVQC6MgWfqmhDDX4RUqAjo" %>
-    <%#= javascript_include_tag "mapdisplay.js.erb" %>
-    
-    <script>
+        <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?v=3&sensor=false&key=AIzaSyDAKHFvdMkBADVQC6MgWfqmhDDX4RUqAjo" %>
+        
+        <script>
+          google.maps.event.addDomListener(window, "load", function() {
+            //
+            // initialize map
+            //
+            var i;
+            var latlong;
+            var map;
+            var guesses_count = <%= @guess.photo.guesses.size %>
 
-      google.maps.event.addDomListener(window, "load", function() {
-        //
-        // initialize map
-        //
-        var i;
-        var latlong;
-        var map;
-        var guesses_count = <%= @guess.photo.guesses.size %>
-
-        console.log(guesses_count);
-        var currentPhoto = "/photos/" + <%= @guess.photo.id %> + ".json"
-        $.get(currentPhoto, function(data) {
-          console.log(data);
-          latlong = data
-          var map = new google.maps.Map(document.getElementById("mapdiv"), {
-            center: new google.maps.LatLng(latlong.latitude, latlong.longitude),
-            zoom: 13,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-          });
-          //
-          // initialize marker
-          //
-
-          var marker_photo = new google.maps.Marker({
-            map: map,
-          });
-
-          var marker_user_guess = new google.maps.Marker({
-            map: map,
-          });
-
-          marker_photo.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
-          marker_user_guess.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
-          
-          // intercept map and marker movements
-          
-          google.maps.event.addListener(map, "idle", function() {
-
-            <% @guesses = @guess.photo.guesses.delete_if { |item| item.id == @guess.id } %>
-
-            <% (1..@guesses.size).each do |i| %>
-              var marker_guess = new google.maps.Marker({
-                map: map
+            console.log(guesses_count);
+            var currentPhoto = "/photos/" + <%= @guess.photo.id %> + ".json"
+            $.get(currentPhoto, function(data) {
+              console.log(data);
+              latlong = data
+              var map = new google.maps.Map(document.getElementById("mapdiv"), {
+                center: new google.maps.LatLng(latlong.latitude, latlong.longitude),
+                zoom: 13,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
               });
-            
-              marker_guess.setPosition(new google.maps.LatLng(
-                <%= @guesses[i-1].latitude %>,
-                <%= @guesses[i-1].longitude %>
-                ))
+              //
+              // initialize marker
+              //
 
-              marker_guess.setTitle("test");
+              var marker_photo = new google.maps.Marker({
+                map: map,
+              });
 
-            <% end %>
+              var marker_user_guess = new google.maps.Marker({
+                map: map,
+              });
 
-              marker_photo.setPosition(new google.maps.LatLng(
-                <%= @guess.photo.latitude %>,
-                <%= @guess.photo.longitude %>
-                ));
+              marker_photo.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
+              marker_user_guess.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+              
+              // intercept map and marker movements
+              
+              google.maps.event.addListener(map, "idle", function() {
 
-              marker_user_guess.setPosition(new google.maps.LatLng(
-                <%= @guess.latitude %>,
-                <%= @guess.longitude %>
-                ));
+                <% @guesses = @guess.photo.guesses.delete_if { |item| item.id == @guess.id } %>
 
-          });  
+                <% (1..@guesses.size).each do |i| %>
+                  var marker_guess = new google.maps.Marker({
+                    map: map
+                  });
+                
+                  marker_guess.setPosition(new google.maps.LatLng(
+                    <%= @guesses[i-1].latitude %>,
+                    <%= @guesses[i-1].longitude %>
+                    ))
 
-          google.maps.event.addListener(marker, "dragend", function(mapEvent) {
-            map.panTo(mapEvent.latLng);
-          });
-          //
-          // initialize geocoder
-          //
-          var geocoder = new google.maps.Geocoder();
-          google.maps.event.addDomListener(document.getElementById("mapform"), "submit", function(domEvent) {
-            if (domEvent.preventDefault){
-              domEvent.preventDefault();
-            } else {
-              domEvent.returnValue = false;
-            }
-            geocoder.geocode({
-              address: document.getElementById("mapinput").value
-            }, function(results, status) {
-              if (status == google.maps.GeocoderStatus.OK) {
-                var result = results[0];
-                document.getElementById("mapinput").value = result.formatted_address;
-                if (result.geometry.viewport) {
-                  map.fitBounds(result.geometry.viewport);
+                  marker_guess.setTitle("test");
+
+                <% end %>
+
+                  marker_photo.setPosition(new google.maps.LatLng(
+                    <%= @guess.photo.latitude %>,
+                    <%= @guess.photo.longitude %>
+                    ));
+
+                  marker_user_guess.setPosition(new google.maps.LatLng(
+                    <%= @guess.latitude %>,
+                    <%= @guess.longitude %>
+                    ));
+
+              });  
+
+              google.maps.event.addListener(marker, "dragend", function(mapEvent) {
+                map.panTo(mapEvent.latLng);
+              });
+              //
+              // initialize geocoder
+              //
+              var geocoder = new google.maps.Geocoder();
+              google.maps.event.addDomListener(document.getElementById("mapform"), "submit", function(domEvent) {
+                if (domEvent.preventDefault){
+                  domEvent.preventDefault();
+                } else {
+                  domEvent.returnValue = false;
                 }
-                else {
-                  map.setCenter(result.geometry.location);
-                }
-              } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-                alert("Sorry, the geocoder failed to locate the specified address.");
-              } else {
-                alert("Sorry, the geocoder failed with an internal error.");
-              }
-            });
+                geocoder.geocode({
+                  address: document.getElementById("mapinput").value
+                }, function(results, status) {
+                  if (status == google.maps.GeocoderStatus.OK) {
+                    var result = results[0];
+                    document.getElementById("mapinput").value = result.formatted_address;
+                    if (result.geometry.viewport) {
+                      map.fitBounds(result.geometry.viewport);
+                    }
+                    else {
+                      map.setCenter(result.geometry.location);
+                    }
+                  } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
+                    alert("Sorry, the geocoder failed to locate the specified address.");
+                  } else {
+                    alert("Sorry, the geocoder failed with an internal error.");
+                  }
+                });
+              });
+            })
+
           });
-        })
 
-      });
+        </script>
+      </div>
 
-    </script>
-  </div>
+      <!-- The guessed photo -->
+      <div class="span5" style="overflow: hidden; float: left; max-width: 400px; height: 250px;">
+        <%= image_tag(@guess.photo_image)%>
+      </div>
 
-  <!-- The guessed photo -->
-  <div class="span5" style="overflow: hidden; float: left; max-width: 400px; height: 250px;">
-    <%= image_tag(@guess.photo_image)%>
-  </div>
-  
-  <!-- All the guesses and leaderboard -->
-  <div class="span5" style="float:left;">
-    <h5>YOUR GUESS</h5>
-    <p>
-      <%= @guess.street_address %>
-    </p>
-<!--     <p>
-      Coordinates: Latitude = <%= @guess.latitude %>, Longitude = <%= @guess.longitude %>
-    </p> -->
-
-    <br>
-
-    <h5><em>CORRECT LOCATION</em></h5>
-
-    <p>
-      <%= @guess.photo.generate_street_address %>
-    </p>
-
-<!--     <p>
-      Coordinates: Latitude = <%= @guess.photo_latitude %>, Longitude = <%= @guess.photo_longitude %>
-    </p> -->
-
-    <br>
-
-    <h5>LEADERBOARD</h5>
-      <% @photo_guesses.each do |g| %>
-        <p><%= @photo_guesses.index(g) + 1 %>. <%= g.user_name %> guessed <%= g.street_address %>, which is <%= g.distance_from_target_in_feet(g.photo).round %> feet away (~ <%= g.distance_from_target_in_miles(g.photo).round(2) %> miles), <%= g.created_at.in_time_zone('Eastern Time (US & Canada)').strftime("at %I:%M %p") %><%= g.created_at.strftime(" on %m/%d/%Y") %></p>
-        <br>
-      <% end %>
-      <%#= link_to "Return to your #{@game.split("_").collect { |w| w.capitalize }.join(" ")} game", "/users/#{current_user.id}/#{@game}" %>
-  </div>
+      <!-- Leaderboard -->
+      <div class="span5" style="float:left;">
+        <h5>LEADERBOARD</h5>
+        <span class="label label-success">Success</span><br>
+        <%= render :partial => 'leaderboard', :collection => @photo_guesses, :as => 'guess' %>
+      </div>
 
 
-</div>
+    </div> <!-- row -->
+  </div> <!-- row-fluid -->
 
 
-</div>
+</div> <!-- container -->
