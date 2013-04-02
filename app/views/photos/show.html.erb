@@ -3,6 +3,8 @@
 <div class="row-fluid">
   <div class="span6">
   <div id="mapdiv" style="height: 400px; max-width: 600px;"></div>
+
+
     <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?v=3&sensor=false&key=AIzaSyDAKHFvdMkBADVQC6MgWfqmhDDX4RUqAjo" %>
     <%#= javascript_include_tag "mapdisplay.js.erb" %>
     <script>
@@ -22,7 +24,7 @@
         $.get(currentPhoto, function(data) {
           console.log(data);
           latlong = data;
-          var map = new google.maps.Map(document.getElementById("mapdiv"), {
+          map = new google.maps.Map(document.getElementById("mapdiv"), {
             center: new google.maps.LatLng(latlong.latitude, latlong.longitude),
             zoom: 15,
             mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -87,20 +89,28 @@
 
         })
 
-        var guess = document.getElementById("submit_guess");
-        guess.addEventListener("click", function(){
-          console.log(map);
-          console.log("fuck" + map.getCenter().lat().toFixed(6));
-          console.log(locallat);
-          console.log(locallon);
-          $.ajax({
-            url: '/guesses',
-            data: { "latitude": locallat, "longitude":locallon, "photo_id":photo_id },
-            dataType: 'json',
-            type: "POST",
-          });
-
+        $("#submit_guess").click(function(){
+          console.log("test")
+          var parameters = {
+            "latitude":locallat,
+            "longitude":locallon,
+            "photo_id":photo_id
+          }
+          $.post('/guesses', parameters, function(json){
+            console.log(json);
+            window.location.href = json.redirect_url;
+          }, 'json');
         });
+
+        // var guess = document.getElementById("submit_guess");
+        // guess.addEventListener("click", function(){
+        //   $.ajax({
+        //     url: '/guesses',
+        //     dataType: 'json',
+        //     type: "POST"
+        //   });
+
+        // });
 
       });
 

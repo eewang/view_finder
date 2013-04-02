@@ -44,20 +44,21 @@ class GuessesController < ApplicationController
   def create
     params.delete :controller
     params.delete :action
-    raise params.inspect
-    # lat = params[:latitude]
-    # lon = params[:longitude]
-    # photo_id = params[:photo_id]
+
+    url = "http://localhost:3000"
+
     if current_user.guesses.where(:photo_id => params[:photo_id]).empty?
       guess = current_user.guesses.create(params)
-      guess.street_address = guess.coordinates_to_address
+      # guess.street_address = guess.coordinates_to_address
+
+      url = "http://localhost:3000/guesses/#{guess.id}"
+
       guess.save
-    else
-      raise "You already guessed..."
     end
 
 
 
+    render :json => {:redirect_url => url}
     # if @guess.try(:has_valid_location?)
     #   @guess.save
     #   @guess.address_to_coordinates
@@ -65,7 +66,6 @@ class GuessesController < ApplicationController
     # else
     #   render "error"
     # end
-
   end
 
   # PUT /guesses/1
