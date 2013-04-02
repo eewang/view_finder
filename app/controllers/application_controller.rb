@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   end
 
   def login(user)
+    binding.pry
     session[:user_id] = user.id
   end
 

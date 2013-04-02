@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130402193227) do
+ActiveRecord::Schema.define(:version => 20130402214507) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -57,14 +57,19 @@ ActiveRecord::Schema.define(:version => 20130402193227) do
     t.boolean  "gmaps"
     t.float    "locale_lat"
     t.float    "locale_lon"
+    t.string   "small_image"
   end
 
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email"
     t.string   "password_digest"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.string   "instagram_uid"
+    t.string   "instagram_nickname"
+    t.string   "instagram_token"
+    t.string   "instagram_avatar"
   end
 
 end

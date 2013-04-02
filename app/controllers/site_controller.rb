@@ -3,6 +3,9 @@ class SiteController < ApplicationController
   skip_before_filter :login_required, :only => ["home"]
 
   def home
+    flash[:auth_notice] = "Please login before authenticating"
+    flash.keep
+
     if current_user
       user = User.where(:id => current_user[:id]).first
     else

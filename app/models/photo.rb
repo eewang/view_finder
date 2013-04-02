@@ -105,4 +105,18 @@ class Photo < ActiveRecord::Base
     Photo.game_photos_set(coordinates, distance, user).shuffle[0..size-1]
   end
 
+  # def game_belongs_to
+  #   distances = self.distance_from_target_in_miles()
+
+  #   def distance_from_target_in_miles(target)
+  #     if target.is_a?(Photo)
+  #       target_coordinates = target.coordinates
+  #     else
+  #       target_coordinates = target
+  #     end
+  #     Geocoder::Calculations.distance_between(self.coordinates, target_coordinates)
+  #   end
+
+  # end
+
 end

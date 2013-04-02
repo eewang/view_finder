@@ -1,7 +1,6 @@
 <div class="container-fluid">
 <br>
 
-
 <div class="row-fluid" align="center">
   <%= image_tag 'logo.png', :width => "400px" %>
 </div>
@@ -72,8 +71,13 @@
       <div class="span8">
         <div id="myCarousel" class="carousel slide" >
           <div class="carousel-inner">
-            <div class="active item"><%= link_to image_tag('introfriend1.jpg', {:width => 1000}), "auth/instagram" %></div>
-            <div class="item"><%= link_to image_tag('introfriend2.jpg', {:width => 1000}), "auth/instagram" %></div>
+            <% if current_user %>
+              <% url = "auth/instagram" %>
+            <% else %>
+              <% url = login_path %>
+            <% end %>  
+            <div class="active item"><%= link_to image_tag('introfriend1.jpg', {:width => 1000}), url %></div>
+            <div class="item"><%= link_to image_tag('introfriend2.jpg', {:width => 1000}), url %></div>
           </div>
         </div>
       </div>
