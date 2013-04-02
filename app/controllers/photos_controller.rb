@@ -10,17 +10,17 @@ class PhotosController < ApplicationController
     :thirty_rock => {
       :coordinates => [40.758956, -73.979464],
       :radius => 1,
-      :size => 10
+      :size => 6
       },
     :times_square => {
       :coordinates => [40.7566, -73.9863],
       :radius => 1,
-      :size => 10
+      :size => 6
       },      
     :central_park => {
       :coordinates => [40.773615,-73.971106],
       :radius => 3,
-      :size => 10
+      :size => 6
       }
     # :world_trade => {
     #   :coordinates => [40.7117, -74.0125],
