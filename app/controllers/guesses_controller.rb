@@ -44,7 +44,7 @@ class GuessesController < ApplicationController
   def create
     params.delete :controller
     params.delete :action
-    # raise params.inspect
+    raise params.inspect
     # lat = params[:latitude]
     # lon = params[:longitude]
     # photo_id = params[:photo_id]
