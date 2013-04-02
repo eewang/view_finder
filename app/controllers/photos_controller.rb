@@ -127,10 +127,9 @@ class PhotosController < ApplicationController
 
   def play
     coordinates = params[:coordinates]
-    game = params[:game]
     lat = coordinates.split(",")[0].gsub("[", "").to_f
     lon = coordinates.split(",")[1].gsub("[", "").to_f
-    redirect_to photo_path(params[:photo_id], :locale_lat => lat, :locale_lon => lon, :game => game)
+    redirect_to photo_path(params[:photo_id], :locale_lat => lat, :locale_lon => lon)
   end
 
   def index_popular
