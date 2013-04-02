@@ -45,17 +45,16 @@ class GuessesController < ApplicationController
     params.delete :controller
     params.delete :action
 
-    url = "http://localhost:3000"
+    guess = current_user.guesses.where(:photo_id => params[:photo_id]).first
 
-    if current_user.guesses.where(:photo_id => params[:photo_id]).empty?
+    if guess.nil?
       guess = current_user.guesses.create(params)
       # guess.street_address = guess.coordinates_to_address
-
-      url = "http://localhost:3000/guesses/#{guess.id}"
-
       guess.save
     end
-
+    
+    url = "http://localhost:3000/guesses/#{guess.id}"
+    
     render :json => {:redirect_url => url}
     # if @guess.try(:has_valid_location?)
     #   @guess.save
