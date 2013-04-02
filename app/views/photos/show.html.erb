@@ -22,7 +22,6 @@
         var locallon;
         var photo_id = <%= @photo.id.to_s %>;
         var currentPhoto = "/photos/" + photo_id + ".json";
-        var game = <% @game %>
 
         $.get(currentPhoto, function(data) {
           console.log(data);
@@ -96,14 +95,12 @@
           var parameters = {
             "latitude":locallat,
             "longitude":locallon,
-            "photo_id":photo_id
-            // "game":game
+            "photo_id":photo_id,
           }
           console.log(parameters);
           $.post('/guesses', parameters, function(json){
             console.log(json);
             window.location.href = json.redirect_url;
-            // game = json.game;
           }, 'json');
         });
 
