@@ -48,6 +48,9 @@
               <li><%= link_to "Times Square", photos_times_square_path %></li>
               <li><%= link_to "#VFYW", photos_vfyw_path %></li>
               <li><%= link_to "Trending", photos_popular_path %></li>
+              <% if current_user %>
+                <li><%= link_to "See My Games", "/users/#{current_user.id}" %></li>
+              <% end %>
             </ul>
           <!-- </div> --><!--/.nav-collapse -->
         </div>

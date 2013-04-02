@@ -67,6 +67,9 @@ class Photo < ActiveRecord::Base
 
   def self.tag_filter
     where(["caption LIKE ? OR caption LIKE ? ", "%#{TAGS[0]}%", "%#{TAGS[1]}%"])
+    # collect do |tag|
+    #   where(["caption LIKE ? ", "%#{tag}"])
+    # end
   end
 
   # Return all photos that have been guessed by the user and have been tagged. Delete 'tag_filter' to remove tag

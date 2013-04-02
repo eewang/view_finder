@@ -51,14 +51,7 @@ class PhotosController < ApplicationController
           p.save
         end
         # Loads game photo ids into user session
-        session[@game] = nil
-        session[@game] ||= {}
-        session[@game][:photos] ||= []
-        session[@game][:coordinates] ||= @coordinates
-        session[@game][:game] ||= @game
-        @photos.each do |photo|
-          session[@game][:photos].push(photo.id)
-        end
+        self.create_game(@game, @coordinates, @photos)
         # Perform asynchronous Instagram API call
         InstagramWorker.perform_async(@coordinates)
         # Convert game photos to map markers
@@ -80,7 +73,26 @@ class PhotosController < ApplicationController
     end
   end
 
-  location_games :union_square, :thirty_rock, :central_park, :times_square #, :world_trade, :dumbo
+  # def self.get_games
+  #   games = LOCATION_GAMES.collect do |key, value|
+  #     key
+  #   end
+  # end
+
+  location_games :union_square, :thirty_rock, :times_square, :central_park #, :world_trade, :dumbo
+
+
+  def create_game(game, coordinates, photos)
+    session[game] = nil
+    session[game] ||= {}
+    session[game][:photos] ||= []
+    session[game][:coordinates] ||= coordinates
+    session[game][:game] ||= game
+    photos.each do |photo|
+      session[game][:photos].push(photo.id)
+    end
+    session
+  end
 
   def photo_tag
     @photos = Photo.instagram_tag_recent_media({:tag => "vfyw"})
@@ -98,10 +110,6 @@ class PhotosController < ApplicationController
       @guess = @photo.guesses.build
     end
 
-    # @photo_json = JSON.parse(@photo.to_json)
-    # @photo_json["locale_lat"] = params[:locale_lat]
-    # @photo_json["locale_lon"] = params[:locale_lon]
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @photo }
@@ -111,24 +119,6 @@ class PhotosController < ApplicationController
   def search
     render "search"
   end
-
-  # def index
-  #   @search_query = params[:search_text]
-  #   @search_distance = params[:distance]
-  #   search = Geocoder.search(@search_query)
-  #   unless search.empty?
-  #     search_lat = search[0].latitude
-  #     search_lon = search[0].longitude
-  #     @photos = Photo.instagram_location_search_and_save(
-  #       search_lat, 
-  #       search_lon,
-  #       {:distance => @search_distance})
-  #     render "index"
-  #   else
-  #     render "/guesses/error"
-  #   end
-  #   # @json = Photo.all.to_gmaps4rails
-  # end
 
   def play
     coordinates = params[:coordinates]
