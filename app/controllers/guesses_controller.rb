@@ -56,7 +56,8 @@ class GuessesController < ApplicationController
       raise "You already guessed..."
     end
 
-
+    render
+      format.json
 
     # if @guess.try(:has_valid_location?)
     #   @guess.save
