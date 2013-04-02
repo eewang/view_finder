@@ -22,6 +22,7 @@
         var locallon;
         var photo_id = <%= @photo.id.to_s %>;
         var currentPhoto = "/photos/" + photo_id + ".json";
+        var game = <% @game %>
 
         $.get(currentPhoto, function(data) {
           console.log(data);
@@ -92,15 +93,17 @@
         })
 
         $("#submit_guess").click(function(){
-          console.log("test")
           var parameters = {
             "latitude":locallat,
             "longitude":locallon,
             "photo_id":photo_id
+            // "game":game
           }
+          console.log(parameters);
           $.post('/guesses', parameters, function(json){
             console.log(json);
             window.location.href = json.redirect_url;
+            // game = json.game;
           }, 'json');
         });
 
@@ -125,13 +128,13 @@
           <span id="showhtml">Drag the marker and make your</span>
         </div>
         
-        <div class="span5 offset2">
+        <div class="span8 offset1">
           <button class="styled-button-5">Guess!</button>
+          <br><br>
         </div>
-        
-        <div class="span10"><br>
-          Or <%= link_to "return to your #{@game.split("_").collect { |w| w.capitalize }.join(" ")} game", "/users/#{current_user.id}/#{@game}" %>
-        </div>
+      </div>
+      <div class="span8 offset1">
+        <%= link_to "Return to Game", "/users/#{current_user.id}/#{@game}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px;")%>
       </div>
 
     </div>
@@ -139,10 +142,10 @@
   </div>
 </div>
 
-<%= link_to "Return to your #{@game.split("_").collect { |w| w.capitalize }.join(" ")} game", "/users/#{current_user.id}/#{@game}" %>
+<%#= link_to "Return to your #{@game.split("_").collect { |w| w.capitalize }.join(" ")} game", "/users/#{current_user.id}/#{@game}" %>
 
 
-<% if @photo.guesses.size > 1 %>
+<% if @photo.guesses.size > 1 && @photo.guessed_by?(current_user) %>
 <p align="center">
   
   <ul><b>Guesses:</b>
