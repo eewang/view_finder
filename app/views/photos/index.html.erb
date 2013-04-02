@@ -27,21 +27,28 @@ $(document).ready(function(){
         </ol>
    
     <!-- Carousel Items -->
-        <center class="styled-button-6"><%= link_to "SHUFFLE", "/photos/#{@game}" %> </center>
-        <br>
+      
+        
         <div class="carousel-inner">
           <% @photos.each do |p| %>
             
               <div class="<% if @photos.index(p) == 0 %>active<% end %> item vfyw">
 
                 <%= form_tag :url => "http://localhost:3000/photos/#{@game}", :method => 'POST' do %>
-                 
-                  <center><%= submit_tag (p.guessed_by?(current_user) ? "VIEW" : "PLAY!"), :class => "styled-button-5" %></center>
+                <div class="row">
+                  <div class="styled-button-6 span3">
+                    <%= link_to "SHUFFLE", "/photos/#{@game}" %>
+                  </div>
+                  <div class="span4">
+                    <%= submit_tag (p.guessed_by?(current_user) ? "VIEW" : "PLAY!"), :class => "styled-button-5" %>
+                  </div>
+                </div>
                   <br>
-
+<center class="styled-button-5" style="background: #516057;">Guessed <%= @guessed_count %> of <%= @photos.size %></center>
+<br>
                   <%= image_tag p.image %><br>
                    <% @guessed_count = @photos.count { |p| p.guessed_by?(current_user) } %>
-                  <center class="styled-button-5" style="border-radius:0;">Guessed <%= @guessed_count %> of <%= @photos.size %></center>
+                  
                   <input name="coordinates" type="hidden" value="<%= @coordinates %>" />
                   <input name="game" type="hidden" value="<%= @game %>" />
                   <input name="photo_id" type="hidden" value="<%= p.id %>" />
