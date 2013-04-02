@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(:version => 20130402193227) do
     t.string   "caption"
     t.string   "instagram_id"
     t.boolean  "gmaps"
+    t.string   "small_image"
     t.float    "locale_lat"
     t.float    "locale_lon"
   end
