@@ -66,19 +66,19 @@ class Photo < ActiveRecord::Base
   # Filter photos by tags
 
   def self.tag_filter
-    where(["caption LIKE ? OR caption LIKE ?", "%#{TAGS[0]}%", "%#{TAGS[1]}%"])
+    where(["caption LIKE ? OR caption LIKE ? ", "%#{TAGS[0]}%", "%#{TAGS[1]}%"])
   end
 
-  # Return all photos that have been guessed by the user and have been tagged. Delete '.tag_filter' to remove tag
+  # Return all photos that have been guessed by the user and have been tagged. Delete 'tag_filter' to remove tag
 
   def self.tagged_photos_guessed_by(user)
     includes(:guesses).where("guesses.user_id = #{user.id}").tag_filter
   end
 
-  # Return all saved photos that have not been guessed by the user and have been tagged. Delete '.tag_filter 'to remove tag
+  # Return all saved photos that have not been guessed by the user and have been tagged. Delete 'tag_filter 'to remove tag
 
   def self.tagged_photos_not_guessed_by(user)
-    Photo.tag_filter.all - Photo.tagged_photos_guessed_by(user)
+    Photo.tag_filter.where("id NOT NULL") - Photo.tagged_photos_guessed_by(user)
   end
 
   # Check if photo is located within [distance] miles of [coordinates]

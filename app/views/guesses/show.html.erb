@@ -1,18 +1,23 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <div class="row-fluid" align="center" style="margin-bottom: 10px;">
+  <%= image_tag 'logo.png', :width => "200px" %>
+ 
 
+<p id="notice"><%= notice %></p>
+<br>
 <h4>
   Congrats! Your guess was about <%= @guess.distance_from_target_in_feet(@guess.photo).round %> feet away (~ <%= @guess.distance_from_target_in_miles(@guess.photo).round(2) %> miles) from the target! 
 </h4>
 
 <br>
 <div class="row-fluid">
-  <div><%= image_tag(@guess.photo_image) %></div>
-
-  <div class="span">
-  <div id="mapdiv" style="height: 600px; max-width: 600px;"></div>
+  <div class="span5"> <!-- Map with guesses -->
+    <div id="mapdiv" style="height: 600px; max-width: 600px;">
+    </div>
 
     <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?v=3&sensor=false&key=AIzaSyDAKHFvdMkBADVQC6MgWfqmhDDX4RUqAjo" %>
     <%#= javascript_include_tag "mapdisplay.js.erb" %>
+    
     <script>
 
       google.maps.event.addDomListener(window, "load", function() {
@@ -118,44 +123,46 @@
       });
 
     </script>
-
   </div>
-</div>
-<br>
 
-<h5>Your Guess</h5>
-<p>
-  Address: <%= @guess.street_address %>
-</p>
-<p>
-  Coordinates: Latitude = <%= @guess.latitude %>, Longitude = <%= @guess.longitude %>
-</p>
+  <!-- The guessed photo -->
+  <div class="span5" style="overflow: hidden; float: left; max-width: 400px; height: 250px;">
+    <%= image_tag(@guess.photo_image)%>
+  </div>
+  
+  <!-- All the guesses and leaderboard -->
+  <div class="span5" style="float:left;">
+    <h5>YOUR GUESS</h5>
+    <p>
+      <%= @guess.street_address %>
+    </p>
+<!--     <p>
+      Coordinates: Latitude = <%= @guess.latitude %>, Longitude = <%= @guess.longitude %>
+    </p> -->
 
-<br>
-
-<h5>Correct Location</h5>
-
-<p>
-  Address: <%= @guess.photo.generate_street_address %>
-</p>
-
-<p>
-  Coordinates: Latitude = <%= @guess.photo_latitude %>, Longitude = <%= @guess.photo_longitude %>
-</p>
-
-<br>
-
-<h5>Leaderboard</h5>
-  <% @photo_guesses.each do |g| %>
-    <p><%= @photo_guesses.index(g) + 1 %>. <%= g.user_name %> guessed <%= g.street_address %>, which is <%= g.distance_from_target_in_feet(g.photo).round %> feet away (~ <%= g.distance_from_target_in_miles(g.photo).round(2) %> miles), <%= g.created_at.in_time_zone('Eastern Time (US & Canada)').strftime("at %I:%M %p") %><%= g.created_at.strftime(" on %m/%d/%Y") %></p>
     <br>
-  <% end %>
-<p>
 
-</p>
+    <h5><em>CORRECT LOCATION</em></h5>
 
-<br>
+    <p>
+      <%= @guess.photo.generate_street_address %>
+    </p>
 
-<%= link_to 'View Photos', photos_union_square_path %> |
-<%= link_to 'Edit', edit_guess_path(@guess) %> |
-<%= link_to 'Back', guesses_path %>
+<!--     <p>
+      Coordinates: Latitude = <%= @guess.photo_latitude %>, Longitude = <%= @guess.photo_longitude %>
+    </p> -->
+
+    <br>
+
+    <h5>LEADERBOARD</h5>
+      <% @photo_guesses.each do |g| %>
+        <p><%= @photo_guesses.index(g) + 1 %>. <%= g.user_name %> guessed <%= g.street_address %>, which is <%= g.distance_from_target_in_feet(g.photo).round %> feet away (~ <%= g.distance_from_target_in_miles(g.photo).round(2) %> miles), <%= g.created_at.in_time_zone('Eastern Time (US & Canada)').strftime("at %I:%M %p") %><%= g.created_at.strftime(" on %m/%d/%Y") %></p>
+        <br>
+      <% end %>
+  </div>
+
+
+</div>
+
+
+</div>

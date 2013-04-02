@@ -56,8 +56,6 @@ class GuessesController < ApplicationController
       guess.save
     end
 
-
-
     render :json => {:redirect_url => url}
     # if @guess.try(:has_valid_location?)
     #   @guess.save

@@ -1,12 +1,14 @@
-
-
+<div class="container">
+  <div class="row-fluid" align="center" style="margin-bottom: 10px;">
+  <%= image_tag 'logo.png', :width => "200px" %>
+ </div>
+<%= javascript_tag do %>
+  window.photo_id = '<%= j @photo.id.to_s %>';
+<% end %>
 <div class="row-fluid">
   <div class="span6">
   <div id="mapdiv" style="height: 400px; max-width: 600px;"></div>
-
-
     <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?v=3&sensor=false&key=AIzaSyDAKHFvdMkBADVQC6MgWfqmhDDX4RUqAjo" %>
-    <%#= javascript_include_tag "mapdisplay.js.erb" %>
     <script>
 
       google.maps.event.addDomListener(window, "load", function() {
@@ -102,16 +104,6 @@
           }, 'json');
         });
 
-        // var guess = document.getElementById("submit_guess");
-        // guess.addEventListener("click", function(){
-        //   $.ajax({
-        //     url: '/guesses',
-        //     dataType: 'json',
-        //     type: "POST"
-        //   });
-
-        // });
-
       });
 
     </script>
@@ -122,13 +114,24 @@
     <div style="overflow: hidden; float: left; max-width: 400px; height: 250px;">
       <%= image_tag @photo.image, :width => "300px" %>
     </div>
+  </div>
     <div class="row"><br>
 
       <%#= form_for(@guess) do |f| %>
 <!--         <div id="submit_guess"><%#= f.submit "Guess!" %></div>
       <#% end %> -->
       <div id="submit_guess">
-        <button class="btn">Guess!</button>
+        <div class="span10">
+          <span id="showhtml">Drag the marker and make your</span>
+        </div>
+        
+        <div class="span5 offset2">
+          <button class="styled-button-5">Guess!</button>
+        </div>
+        
+        <div class="span10"><br>
+          Or <%= link_to "return to your #{@game.split("_").collect { |w| w.capitalize }.join(" ")} game", "/users/#{current_user.id}/#{@game}" %>
+        </div>
       </div>
 
     </div>
@@ -138,12 +141,13 @@
 
 <%= link_to "Return to your #{@game.split("_").collect { |w| w.capitalize }.join(" ")} game", "/users/#{current_user.id}/#{@game}" %>
 
-<% if @photo.guesses.size > 1%>
-<p>
-  <b>Guesses:</b>
-  <ul>
-  <% @photo.guesses.each do |guess| %>
-    <li><%= guess.user.name %> (<%= guess.street_address %>)</li>
+
+<% if @photo.guesses.size > 1 %>
+<p align="center">
+  
+  <ul><b>Guesses:</b>
+  <% @photo.guesses[0..-2].each do |guess| %>
+    <li><%= guess.user_name %> (<%= guess.street_address %>)</li>
   <% end %>
   </ul>
 </p>
