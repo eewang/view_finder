@@ -8,10 +8,107 @@
 <div class="row-fluid">
   <div class="span6">
   <div id="mapdiv" style="height: 400px; max-width: 600px;"></div>
-    <div id="mapoutput"></div>
     <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?v=3&sensor=false&key=AIzaSyDAKHFvdMkBADVQC6MgWfqmhDDX4RUqAjo" %>
-    <%= javascript_include_tag "mapselector.js" %>
-</div>
+    <script>
+
+      google.maps.event.addDomListener(window, "load", function() {
+        //
+        // initialize map
+        //
+
+        var latlong;
+        var map;
+        var locallat;
+        var locallon;
+        var photo_id = <%= @photo.id.to_s %>;
+        var currentPhoto = "/photos/" + photo_id + ".json";
+
+        $.get(currentPhoto, function(data) {
+          console.log(data);
+          latlong = data;
+          map = new google.maps.Map(document.getElementById("mapdiv"), {
+            center: new google.maps.LatLng(latlong.locale_lat, latlong.locale_lon),
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          });
+          //
+          // initialize marker
+          //
+
+          var marker = new google.maps.Marker({
+            position: map.getCenter(),
+            draggable: true,
+            map: map
+          });
+
+          marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+          
+          // intercept map and marker movements
+          
+          google.maps.event.addListener(map, "idle", function() {
+            marker.setPosition(map.getCenter());
+            locallat = map.getCenter().lat().toFixed(6);
+            locallon = map.getCenter().lng().toFixed(6);
+            console.log(locallat);
+            console.log(locallon);
+          });    
+
+          google.maps.event.addListener(marker, "dragend", function(mapEvent) {
+            map.panTo(mapEvent.latLng);
+          });
+          //
+          // initialize geocoder
+          //
+          console.log(map);
+
+          var geocoder = new google.maps.Geocoder();
+          google.maps.event.addDomListener(document.getElementById("mapform"), "submit", function(domEvent) {
+            if (domEvent.preventDefault){
+              domEvent.preventDefault();
+            } else {
+              domEvent.returnValue = false;
+            }
+            geocoder.geocode({
+              address: document.getElementById("mapinput").value
+            }, function(results, status) {
+              if (status == google.maps.GeocoderStatus.OK) {
+                var result = results[0];
+                document.getElementById("mapinput").value = result.formatted_address;
+                if (result.geometry.viewport) {
+                  map.fitBounds(result.geometry.viewport);
+                }
+                else {
+                  map.setCenter(result.geometry.location);
+                }
+              } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
+                alert("Sorry, the geocoder failed to locate the specified address.");
+              } else {
+                alert("Sorry, the geocoder failed with an internal error.");
+              }
+            });
+          });
+          
+
+        })
+
+        $("#submit_guess").click(function(){
+          console.log("test")
+          var parameters = {
+            "latitude":locallat,
+            "longitude":locallon,
+            "photo_id":photo_id
+          }
+          $.post('/guesses', parameters, function(json){
+            console.log(json);
+            window.location.href = json.redirect_url;
+          }, 'json');
+        });
+
+      });
+
+    </script>
+
+    </div>
 <div class="span5">
   <div class="row">
     <div style="overflow: hidden; float: left; max-width: 400px; height: 250px;">
@@ -42,6 +139,7 @@
   </div>
 </div>
 
+<%= link_to "Return to your #{@game.split("_").collect { |w| w.capitalize }.join(" ")} game", "/users/#{current_user.id}/#{@game}" %>
 
 
 <% if @photo.guesses.size > 1 %>
