@@ -16,6 +16,12 @@ span {
   font-family: 'Helvetica Neue', sans-serif;
   font-style: normal;
 }
+#showhtml {
+  letter-spacing: 2px;
+  font-size: 18px;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
 .styled-button-5 {
   background-color:#81AC8B;
   color:#fff;
@@ -32,7 +38,22 @@ span {
   padding-right: 25px;
 }
 .styled-button-5:hover {
-background-color:#425957;
+background-color:#c9d787;
+}
+.styled-button-6 {
+  background-color:#c9d787;
+  color:#fff;
+  font-family:'Helvetica Neue',sans-serif;
+  font-size:18px;
+  line-height:30px;
+  letter-spacing: 5px;
+  border-radius:20px;
+  -webkit-border-radius:20px;
+  -moz-border-radius:20px;
+  border:0;
+  text-shadow:#C17C3A 0 -1px 0;
+  padding-left: 25px;
+  padding-right: 25px;
 }
 
 .modal {

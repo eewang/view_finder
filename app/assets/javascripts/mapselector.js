@@ -84,7 +84,7 @@ google.maps.event.addDomListener(window, "load", function() {
       dataType: 'json',
       type: "POST",
       success: function(){
-        window.location.href = "http://google.com"
+        alert('you know');
       }
     });
 
