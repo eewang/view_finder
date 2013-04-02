@@ -8,10 +8,110 @@
 <div class="row-fluid">
   <div class="span6">
   <div id="mapdiv" style="height: 400px; max-width: 600px;"></div>
-    <div id="mapoutput"></div>
     <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?v=3&sensor=false&key=AIzaSyDAKHFvdMkBADVQC6MgWfqmhDDX4RUqAjo" %>
-    <%= javascript_include_tag "mapselector.js" %>
-</div>
+    <script>
+
+      google.maps.event.addDomListener(window, "load", function() {
+        //
+        // initialize map
+        //
+
+        var latlong;
+        var map;
+        var locallat;
+        var locallon;
+        var photo_id = <%= @photo.id.to_s %>;
+        var currentPhoto = "/photos/" + photo_id + ".json";
+        var game = <% @game %>
+
+        $.get(currentPhoto, function(data) {
+          console.log(data);
+          latlong = data;
+          map = new google.maps.Map(document.getElementById("mapdiv"), {
+            center: new google.maps.LatLng(latlong.locale_lat, latlong.locale_lon),
+            zoom: 15,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          });
+          //
+          // initialize marker
+          //
+
+          var marker = new google.maps.Marker({
+            position: map.getCenter(),
+            draggable: true,
+            map: map
+          });
+
+          marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+          
+          // intercept map and marker movements
+          
+          google.maps.event.addListener(map, "idle", function() {
+            marker.setPosition(map.getCenter());
+            locallat = map.getCenter().lat().toFixed(6);
+            locallon = map.getCenter().lng().toFixed(6);
+            console.log(locallat);
+            console.log(locallon);
+          });    
+
+          google.maps.event.addListener(marker, "dragend", function(mapEvent) {
+            map.panTo(mapEvent.latLng);
+          });
+          //
+          // initialize geocoder
+          //
+          console.log(map);
+
+          var geocoder = new google.maps.Geocoder();
+          google.maps.event.addDomListener(document.getElementById("mapform"), "submit", function(domEvent) {
+            if (domEvent.preventDefault){
+              domEvent.preventDefault();
+            } else {
+              domEvent.returnValue = false;
+            }
+            geocoder.geocode({
+              address: document.getElementById("mapinput").value
+            }, function(results, status) {
+              if (status == google.maps.GeocoderStatus.OK) {
+                var result = results[0];
+                document.getElementById("mapinput").value = result.formatted_address;
+                if (result.geometry.viewport) {
+                  map.fitBounds(result.geometry.viewport);
+                }
+                else {
+                  map.setCenter(result.geometry.location);
+                }
+              } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
+                alert("Sorry, the geocoder failed to locate the specified address.");
+              } else {
+                alert("Sorry, the geocoder failed with an internal error.");
+              }
+            });
+          });
+          
+
+        })
+
+        $("#submit_guess").click(function(){
+          var parameters = {
+            "latitude":locallat,
+            "longitude":locallon,
+            "photo_id":photo_id
+            // "game":game
+          }
+          console.log(parameters);
+          $.post('/guesses', parameters, function(json){
+            console.log(json);
+            window.location.href = json.redirect_url;
+            // game = json.game;
+          }, 'json');
+        });
+
+      });
+
+    </script>
+
+    </div>
 <div class="span5">
   <div class="row">
     <div style="overflow: hidden; float: left; max-width: 400px; height: 250px;">
@@ -28,13 +128,13 @@
           <span id="showhtml">Drag the marker and make your</span>
         </div>
         
-        <div class="span5 offset2">
+        <div class="span8 offset1">
           <button class="styled-button-5">Guess!</button>
+          <br><br>
         </div>
-        
-        <div class="span10"><br>
-          Or <%= link_to "return to your #{@game.split("_").collect { |w| w.capitalize }.join(" ")} game", "/users/#{current_user.id}/#{@game}" %>
-        </div>
+      </div>
+      <div class="span8 offset1">
+        <%= link_to "Return to Game", "/users/#{current_user.id}/#{@game}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px;")%>
       </div>
 
     </div>
@@ -42,9 +142,10 @@
   </div>
 </div>
 
+<%#= link_to "Return to your #{@game.split("_").collect { |w| w.capitalize }.join(" ")} game", "/users/#{current_user.id}/#{@game}" %>
 
 
-<% if @photo.guesses.size > 1 %>
+<% if @photo.guesses.size > 1 && @photo.guessed_by?(current_user) %>
 <p align="center">
   
   <ul><b>Guesses:</b>

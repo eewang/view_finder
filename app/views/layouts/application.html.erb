@@ -43,11 +43,12 @@
           <!-- <div class="container-fluid nav-collapse"> -->
             <ul style="list-style: none;">
               <li style="display: inline-block;"><%= link_to "Search By Address", :controller => "photos", :action => "search" %></li>
-              <li style="display: inline-block;"><%= link_to "Union Square", photos_union_square_path %></li>
-              <li><%= link_to "30 Rock", photos_thirty_rock_path  %></li>
-              <li><%= link_to "Times Square", photos_times_square_path %></li>
-              <li><%= link_to "#VFYW", photos_vfyw_path %></li>
-              <li><%= link_to "Trending", photos_popular_path %></li>
+              <li style="display: inline-block;"><%= link_to "Downtown Manhattan", photos_downtown_path %></li>
+              <li><%= link_to "Midtown Manhattan", photos_midtown_path  %></li>
+              <li><%= link_to "Downtown Brooklyn", photos_downtown_brooklyn_path %></li>
+              <% if current_user %>
+                <li><%= link_to "See My Games", "/users/#{current_user.id}" %></li>
+              <% end %>
             </ul>
           <!-- </div> --><!--/.nav-collapse -->
         </div>

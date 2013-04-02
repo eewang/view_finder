@@ -32,11 +32,11 @@
       <div id="myCarousel" class="carousel slide" data-interval="10">
         <div class="carousel-inner">
           <div class="item active">
-            <%= link_to image_tag("introbox1.png"), photos_union_square_path %>
+            <%= link_to image_tag("introbox1.png"), photos_downtown_path %>
           </div>
           <% @myfavorite[0].each do |f| %>
           <div class="item">
-            <%= link_to image_tag(f.image), photos_union_square_path %>
+            <%= link_to image_tag(f.image), photos_downtown_path %>
           </div>
           <% end %>
         </div>
@@ -48,11 +48,11 @@
       <div id="myCarousel2" class="carousel slide" data-interval="10">
         <div class="carousel-inner">
           <div class="item active">
-            <%= link_to image_tag("introbox3.png"), photos_thirty_rock_path %>
+            <%= link_to image_tag("introbox3.png"), photos_midtown_path %>
           </div>
           <% @myfavorite[1].each do |f| %>
           <div class="item">
-            <%= link_to image_tag(f.image), photos_thirty_rock_path %>
+            <%= link_to image_tag(f.image), photos_midtown_path %>
           </div>
           <% end %>
         </div>
@@ -64,11 +64,11 @@
       <div id="myCarousel3" class="carousel slide" data-interval="10">
         <div class="carousel-inner">
           <div class="item active">
-            <%= link_to image_tag("introbox2.png"), photos_central_park_path %>
+            <%= link_to image_tag("introbox2.png"), photos_downtown_brooklyn_path %>
           </div>
           <% @myfavorite[2].each do |f| %>
           <div class="item">
-            <%= link_to image_tag(f.image), photos_central_park_path %>
+            <%= link_to image_tag(f.image), photos_downtown_brooklyn_path %>
           </div>
           <% end %>
         </div>

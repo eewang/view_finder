@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130331195034) do
+ActiveRecord::Schema.define(:version => 20130402193227) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -38,8 +38,9 @@ ActiveRecord::Schema.define(:version => 20130331195034) do
     t.string   "city"
     t.string   "state"
     t.string   "country"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
+    t.integer  "proximity_to_answer_in_feet"
   end
 
   create_table "photos", :force => true do |t|
@@ -54,7 +55,6 @@ ActiveRecord::Schema.define(:version => 20130331195034) do
     t.string   "caption"
     t.string   "instagram_id"
     t.boolean  "gmaps"
-    t.string   "small_image"
     t.float    "locale_lat"
     t.float    "locale_lon"
   end
