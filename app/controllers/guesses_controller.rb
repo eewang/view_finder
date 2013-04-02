@@ -16,7 +16,7 @@ class GuessesController < ApplicationController
   def show
     @guess = Guess.find(params[:id])
     @photo_guesses = @guess.photo_guesses_sorted
-
+    @guess_time_ago = Guess.distance_of_time_in_hours_and_minutes(@guess.created_at, Time.now)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -43,6 +43,7 @@ class GuessesController < ApplicationController
   # POST /guesses
   # POST /guesses.json
   def create
+
     params.delete :controller
     params.delete :action
 
@@ -51,10 +52,12 @@ class GuessesController < ApplicationController
     if guess.nil?
       guess = current_user.guesses.create(params)
       guess.street_address = guess.coordinates_to_address
-      
+      guess.proximity_to_answer_in_feet = guess.distance_from_target_in_feet(target).round
+
       guess.save
     end
     
+
     url = "http://localhost:3000/guesses/#{guess.id}"
     
     render :json => {:redirect_url => url}

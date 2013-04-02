@@ -30,6 +30,11 @@ GEM
       multi_json (~> 1.0)
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
+    better_errors (0.7.2)
+      coderay (>= 1.0.0)
+      erubis (>= 2.6.6)
+    binding_of_caller (0.7.1)
+      debug_inspector (>= 0.0.1)
     builder (3.0.4)
     celluloid (0.12.4)
       facter (>= 1.6.12)
@@ -44,6 +49,7 @@ GEM
     coffee-script-source (1.6.2)
     columnize (0.3.6)
     connection_pool (1.0.0)
+    debug_inspector (0.0.2)
     debugger (1.5.0)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.2.0)
@@ -187,6 +193,8 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt-ruby
+  better_errors
+  binding_of_caller
   coffee-rails (~> 3.2.1)
   debugger
   figaro
