@@ -30,12 +30,12 @@
 
 <%= link_to "Return to your #{@game.split("_").collect { |w| w.capitalize }.join(" ")} game", "/users/#{current_user.id}/#{@game}" %>
 
-<% if @photo.guesses.size > 1%>
+<% if @photo.guesses.size > 1 %>
 <p>
   <b>Guesses:</b>
   <ul>
-  <% @photo.guesses.each do |guess| %>
-    <li><%= guess.user.name %> (<%= guess.street_address %>)</li>
+  <% @photo.guesses[0..-2].each do |guess| %>
+    <li><%= guess.user_name %> (<%= guess.street_address %>)</li>
   <% end %>
   </ul>
 </p>
