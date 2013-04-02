@@ -159,6 +159,7 @@
         <p><%= @photo_guesses.index(g) + 1 %>. <%= g.user_name %> guessed <%= g.street_address %>, which is <%= g.distance_from_target_in_feet(g.photo).round %> feet away (~ <%= g.distance_from_target_in_miles(g.photo).round(2) %> miles), <%= g.created_at.in_time_zone('Eastern Time (US & Canada)').strftime("at %I:%M %p") %><%= g.created_at.strftime(" on %m/%d/%Y") %></p>
         <br>
       <% end %>
+      <%= link_to "Return to your #{@game.split("_").collect { |w| w.capitalize }.join(" ")} game", "/users/#{current_user.id}/#{@game}" %>
   </div>
 
 
