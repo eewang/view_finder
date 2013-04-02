@@ -3,7 +3,7 @@
 // You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $(function(){
-  $('.carousel').carousel('pause');
+  $('.carousel-index').carousel('pause');
 });
 
   // $(".modal-footer > input").click(function(){
