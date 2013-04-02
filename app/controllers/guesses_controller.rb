@@ -44,7 +44,7 @@ class GuessesController < ApplicationController
   def create
     params.delete :controller
     params.delete :action
-
+    game = params[:game]
     guess = current_user.guesses.where(:photo_id => params[:photo_id]).first
 
     if guess.nil?
@@ -55,7 +55,7 @@ class GuessesController < ApplicationController
     
     url = "http://localhost:3000/guesses/#{guess.id}"
     
-    render :json => {:redirect_url => url}
+    render :json => {:redirect_url => url, :game => game }
     # if @guess.try(:has_valid_location?)
     #   @guess.save
     #   @guess.address_to_coordinates

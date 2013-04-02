@@ -77,8 +77,13 @@ class PhotosController < ApplicationController
   location_games :downtown, :midtown, :downtown_brooklyn #, :world_trade, :dumbo
 
   def user_media_feed
-    @photos = Photo.instagram_user_media_feed
-
+    tags = Photo::TAGS
+    @photos_all = Photo.instagram_user_media_feed({})
+    @photos_tagged = @photos_all.collect do |photo|
+      photo # if tags.any? { |tag| photo.caption.include?(tag) }
+    end
+    @photos = @photos_tagged.delete_if { |photo| photo.nil? } #.shuffle[0..4]
+    binding.pry
     render "index"
   end
 

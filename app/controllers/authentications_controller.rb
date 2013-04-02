@@ -2,7 +2,7 @@ class AuthenticationsController < ApplicationController
   # GET /authentications
   # GET /authentications.json
 
-  skip_before_filter :login_required⁄
+  skip_before_filter :login_required
 
   def index
     @authentications = Authentication.all
