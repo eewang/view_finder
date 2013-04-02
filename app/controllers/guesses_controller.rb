@@ -16,7 +16,6 @@ class GuessesController < ApplicationController
   def show
     @guess = Guess.find(params[:id])
     @photo_guesses = @guess.photo_guesses_sorted
-    @guess_time_ago = Guess.distance_of_time_in_hours_and_minutes(@guess.created_at, Time.now)
 
     respond_to do |format|
       format.html # show.html.erb

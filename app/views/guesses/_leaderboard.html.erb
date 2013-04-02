@@ -1,6 +1,6 @@
-
+<div style="background-color:#2F4F4F;">
 User Name = <%= guess.user_name %><br>
-Proximity = <%= guess.proximity_to_answer_in_feet %><br> 
-Guess time ago = <%= @guess_time_ago %><br>
-
+Proximity = <%= guess.proximity_to_answer_in_feet %> feet<br> 
+Guess time ago = <%= guess.distance_of_time_in_hours_and_minutes(guess.created_at, Time.now) %>
+</div><br>
 
