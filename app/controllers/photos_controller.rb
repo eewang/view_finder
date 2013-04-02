@@ -51,11 +51,13 @@ class PhotosController < ApplicationController
           p.save
         end
         # Loads game photo ids into user session
-        unless session[@game]
-          session[@game] ||= []
-          @photos.each do |photo|
-            session[@game].push(photo.id)
-          end
+        session[@game] = nil
+        session[@game] ||= {}
+        session[@game][:photos] ||= []
+        session[@game][:coordinates] ||= @coordinates
+        session[@game][:game] ||= @game
+        @photos.each do |photo|
+          session[@game][:photos].push(photo.id)
         end
         # Perform asynchronous Instagram API call
         InstagramWorker.perform_async(@coordinates)
@@ -64,31 +66,18 @@ class PhotosController < ApplicationController
         # Render view
         render "index"
       end
-    end
-  end
 
-  def saved_union_square_game
-    photo_ids = session[:union_square]
-    @photos = photo_ids.collect do |id|
-      @photo = Photo.find(id) unless Photo.find(id).guessed_by?(user)
+      define_method "saved_#{game}_game" do 
+        user = User.where(:id => current_user[:id]).first
+        photo_ids = session[game][:photos]
+        @coordinates = session[game][:coordinates]
+        @game = session[game][:game]
+        @photos = photo_ids.collect do |id|
+          @photo = Photo.find(id)
+        end
+        render "index"
+      end
     end
-    render "index"
-  end
-
-  def saved_thirty_rock_game
-    photo_ids = session[:thirty_rock]
-    @photos = photo_ids.collect do |id|
-      Photo.find(id)
-    end
-    render "index"
-  end
-
-  def saved_central_park_game
-    photo_ids = session[:central_park]
-    @photos = photo_ids.collect do |id|
-      Photo.find(id)
-    end
-    render "index"
   end
 
   location_games :union_square, :thirty_rock, :central_park, :times_square #, :world_trade, :dumbo

@@ -1,3 +1,11 @@
+<script>
+$(document).ready(function(){
+  $(".guessed").css("background-color", "#888");
+})
+
+
+</script>
+
 <div class="container">
   <div class="row-fluid show-grid1">
     <div class="span8 offset2">
@@ -11,20 +19,25 @@
       <div id="myCarousel" class="carousel-index slide">
         <ol class="carousel-indicators">
       <% (0..@photos.size-1).each do |i|%>
-          <li data-target="#myCarousel" data-slide-to="<%= i %>" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="<%= i %>" class="active <%= "guessed" if @photos[i].guessed_by?(current_user) %>"></li>
       <% end %>
         </ol>
    
     <!-- Carousel Items -->
-
+        <center class="styled-button-5"><%= link_to "SHUFFLE", "/photos/#{@game}" %> </center>
+        <br>
         <div class="carousel-inner">
           <% @photos.each do |p| %>
             
               <div class="<% if @photos.index(p) == 0 %>active<% end %> item vfyw">
 
-                <%= form_tag do %>
-                  <center><%= submit_tag "PLAY!", :class => "styled-button-5" %></center>
+                <%= form_tag :url => "http://localhost:3000/photos/#{@game}", :method => 'POST' do %>
+                  <% @guessed_count = @photos.count { |p| p.guessed_by?(current_user) } %>
+                  <center class="styled-button-5">Guessed <%= @guessed_count %> of <%= @photos.size %></center>
                   <br>
+                  <center><%= submit_tag (p.guessed_by?(current_user) ? "VIEW" : "PLAY!"), :class => "styled-button-5" %></center>
+                  <br>
+
                   <%= image_tag p.image %>
                   <input name="coordinates" type="hidden" value="<%= @coordinates %>" />
                   <input name="game" type="hidden" value="<%= @game %>" />

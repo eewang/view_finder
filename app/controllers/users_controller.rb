@@ -1,7 +1,7 @@
 require 'net/http'
 
 class UsersController < ApplicationController
-  skip_before_filter :login_required, :only => [:new, :oauth_failure, :index]
+  skip_before_filter :login_required, :only => [:new, :create, :oauth_failure, :index]
   # GET /users
   # GET /users.json
   
@@ -53,7 +53,6 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(params[:user])
-    @user.save
 
     respond_to do |format|
       if @user.save
