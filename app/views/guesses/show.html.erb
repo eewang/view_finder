@@ -84,16 +84,30 @@
 
                 google.maps.event.addListener(marker_guess, "mouseover", function(mapEvent) {
                   marker_guess.setIcon('http://maps.google.com/mapfiles/ms/icons/purple-dot.png');
+                  // do something with associated div
+                  
+                  $('.map_link').addClass('hover_link');
+
                 });
                 google.maps.event.addListener(marker_guess, "mouseout", function(mapEvent) {
                   marker_guess.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+
+                  $('.map_link').removeClass('hover_link');
+
                 });
 
                 google.maps.event.addListener(marker_user_guess, "mouseover", function(mapEvent) {
                   marker_user_guess.setIcon('http://maps.google.com/mapfiles/ms/icons/purple-dot.png');
+                  // do something with associated div
+                  
+                  $('.map_link').addClass('hover_link');
+                  
                 });
                 google.maps.event.addListener(marker_user_guess, "mouseout", function(mapEvent) {
                   marker_user_guess.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+
+                  $('.map_link').removeClass('hover_link');
+
                 });
 
               });  
