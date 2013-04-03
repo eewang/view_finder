@@ -215,9 +215,6 @@
         <h5>LEADERBOARD</h5>
         <span class="label label-success">Success</span><br>
         <%= render :partial => 'leaderboard', :collection => @photo_guesses, :as => 'guess' %>
-        @photo_guesses.each do |photo_guess|
-          render :partial => 'leaderboard', :locals => {:}
-        end
       </div>
 
 

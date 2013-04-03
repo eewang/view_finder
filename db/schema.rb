@@ -75,8 +75,12 @@ ActiveRecord::Schema.define(:version => 20130402233611) do
     t.string   "name"
     t.string   "email"
     t.string   "password_digest"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.string   "instagram_uid"
+    t.string   "instagram_nickname"
+    t.string   "instagram_token"
+    t.string   "instagram_avatar"
   end
 
 end
