@@ -152,16 +152,19 @@
   </div>
     <div class="row"><br>
 
-      <%#= form_for(@guess) do |f| %>
-<!--         <div id="submit_guess"><%#= f.submit "Guess!" %></div>
-      <#% end %> -->
+
+      
       <div id="submit_guess">
         <div class="span10">
           <span id="showhtml">Drag the marker and make your</span>
         </div>
         
         <div class="span8 offset1">
-          <button class="styled-button-5">Guess!</button>
+          <% if @photo.guessed_by?(current_user) %>
+            <button class="styled-button-5">Guess!</button>
+          <% else %>
+            <button class="styled-button-5">See Guesses!</button>
+          <% end %>
           <br><br>
         </div>
       </div>

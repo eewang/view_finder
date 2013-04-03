@@ -14,8 +14,13 @@ class GuessesController < ApplicationController
   # GET /guesses/1
   # GET /guesses/1.json
   def show
-    @guess = Guess.find(params[:id])
-    @photo_guesses = Guess.photo_guesses_sorted(@guess.photo)
+    current_guess = Guess.find(params[:id])
+    @all_guesses = Guess.photo_guesses_sorted(current_guess.photo)
+
+    if @all_guesses.size > 5
+      @all_guesses = all_guesses.delete_if { |g| g.user.id == current_guess.user.id }
+      @current_guess = current_guess
+    end
 
     respond_to do |format|
       format.html # show.html.erb
