@@ -47,19 +47,10 @@ class GuessesController < ApplicationController
       guess.save
     end
     
-    url = "http://wheresthatgram.com/guesses/#{guess.id}"
+    url = guess_path(guess)
     
     render :json => {:redirect_url => url }
 
-
-    
-    # if @guess.try(:has_valid_location?)
-    #   @guess.save
-    #   @guess.address_to_coordinates
-    #   redirect_to guess_path(@guess)
-    # else
-    #   render "error"
-    # end
   end
 
   def update
@@ -76,8 +67,6 @@ class GuessesController < ApplicationController
     end
   end
 
-  # DELETE /guesses/1
-  # DELETE /guesses/1.json
   def destroy
     @guess = Guess.find(params[:id])
     @guess.destroy
