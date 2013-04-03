@@ -62,11 +62,11 @@ class Photo < ActiveRecord::Base
   end
 
   def self.user_media_feed(options = {})
-    @photos_all = Photo.instagram_user_media_feed({})
-    @photos_tagged = @photos_all.collect do |photo|
-      photo if TAGS.any? { |tag| photo.caption.include?(tag) }
-    end
-    @photos = @photos_tagged.delete_if { |photo| photo.nil? } #.shuffle[0..4]
+    @photos_all = Photo.instagram_user_media_feed({}).shuffle
+    # @photos_tagged = @photos_all.collect do |photo|
+    #   photo #if TAGS.any? { |tag| photo.caption.include?(tag) }
+    # end
+    # @photos = @photos_tagged.delete_if { |photo| photo.nil? } #.shuffle[0..4]
   end
 
   def self.follow_feeds(instagram_uid, rank)
@@ -74,15 +74,21 @@ class Photo < ActiveRecord::Base
     # Get all people an authenticated user follows
     follows = InstagramWrapper.new.user_follows(:user => instagram_uid)
     # Go through each user and determine how much they have tagged #vfyw or #viewfinder recently
+    f_photos = []
     follows.each do |f|
-      f_photos = Instagram.user_recent_media(f.id).collect do |photo|
-        photo if TAGS.any? { |tag| photo.caption ? photo.caption.text.include?(tag) : false }
+      if Identity.find_by_uid(f.id)
+        f_photos = Instagram.user_recent_media(f.id).collect do |photo|
+          photo # if TAGS.any? { |tag| photo.caption ? photo.caption.text.include?(tag) : false }
+        end
       end
       f_photos.delete_if { |photo| photo.nil? }
       follow_hash[f.id] ||= f_photos.size
     end
     sorted_follow_hash = follow_hash.sort_by { |name, count| count }.reverse
-    @player_photos = [sorted_follow_hash[rank - 1][0], Instagram.user_recent_media(sorted_follow_hash[rank - 1][0])]
+    @just_photos = Identity.find_by_uid(sorted_follow_hash[rank - 1][0]) ? Instagram.user_recent_media(sorted_follow_hash[rank - 1][0]) : []
+    @player_photos = [
+      sorted_follow_hash[rank - 1][0], 
+      @just_photos]
     # Return the top three users
   end
 

@@ -33,14 +33,26 @@ $(document).ready(function(){
           <% @photos.each do |p| %>
             
               <div class="<% if @photos.index(p) == 0 %>active<% end %> item vfyw">
-
-                <%= form_tag :url => "http://localhost:3000/photos/#{@game}", :method => 'POST' do %>
+                <% if p.guessed_by?(current_user) %>
+                  <% route = "guesses" %>
+                  <% link = p.guesses.where(:user_id => current_user.id).first.id %>
+                  <% method = "GET" %>
+                <% else %>
+                  <% route = "photos" %>
+                  <% link = @game %>
+                  <% method = "POST" %>
+                <% end %>
+                <%= form_tag :url => "http://localhost:3000/#{route}/#{link}", :method => "#{method}" do %>
                 <div class="row">
                   <div class="styled-button-6 span3">
                     <%= link_to "Shuffle", "/photos/#{@game}" %>
                   </div>
                   <div class="span4">
-                    <%= submit_tag (p.guessed_by?(current_user) ? "VIEW" : "PLAY!"), :class => "styled-button-5" %>
+                    <% if p.guessed_by?(current_user) %>
+                      <%= link_to "VIEW", "/#{route}/#{link}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px;") %>
+                    <% else %>
+                      <%= submit_tag "PLAY!", :class => "styled-button-5" %>
+                    <% end %>
                   </div>
                 </div>
                   <br>

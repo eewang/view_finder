@@ -9,14 +9,14 @@ class SiteController < ApplicationController
       @identity_auth = Identity.find_by_user_id(current_user.id)
       # client = Instagram.client(:access_token => @identity_auth.token)
       if @identity_auth
-        @user_feed = Photo.user_media_feed
+        client = Instagram.client(:access_token => session["instagram"][:token])
+        @user_feed = client.user_media_feed
         @player_1 = Photo.follow_feeds(@identity_auth.uid, 1)
-        
         @player_1_avatar = Instagram.user(@player_1[0]).profile_picture
         @player_1_photos = @player_1[1]
         @player_2 = Photo.follow_feeds(@identity_auth.uid, 2)
-        @player_2_avatar = Instagram.user(@player_2[0]).profile_picture
-        @player_2_photos = @player_2[1]
+        @player_2_avatar = Identity.find_by_uid(@player_2[0]) ? Instagram.user(@player_2[0]).profile_picture : []
+        @player_2_photos = Identity.find_by_uid(@player_2[0]) ? @player_2[1] : []
       end
       # @user_feed = @identity_auth ? Photo.instagram_user_recent_media(:user => @identity_auth.uid) : nil
       user = User.where(:id => current_user[:id]).first

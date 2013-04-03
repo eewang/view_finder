@@ -86,12 +86,12 @@
           <div class="carousel-inner">
             <% if @user_feed %>
               <div class="active item" id="avatar">
-                <%= link_to image_tag(@identity_auth.avatar, {:width => 1000}), photos_feed_path %>
+                <%= link_to image_tag(@identity_auth.avatar, {:width => 1000}), photos_user_media_feed_path %>
                 <div id="login_name"><%= @identity_auth.login_name %></div>
               </div>
               <% @user_feed.each do |photo| %>
                 <div class="item">
-                  <%= link_to image_tag(photo.image, {:width => 1000}), photos_user_media_feed_path %>
+                  <%= link_to image_tag(photo.images.standard_resolution.url, {:width => 1000}), photos_user_media_feed_path %>
                 </div>
               <% end %>
             <% else %>
