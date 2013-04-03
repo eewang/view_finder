@@ -19,19 +19,19 @@
           <% if current_user %>
             Logged in as: <%= current_user.name %>
             <%= link_to "Logout", logout_path %>
+            <% if session[:instagram].nil? %>
+              | <%= link_to 'Log in with Instagram!', '/auth/instagram' %>
+            <% end %>
           <% else %>
-            <% unless current_page?(new_user_path) %>
-              <%= link_to("Sign Up", new_user_path) %> 
-            <% end %>
-            <% unless current_page?(login_path) %>
-              <%= link_to("Login", login_path) %> |
-            <% end %>
-            <% unless current_page?(login_path) %>
+            <% if current_page?(login_path) %>
+              <%= link_to("Sign Up", new_user_path) %> |
               <%= link_to 'Sign in with Instagram', '/auth/instagram' %>
             <% end %>
-          <% end %>
-
-          
+            <% if current_page?(new_user_path) %>
+              <%= link_to("Login", login_path) %>  |
+              <%= link_to 'Sign in with Instagram', '/auth/instagram' %>
+            <% end %>
+          <% end %>          
         </div>
       </div><!--/row-->
 <div class="back"></div>
