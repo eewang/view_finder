@@ -1,4 +1,6 @@
 require 'bundler/capistrano' # for bundler support
+require 'sidekiq/capistrano'
+
 load "deploy/assets"
 
 set :application, "view_finder"
@@ -36,6 +38,7 @@ namespace :deploy do
   end
 
   task :symlink_configs, :roles => :app do
+    run "ln -nfs #{shared_path}/production.sqlite3 #{release_path}/db/production.sqlite3"
     # run "ln -nfs #{shared_path}/database.yml #{release_path}/config"
     # run "ln -nfs #{shared_path}/api_keys.yml #{release_path}/config"
   end
