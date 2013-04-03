@@ -37,7 +37,7 @@ $(document).ready(function(){
                 <%= form_tag :url => "http://localhost:3000/photos/#{@game}", :method => 'POST' do %>
                 <div class="row">
                   <div class="styled-button-6 span3">
-                    <%= link_to "SHUFFLE", "/photos/#{@game}" %>
+                    <%= link_to "Shuffle", "/photos/#{@game}" %>
                   </div>
                   <div class="span4">
                     <%= submit_tag (p.guessed_by?(current_user) ? "VIEW" : "PLAY!"), :class => "styled-button-5" %>
