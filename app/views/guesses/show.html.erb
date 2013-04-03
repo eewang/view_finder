@@ -220,6 +220,13 @@
         <h5>LEADERBOARD</h5>
         <span class="label label-success">Success</span><br>
         <%= render :partial => 'leaderboard', :collection => @all_guesses, :as => 'guess' %>
+        <% if @user_in_top_5 %>
+          <div class="map_link" id="user_guess" >
+            User Name = <%= @current_guess.user_name %><br>
+            Proximity = <%= @current_guess.proximity_to_answer_in_feet %> feet<br> 
+            Guess time ago = <%= @current_guess.distance_of_time_in_hours_and_minutes(@current_guess.created_at, Time.now) %>
+          </div><br>
+        <% end %>
       </div>
 
 

@@ -14,18 +14,25 @@ class GuessesController < ApplicationController
   # GET /guesses/1
   # GET /guesses/1.json
   def show
-    current_guess = Guess.find(params[:id])
-    @all_guesses = Guess.photo_guesses_sorted(current_guess.photo)
+    # if @photo.guessed_by?(current_user)
+      current_guess = Guess.find(params[:id])
+      @all_guesses = Guess.photo_guesses_sorted(current_guess.photo)
 
-    if @all_guesses.size > 5
-      @all_guesses = all_guesses.delete_if { |g| g.user.id == current_guess.user.id }
-      @current_guess = current_guess
-    end
+      if @all_guesses.size > 5
+        @all_guesses = all_guesses.delete_if { |g| g.user.id == current_guess.user.id }
+        @current_guess = current_guess
+      end
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @guess }
-    end
+      @user_in_top_5 = false
+      @user_in_top_5 = true if @current_guess
+
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @guess }
+      end
+    # else
+      # redirect_to photo_show(@photo)
+    # end
   end
 
   # GET /guesses/new

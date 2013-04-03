@@ -177,18 +177,5 @@
   </div>
 </div>
 
-<%#= link_to "Return to your #{@game.split("_").collect { |w| w.capitalize }.join(" ")} game", "/users/#{current_user.id}/#{@game}" %>
 
-
-<% if @photo.guesses.size > 1 && @photo.guessed_by?(current_user) %>
-<p align="center">
-  
-  <ul><b>Guesses:</b>
-  <% @photo.guesses[0..-2].each do |guess| %>
-    <li><%= guess.user_name %> (<%= guess.street_address %>)</li>
-  <% end %>
-  </ul>
-</p>
-<% end %>
-<br>
 
