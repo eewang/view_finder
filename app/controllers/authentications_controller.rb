@@ -1,7 +1,6 @@
 class AuthenticationsController < ApplicationController
   # GET /authentications
   # GET /authentications.json
-
   skip_before_filter :login_required
 
   def index
@@ -43,11 +42,16 @@ class AuthenticationsController < ApplicationController
   # POST /authentications
   # POST /authentications.json
   def create
+    auth = request.env["omniauth.auth"]
+    unless @auth = Identity.find_from_hash(auth)
+      @auth = Identity.create_from_hash(auth, current_user)
+    end
     # if User.find_by_name(request.env["omniauth.auth"][:info][:name])
     #   redirect_to login_path, :notice => "Instagram authentication successful.Please log in"
     # else
     #   redirect_to new_user_path, :notice => "Instagram authentication successful. Please sign up"
     # end
+
     redirect_to root_path, :notice => "Instagram authentication successful."
     # render :text => request.env["omniauth.auth"].to_yaml
   end

@@ -105,4 +105,18 @@ class Photo < ActiveRecord::Base
     Photo.game_photos_set(coordinates, distance, user).shuffle[0..size-1]
   end
 
+  def game
+    game_coords = {}
+    distances = {}
+    PhotosController::LOCATION_GAMES.each do |key, value|
+      game_coords[key] ||= []
+      game_coords[key] = value[:coordinates]
+    end
+    distances = game_coords.collect do |game, coords|
+      dist = self.distance_from_target_in_miles(coords)
+      distances[game] ||= dist      
+    end
+    @game = game_coords.keys[distances.index(distances.min)]
+  end
+
 end
