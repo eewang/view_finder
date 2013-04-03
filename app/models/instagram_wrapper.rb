@@ -34,6 +34,7 @@ class InstagramWrapper
   end
 
   def user_media_feed(options)
+    
     Instagram.user_media_feed(options)
   end
 

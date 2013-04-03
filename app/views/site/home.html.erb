@@ -84,13 +84,25 @@
       <div class="span8">
         <div id="myCarousel" class="carousel slide" >
           <div class="carousel-inner">
-            <% if current_user %>
-              <% url = "auth/instagram" %>
+            <% if @user_feed %>
+              <div class="active item" id="avatar">
+                <%= link_to image_tag(@identity_auth.avatar, {:width => 1000}), photos_feed_path %>
+                <div id="login_name"><%= @identity_auth.login_name %></div>
+              </div>
+              <% @user_feed.each do |photo| %>
+                <div class="item">
+                  <%= link_to image_tag(photo.image, {:width => 1000}), photos_feed_path %>
+                </div>
+              <% end %>
             <% else %>
-              <% url = login_path %>
-            <% end %>  
-            <div class="active item"><%= link_to image_tag('introfriend1.jpg', {:width => 1000}), url %></div>
-            <div class="item"><%= link_to image_tag('introfriend2.jpg', {:width => 1000}), url %></div>
+              <% if current_user %>
+                <% url = "auth/instagram" %>
+              <% else %>
+                <% url = login_path %>
+              <% end %>  
+              <div class="active item"><%= link_to image_tag('introfriend1.jpg', {:width => 1000}), url %></div>
+              <div class="item"><%= link_to image_tag('introfriend2.jpg', {:width => 1000}), url %></div>
+            <% end %>
           </div>
         </div>
       </div>
@@ -100,9 +112,16 @@
       <div class="span4" style="float: left;">
         <div id="myCarousel" class="carousel slide" >
           <div class="carousel-inner">
-            <div class="active item"><%= image_tag 'introtag3.jpg' %></div>
-            <div class="item"><%= image_tag 'introtag2.jpg' %></div>
-            <div class="item"><%= image_tag 'introtag1.jpg' %></div>
+            <% if @identity_auth %>
+              <div class="active item"><%= image_tag @player_1_avatar %></div>
+              <% @player_1_photos.each do |p| %>
+                <div class="item"><%= image_tag p.images.standard_resolution.url %></div>
+              <% end %>
+            <% else %>
+              <div class="active item"><%= image_tag 'introtag3.jpg' %></div>
+              <div class="item"><%= image_tag 'introtag2.jpg' %></div>
+              <div class="item"><%= image_tag 'introtag1.jpg' %></div>
+            <% end %>
           </div>
         </div>
       </div>
@@ -113,9 +132,16 @@
       <div class="span4" style="float: left;">
         <div id="myCarousel" class="carousel slide" >
           <div class="carousel-inner">
-            <div class="active item"><%= image_tag 'sample3.jpg' %></div>
-            <div class="item"><%= image_tag 'sample2.jpg' %></div>
-            <div class="item"><%= image_tag 'sample1.jpg' %></div>
+            <% if @identity_auth %>
+              <div class="active item"><%= image_tag @player_2_avatar %></div>
+              <% @player_2_photos.each do |p| %>
+                <div class="item"><%= image_tag p.images.standard_resolution.url %></div>
+              <% end %>
+            <% else %>
+              <div class="active item"><%= image_tag 'sample3.jpg' %></div>
+              <div class="item"><%= image_tag 'sample2.jpg' %></div>
+              <div class="item"><%= image_tag 'sample1.jpg' %></div>
+            <% end %>
           </div>
         </div>
       </div>

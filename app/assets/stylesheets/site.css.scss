@@ -27,3 +27,15 @@
 .instruct {
 	align:center;
 }
+
+#avatar {
+	position: relative;
+}
+
+#login_name {
+	position: absolute;
+	font-size: 30pt;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+}

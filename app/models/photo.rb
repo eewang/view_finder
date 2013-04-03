@@ -31,7 +31,7 @@ class Photo < ActiveRecord::Base
 
   acts_as_gmappable :process_geocoding => false
 
-  acts_as_instagrammable :media_search, :tag_recent_media, :media_popular, :user_media_feed
+  acts_as_instagrammable :media_search, :tag_recent_media, :media_popular, :user_media_feed, :user_recent_media
 
   # Find/create photo in database related to Instagram pic
 
@@ -60,6 +60,32 @@ class Photo < ActiveRecord::Base
   def guessed_by?(user)
     self.guesses.all.collect { |guess| guess.user.id }.include?(user.id)
   end
+
+  def self.user_media_feed(options = {})
+    @photos_all = Photo.instagram_user_media_feed({})
+    @photos_tagged = @photos_all.collect do |photo|
+      photo if TAGS.any? { |tag| photo.caption.include?(tag) }
+    end
+    @photos = @photos_tagged.delete_if { |photo| photo.nil? } #.shuffle[0..4]
+  end
+
+  def self.follow_feeds(instagram_uid, rank)
+    follow_hash = {}
+    # Get all people an authenticated user follows
+    follows = Instagram.user_follows(instagram_uid)
+    # Go through each user and determine how much they have tagged #vfyw or #viewfinder recently
+    follows.each do |f|
+      f_photos = Instagram.user_recent_media(f.id).collect do |photo|
+        photo if TAGS.any? { |tag| photo.caption ? photo.caption.text.include?(tag) : false }
+      end
+      f_photos.delete_if { |photo| photo.nil? }
+      follow_hash[f.id] ||= f_photos.size
+    end
+    sorted_follow_hash = follow_hash.sort_by { |name, count| count }.reverse
+    @player_photos = [sorted_follow_hash[rank - 1][0], Instagram.user_recent_media(sorted_follow_hash[rank - 1][0])]
+    # Return the top three users
+  end
+
 
   # LOCATION GAMEPLAY LOGIC
 
