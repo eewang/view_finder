@@ -71,6 +71,7 @@ class PhotosController < ApplicationController
   def self.social_games(*social_games)
     social_games.each do |game|
       define_method "#{game}" do |options = {}|
+        @game = game
         @photos = Photo.send("#{game}", options).shuffle[0..5]
         render "index"
       end

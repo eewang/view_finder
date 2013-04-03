@@ -91,7 +91,7 @@
               </div>
               <% @user_feed.each do |photo| %>
                 <div class="item">
-                  <%= link_to image_tag(photo.image, {:width => 1000}), photos_feed_path %>
+                  <%= link_to image_tag(photo.image, {:width => 1000}), photos_user_media_feed_path %>
                 </div>
               <% end %>
             <% else %>
@@ -113,7 +113,7 @@
         <div id="myCarousel" class="carousel slide" >
           <div class="carousel-inner">
             <% if @identity_auth %>
-              <div class="active item"><%= image_tag @player_1_avatar %></div>
+              <div class="active item"><%= image_tag(@player_1_avatar, {:width => 281}) %></div>
               <% @player_1_photos.each do |p| %>
                 <div class="item"><%= image_tag p.images.standard_resolution.url %></div>
               <% end %>
@@ -133,7 +133,7 @@
         <div id="myCarousel" class="carousel slide" >
           <div class="carousel-inner">
             <% if @identity_auth %>
-              <div class="active item"><%= image_tag @player_2_avatar %></div>
+              <div class="active item"><%= image_tag(@player_2_avatar, {:width => 281}) %></div>
               <% @player_2_photos.each do |p| %>
                 <div class="item"><%= image_tag p.images.standard_resolution.url %></div>
               <% end %>

@@ -72,7 +72,7 @@ class Photo < ActiveRecord::Base
   def self.follow_feeds(instagram_uid, rank)
     follow_hash = {}
     # Get all people an authenticated user follows
-    follows = Instagram.user_follows(instagram_uid)
+    follows = InstagramWrapper.new.user_follows(:user => instagram_uid)
     # Go through each user and determine how much they have tagged #vfyw or #viewfinder recently
     follows.each do |f|
       f_photos = Instagram.user_recent_media(f.id).collect do |photo|

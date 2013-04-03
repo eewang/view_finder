@@ -15,8 +15,8 @@ ViewFinder::Application.routes.draw do
     post "users/:id/#{key.to_s}" => "photos#play"
   end
 
-  get "photos/feed" => "photos#user_media_feed"
-  post "photos/feed" => "photos#play"
+  get "photos/user_media_feed" => "photos#user_media_feed"
+  post "photos/user_media_feed" => "photos#play"
 
 
   get 'login' => 'sessions#new'
