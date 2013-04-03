@@ -54,16 +54,6 @@ module Locatable
     end
   end
 
-  # nearby_photos = Proc.new
-  # filter_image = Proc.new do |pic|
-  #   standard = pic.images.standard_resolution
-  #   if standard
-  #     standard.url
-  #   else
-  #     pic.images
-  #   end
-  # end
-
 end
 
 

@@ -1,7 +1,5 @@
 class GuessesController < ApplicationController
 
-  # GET /guesses
-  # GET /guesses.json
   def index
     @guesses = Guess.all
 
@@ -11,8 +9,6 @@ class GuessesController < ApplicationController
     end
   end
 
-  # GET /guesses/1
-  # GET /guesses/1.json
   def show
     @guess = Guess.find(params[:id])
     @photo_guesses = Guess.photo_guesses_sorted(@guess.photo)
@@ -23,8 +19,6 @@ class GuessesController < ApplicationController
     end
   end
 
-  # GET /guesses/new
-  # GET /guesses/new.json
   def new
     @guess = Guess.new
 
@@ -34,13 +28,10 @@ class GuessesController < ApplicationController
     end
   end
 
-  # GET /guesses/1/edit
   def edit
     @guess = Guess.find(params[:id])
   end
 
-  # POST /guesses
-  # POST /guesses.json
   def create
     params.delete :controller
     params.delete :action
@@ -56,23 +47,12 @@ class GuessesController < ApplicationController
       guess.save
     end
     
-    url = "http://wheresthatgram.com/guesses/#{guess.id}"
+    url = guess_path(guess)
     
     render :json => {:redirect_url => url }
 
-
-    
-    # if @guess.try(:has_valid_location?)
-    #   @guess.save
-    #   @guess.address_to_coordinates
-    #   redirect_to guess_path(@guess)
-    # else
-    #   render "error"
-    # end
   end
 
-  # PUT /guesses/1
-  # PUT /guesses/1.json
   def update
     @guess = Guess.find(params[:id])
 
@@ -87,8 +67,6 @@ class GuessesController < ApplicationController
     end
   end
 
-  # DELETE /guesses/1
-  # DELETE /guesses/1.json
   def destroy
     @guess = Guess.find(params[:id])
     @guess.destroy
