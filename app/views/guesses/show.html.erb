@@ -216,15 +216,15 @@
         <span class="label label-success">Success</span><br>
         <%= render :partial => 'leaderboard', :collection => @photo_guesses, :as => 'guess' %>
       </div>
-      <br>
-      <div class="span8 offset1">
-        <%= link_to "Return to Game", "/users/#{current_user.id}/#{@guess.photo.game.to_s}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px;")%>
-      </div>
+
 
 
     </div> <!-- row -->
   </div> <!-- row-fluid -->
-
+      <br><br>
+      <div class="span8">
+        <%= link_to "Return to Game", "/users/#{current_user.id}/#{@guess.photo.game.to_s}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px;")%>
+      </div>
 
 </div> <!-- container -->
 <br>
