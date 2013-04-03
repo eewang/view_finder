@@ -42,14 +42,10 @@ class AuthenticationsController < ApplicationController
   # POST /authentications
   # POST /authentications.json
   def create
-    user = User.find(current_user.id)
-    auth_hash = request.env["omniauth.auth"]
-    user.instagram_uid = auth_hash["uid"]
-    user.instagram_nickname = auth_hash["info"]["nickname"]
-    user.instagram_token = auth_hash["credentials"]["token"]
-    user.instagram_avatar = auth_hash["info"]["image"]
-    user.save
-    binding.pry
+    auth = request.env["omniauth.auth"]
+    unless @auth = Identity.find_from_hash(auth)
+      @auth = Identity.create_from_hash(auth, current_user)
+    end
     # if User.find_by_name(request.env["omniauth.auth"][:info][:name])
     #   redirect_to login_path, :notice => "Instagram authentication successful.Please log in"
     # else

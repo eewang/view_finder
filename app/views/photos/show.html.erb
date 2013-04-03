@@ -131,7 +131,7 @@
         </div>
       </div>
       <div class="span8 offset1">
-        <%= link_to "Return to Game", "/users/#{current_user.id}/#{@game}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px;")%>
+        <%= link_to "Return to Game", "/users/#{current_user.id}/#{@photo.game.to_s}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px;")%>
       </div>
 
     </div>
