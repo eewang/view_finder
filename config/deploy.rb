@@ -39,7 +39,14 @@ namespace :deploy do
 
   task :symlink_configs, :roles => :app do
     run "ln -nfs #{shared_path}/production.sqlite3 #{release_path}/db/production.sqlite3"
+    run "ln -nfs #{shared_path}/application.yml #{release_path}/config/application.yml"
+    
     # run "ln -nfs #{shared_path}/database.yml #{release_path}/config"
     # run "ln -nfs #{shared_path}/api_keys.yml #{release_path}/config"
   end
+
+end
+
+task :copy_application_yml, :roles => :app do
+  upload("config/application.yml", "#{shared_path}/application.yml")
 end
