@@ -59,6 +59,9 @@ class GuessesController < ApplicationController
     url = "http://wheresthatgram.com/guesses/#{guess.id}"
     
     render :json => {:redirect_url => url }
+
+
+    
     # if @guess.try(:has_valid_location?)
     #   @guess.save
     #   @guess.address_to_coordinates
