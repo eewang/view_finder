@@ -127,9 +127,17 @@ class PhotosController < ApplicationController
   end
 
   def play
-    coordinates = params[:coordinates]
-    lat = coordinates.split(",")[0].gsub("[", "").to_f if coordinates
-    lon = coordinates.split(",")[1].gsub("[", "").to_f if coordinates
+    if params[:coordinates].empty?
+      @photo = Photo.find(params["photo_id"])
+      coordinates = PhotosController::LOCATION_GAMES[@photo.game][:coordinates].join(", ")
+      @photo.locale_lat = coordinates.split(",")[0].gsub("[", "").to_f
+      @photo.locale_lon = coordinates.split(",")[1].gsub("[", "").to_f
+      @photo.save
+    else
+      coordinates = params[:coordinates]
+    end
+    lat = coordinates.split(",")[0].gsub("[", "").to_f
+    lon = coordinates.split(",")[1].gsub("[", "").to_f
     redirect_to photo_path(params[:photo_id], :locale_lat => lat, :locale_lon => lon)
   end
 

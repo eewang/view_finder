@@ -69,29 +69,21 @@ class Photo < ActiveRecord::Base
     # @photos = @photos_tagged.delete_if { |photo| photo.nil? } #.shuffle[0..4]
   end
 
-  def self.follow_feeds(instagram_uid, rank)
-    follow_hash = {}
+  def self.instagram_friend_feed(instagram_user)
     # Get all people an authenticated user follows
-    follows = InstagramWrapper.new.user_follows(:user => instagram_uid)
     # Go through each user and determine how much they have tagged #vfyw or #viewfinder recently
-    f_photos = []
-    follows.each do |f|
-      if Identity.find_by_uid(f.id)
-        f_photos = Instagram.user_recent_media(f.id).collect do |photo|
-          photo # if TAGS.any? { |tag| photo.caption ? photo.caption.text.include?(tag) : false }
-        end
-      end
-      f_photos.delete_if { |photo| photo.nil? }
-      follow_hash[f.id] ||= f_photos.size
-    end
-    sorted_follow_hash = follow_hash.sort_by { |name, count| count }.reverse
-    @just_photos = Identity.find_by_uid(sorted_follow_hash[rank - 1][0]) ? Instagram.user_recent_media(sorted_follow_hash[rank - 1][0]) : []
-    @player_photos = [
-      sorted_follow_hash[rank - 1][0], 
-      @just_photos]
-    # Return the top three users
+    media = instagram_user.friends_media(instagram_user.friends_list)
+    friend_photos = instagram_user.viewfinder_sorted_friends_list(media)
+    return friend_photos
   end
 
+  def self.instagram_friend_recent_photos(instagram_uid)
+    if Identity.includes_instagram_user?(instagram_uid)
+      Instagram.user_recent_media(instagram_uid)
+    else
+      []
+    end
+  end
 
   # LOCATION GAMEPLAY LOGIC
 

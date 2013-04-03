@@ -17,4 +17,8 @@ class User < ActiveRecord::Base
 
 # provider, uid, oauth_token # => add to database migration
 
+  def has_identity?(provider)
+    Identity.find_by_provider_and_user_id(provider, self.id) ? true : false
+  end
+
 end
