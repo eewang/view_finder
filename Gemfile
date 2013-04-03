@@ -28,6 +28,10 @@ group :development do
   gem 'binding_of_caller'
 end
 
+group :production do 
+  gem 'rack-google_analytics', :require => "rack/google_analytics"
+end
+
 gem 'jquery-rails'
 gem 'twitter-bootstrap-rails'
 gem 'omniauth-instagram'
