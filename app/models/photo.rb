@@ -99,7 +99,11 @@ class Photo < ActiveRecord::Base
   # Return all photos that have been guessed by the user and have been tagged. Delete 'tag_filter' to remove tag
 
   def self.tagged_photos_guessed_by(user)
-    includes(:guesses).where("guesses.user_id = #{user.id}").tag_filter
+    if user.class == Fixnum
+      includes(:guesses).tag_filter
+    else
+      includes(:guesses).where("guesses.user_id = #{user.id}").tag_filter
+    end
   end
 
   # Return all saved photos that have not been guessed by the user and have been tagged. Delete 'tag_filter 'to remove tag
