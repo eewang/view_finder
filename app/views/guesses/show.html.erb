@@ -91,7 +91,7 @@
               google.maps.event.addListener(map, "idle", function() {
 
                 <% @guesses = @guess.photo.guesses.delete_if { |item| item.id == @guess.id } %>
-
+                
                 <% (1..@guesses.size).each do |i| %>
                   var marker_guess = new google.maps.Marker({
                     map: map
@@ -135,13 +135,13 @@
                   marker_user_guess.setIcon('<%= asset_path 'mouseout.png' %>');
                   // do something with associated div
                   
-                  $('.map_link').addClass('hover_link');
+                  // $('.map_link').addClass('hover_link');
                   
                 });
                 google.maps.event.addListener(marker_user_guess, "mouseout", function(mapEvent) {
                   marker_user_guess.setIcon('<%= asset_path 'guessmarker.png' %>');
 
-                  $('.map_link').removeClass('hover_link');
+                  // $('.map_link').removeClass('hover_link');
 
                 });
 
@@ -206,7 +206,7 @@
       </div>
 
       <!-- The guessed photo -->
-      <div class="span5" style="overflow: hidden; float: left; max-width: 400px; height: 250px;">
+      <div class="span5" style="overflow: hidden; float: left; max-width: 400px; height: 250px;" id="mapdiv">
         <%= image_tag(@guess.photo_image)%>
       </div>
 
@@ -215,6 +215,9 @@
         <h5>LEADERBOARD</h5>
         <span class="label label-success">Success</span><br>
         <%= render :partial => 'leaderboard', :collection => @photo_guesses, :as => 'guess' %>
+        @photo_guesses.each do |photo_guess|
+          render :partial => 'leaderboard', :locals => {:}
+        end
       </div>
 
 
