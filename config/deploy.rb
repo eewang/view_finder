@@ -1,4 +1,6 @@
 require 'bundler/capistrano' # for bundler support
+require 'sidekiq/capistrano'
+
 load "deploy/assets"
 
 set :application, "view_finder"
