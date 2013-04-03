@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20130402193227) do
     t.boolean  "gmaps"
     t.float    "locale_lat"
     t.float    "locale_lon"
+    t.string   "small_image"
   end
 
   create_table "users", :force => true do |t|

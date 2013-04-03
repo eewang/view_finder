@@ -22,6 +22,31 @@
         var locallon;
         var photo_id = <%= @photo.id.to_s %>;
         var currentPhoto = "/photos/" + photo_id + ".json";
+        var style = [
+         {
+          stylers: [
+            { hue: "#00ffe6" },
+            { saturation: -20 }
+          ]
+         },{
+          featureType: "road",
+          elementType: "geometry",
+          stylers: [
+            { lightness: 100 },
+            { visibility: "simplified" }
+          ]
+         },{
+          featureType: "road",
+          elementType: "labels",
+          stylers: [
+            { visibility: "off" }
+          ]
+         }
+        ];
+
+
+        var styledMap = new google.maps.StyledMapType(style,
+              {name: "Jazzy Jeff"});
 
         $.get(currentPhoto, function(data) {
           console.log(data);
@@ -29,11 +54,17 @@
           map = new google.maps.Map(document.getElementById("mapdiv"), {
             center: new google.maps.LatLng(latlong.locale_lat, latlong.locale_lon),
             zoom: 15,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-          });
+            mapTypeControlOptions: {
+              mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
+            }
+          }
+          );
           //
           // initialize marker
           //
+
+          map.mapTypes.set('map_style', styledMap);
+          map.setMapTypeId('map_style');
 
           var marker = new google.maps.Marker({
             position: map.getCenter(),
@@ -41,7 +72,7 @@
             map: map
           });
 
-          marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+          marker.setIcon('<%= asset_path 'guessmarker.png' %>')
           
           // intercept map and marker movements
           

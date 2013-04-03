@@ -12,7 +12,7 @@
     <br>
     <div class="row-fluid">
       <div class="span5"> <!-- Map with guesses -->
-        <div id="mapdiv" style="height: 600px; max-width: 600px;"></div>
+        <div id="mapdiv"></div>
 
         <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?v=3&sensor=false&key=AIzaSyDAKHFvdMkBADVQC6MgWfqmhDDX4RUqAjo" %>
         
@@ -25,6 +25,33 @@
             var latlong;
             var map;
             var guesses_count = <%= @guess.photo.guesses.size %>
+            // Create an array of styles.
+            var styles = [
+              {
+                stylers: [
+                  { hue: "#00ffe6" },
+                  { saturation: -20 }
+                ]
+              },{
+                featureType: "road",
+                elementType: "geometry",
+                stylers: [
+                  { lightness: 100 },
+                  { visibility: "simplified" }
+                ]
+              },{
+                featureType: "road",
+                elementType: "labels",
+                stylers: [
+                  { visibility: "off" }
+                ]
+              }
+            ];
+
+            // Create a new StyledMapType object, passing it the array of styles,
+            // as well as the name to be displayed on the map type control.
+            var styledMap = new google.maps.StyledMapType(styles,
+              {name: "Jazzy Jeff"});
 
             console.log(guesses_count);
             var currentPhoto = "/photos/" + <%= @guess.photo.id %> + ".json"
@@ -33,8 +60,16 @@
               var map = new google.maps.Map(document.getElementById("mapdiv"), {
                 center: new google.maps.LatLng(latlong.latitude, latlong.longitude),
                 zoom: 13,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
+                mapTypeControlOptions: {
+                  mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
+                }
+                
               });
+
+                //Associate the styled map with the MapTypeId and set it to display.
+                map.mapTypes.set('map_style', styledMap);
+                map.setMapTypeId('map_style');
+
               //
               // initialize marker
               //
@@ -49,7 +84,7 @@
 
 
               marker_photo.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
-              marker_user_guess.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png')
+              marker_user_guess.setIcon('<%= asset_path 'guessmarker.png' %>')
               
               // intercept map and marker movements
               
@@ -83,28 +118,28 @@
 
 
                 google.maps.event.addListener(marker_guess, "mouseover", function(mapEvent) {
-                  marker_guess.setIcon('http://maps.google.com/mapfiles/ms/icons/purple-dot.png');
+                  marker_guess.setIcon('<%= asset_path 'mouseout.png' %>');
                   // do something with associated div
                   
-                  $('.map_link').addClass('hover_link');
+                  // $('.map_link').addClass('hover_link');
 
                 });
                 google.maps.event.addListener(marker_guess, "mouseout", function(mapEvent) {
-                  marker_guess.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+                  marker_guess.setIcon('<%= asset_path 'othermarker.png' %>');
 
-                  $('.map_link').removeClass('hover_link');
+                  // $('.map_link').removeClass('hover_link');
 
                 });
 
                 google.maps.event.addListener(marker_user_guess, "mouseover", function(mapEvent) {
-                  marker_user_guess.setIcon('http://maps.google.com/mapfiles/ms/icons/purple-dot.png');
+                  marker_user_guess.setIcon('<%= asset_path 'mouseout.png' %>');
                   // do something with associated div
                   
                   $('.map_link').addClass('hover_link');
                   
                 });
                 google.maps.event.addListener(marker_user_guess, "mouseout", function(mapEvent) {
-                  marker_user_guess.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+                  marker_user_guess.setIcon('<%= asset_path 'guessmarker.png' %>');
 
                   $('.map_link').removeClass('hover_link');
 
