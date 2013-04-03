@@ -35,7 +35,8 @@ class SiteController < ApplicationController
       # @user_feed = @identity_auth ? Photo.instagram_user_recent_media(:user => @identity_auth.uid) : nil
       user = User.where(:id => current_user[:id]).first
     else
-      user = User.find(1)
+      user = User.new
+      user.save
     end
     @games = [:downtown, :midtown, :downtown_brooklyn]
     @myfavorite = @games.collect do |game|
