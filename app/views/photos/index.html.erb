@@ -42,7 +42,7 @@ $(document).ready(function(){
                   <% link = @game %>
                   <% method = "POST" %>
                 <% end %>
-                <%= form_tag :url => "http://localhost:3000/#{route}/#{link}", :method => "#{method}" do %>
+                <%= form_tag :url => "http://www.wheresthatgram.com/#{route}/#{link}", :method => "#{method}" do %>
                 <div class="row">
                   <div class="styled-button-6 span3">
                     <%= link_to "Shuffle", "/photos/#{@game}" %>
