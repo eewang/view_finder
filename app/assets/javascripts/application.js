@@ -15,3 +15,7 @@
 //= require twitter/bootstrap
 //= require_tree .
 
+
+$(function(){
+	$('.carousel').carousel('cycle');
+});
