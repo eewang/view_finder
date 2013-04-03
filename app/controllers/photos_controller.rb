@@ -122,10 +122,6 @@ class PhotosController < ApplicationController
     end
   end
 
-  def search
-    render "search"
-  end
-
   def play
     if params[:coordinates].empty?
       @photo = Photo.find(params["photo_id"])
