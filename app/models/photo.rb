@@ -31,7 +31,7 @@ class Photo < ActiveRecord::Base
 
   acts_as_gmappable :process_geocoding => false
 
-  acts_as_instagrammable :media_search, :tag_recent_media, :media_popular, :user_media_feed
+  acts_as_instagrammable :media_search, :tag_recent_media, :media_popular, :user_media_feed, :user_recent_media
 
   # Find/create photo in database related to Instagram pic
 
@@ -59,6 +59,30 @@ class Photo < ActiveRecord::Base
 
   def guessed_by?(user)
     self.guesses.all.collect { |guess| guess.user.id }.include?(user.id)
+  end
+
+  def self.user_media_feed(options = {})
+    @photos_all = Photo.instagram_user_media_feed({}).shuffle
+    # @photos_tagged = @photos_all.collect do |photo|
+    #   photo #if TAGS.any? { |tag| photo.caption.include?(tag) }
+    # end
+    # @photos = @photos_tagged.delete_if { |photo| photo.nil? } #.shuffle[0..4]
+  end
+
+  def self.instagram_friend_feed(instagram_user)
+    # Get all people an authenticated user follows
+    # Go through each user and determine how much they have tagged #vfyw or #viewfinder recently
+    media = instagram_user.friends_media(instagram_user.friends_list)
+    friend_photos = instagram_user.viewfinder_sorted_friends_list(media)
+    return friend_photos
+  end
+
+  def self.instagram_friend_recent_photos(instagram_uid)
+    if Identity.includes_instagram_user?(instagram_uid)
+      Instagram.user_recent_media(instagram_uid)
+    else
+      []
+    end
   end
 
   # LOCATION GAMEPLAY LOGIC

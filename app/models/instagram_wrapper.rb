@@ -37,4 +37,9 @@ class InstagramWrapper
     Instagram.user_media_feed(options)
   end
 
+  def user_follows(options)
+    instagram_user = options[:user] ? options[:user] : nil
+    Instagram.user_follows(instagram_user)
+  end
+
 end

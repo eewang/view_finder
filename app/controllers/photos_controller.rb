@@ -68,6 +68,16 @@ class PhotosController < ApplicationController
     end
   end
 
+  def self.social_games(*social_games)
+    social_games.each do |game|
+      define_method "#{game}" do |options = {}|
+        @game = game
+        @photos = Photo.send("#{game}", options).shuffle[0..5]
+        render "index"
+      end
+    end
+  end
+
   # def self.get_games
   #   games = LOCATION_GAMES.collect do |key, value|
   #     key
@@ -76,16 +86,7 @@ class PhotosController < ApplicationController
 
   location_games :downtown, :midtown, :downtown_brooklyn #, :world_trade, :dumbo
 
-  def user_media_feed
-    tags = Photo::TAGS
-    @photos_all = Photo.instagram_user_media_feed({})
-    @photos_tagged = @photos_all.collect do |photo|
-      photo # if tags.any? { |tag| photo.caption.include?(tag) }
-    end
-    @photos = @photos_tagged.delete_if { |photo| photo.nil? } #.shuffle[0..4]
-    binding.pry
-    render "index"
-  end
+  social_games :user_media_feed #, :user_recent_media
 
   def create_game(game, coordinates, photos)
     session[game] = nil
@@ -126,7 +127,15 @@ class PhotosController < ApplicationController
   end
 
   def play
-    coordinates = params[:coordinates]
+    if params[:coordinates].empty?
+      @photo = Photo.find(params["photo_id"])
+      coordinates = PhotosController::LOCATION_GAMES[@photo.game][:coordinates].join(", ")
+      @photo.locale_lat = coordinates.split(",")[0].gsub("[", "").to_f
+      @photo.locale_lon = coordinates.split(",")[1].gsub("[", "").to_f
+      @photo.save
+    else
+      coordinates = params[:coordinates]
+    end
     lat = coordinates.split(",")[0].gsub("[", "").to_f
     lon = coordinates.split(",")[1].gsub("[", "").to_f
     redirect_to photo_path(params[:photo_id], :locale_lat => lat, :locale_lon => lon)

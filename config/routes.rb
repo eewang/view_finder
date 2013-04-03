@@ -15,6 +15,10 @@ ViewFinder::Application.routes.draw do
     post "users/:id/#{key.to_s}" => "photos#play"
   end
 
+  get "photos/user_media_feed" => "photos#user_media_feed"
+  post "photos/user_media_feed" => "photos#play"
+
+
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
   get 'logout' => 'sessions#destroy'

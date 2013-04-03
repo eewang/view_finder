@@ -84,13 +84,30 @@
       <div class="span8">
         <div id="myCarousel" class="carousel slide" >
           <div class="carousel-inner">
-            <% if current_user %>
-              <% url = "auth/instagram" %>
+            <% if @user_feed %>
+              <div class="active item">
+                <%= link_to image_tag(@identity_auth.avatar, {:width => 1000}), photos_user_media_feed_path %>
+                  <div class="carousel-caption">
+                    <h4><%= @identity_auth.login_name %></h4>
+                  </div>
+              </div>
+              <% @user_feed.each do |photo| %>
+                <div class="item">
+                  <%= link_to image_tag(photo.images.standard_resolution.url, {:width => 1000}), photos_user_media_feed_path %>
+                  <div class="carousel-caption">
+                    <h4><%= @identity_auth.login_name %></h4>
+                  </div>
+                </div>
+              <% end %>
             <% else %>
-              <% url = login_path %>
-            <% end %>  
-            <div class="active item"><%= link_to image_tag('introfriend1.jpg', {:width => 1000}), url %></div>
-            <div class="item"><%= link_to image_tag('introfriend2.jpg', {:width => 1000}), url %></div>
+              <% if current_user %>
+                <% url = "auth/instagram" %>
+              <% else %>
+                <% url = login_path %>
+              <% end %>  
+              <div class="active item"><%= link_to image_tag('introfriend1.jpg', {:width => 1000}), url %></div>
+              <div class="item"><%= link_to image_tag('introfriend2.jpg', {:width => 1000}), url %></div>
+            <% end %>
           </div>
         </div>
       </div>
@@ -100,9 +117,34 @@
       <div class="span4" style="float: left;">
         <div id="myCarousel" class="carousel slide" >
           <div class="carousel-inner">
-            <div class="active item"><%= image_tag 'introtag3.jpg' %></div>
-            <div class="item"><%= image_tag 'introtag2.jpg' %></div>
-            <div class="item"><%= image_tag 'introtag1.jpg' %></div>
+
+            <% if @identity_auth %>
+              <% if !@user_friends_array.empty?  %>
+                <div class="active item">
+                  <%= image_tag(@user_friends_array[0][2], {:width => 281}) %>
+                  <div class="carousel-caption">
+                    <h4><%= @user_friends_array[0][1] %></h4>
+                  </div>
+                </div>
+                <% @user_friends_array[0][3].each do |p| %>
+                  <div class="item"><%= image_tag p.images.standard_resolution.url %>
+                    <div class="carousel-caption">
+                      <h4><%= @user_friends_array[0][1] %></h4>
+                    </div>
+                  </div>
+                <% end %>
+                <% else %>
+                <!--DISPLAY "INVITE YOUR FRIENDS" IMAGES-->
+                <div class="active item"><%= image_tag 'introtag3.jpg' %></div>
+                <div class="item"><%= image_tag 'introtag2.jpg' %></div>
+                <div class="item"><%= image_tag 'introtag1.jpg' %></div>
+              <% end %>
+            <% else %>
+              <div class="active item"><%= image_tag 'introtag3.jpg' %></div>
+              <div class="item"><%= image_tag 'introtag2.jpg' %></div>
+              <div class="item"><%= image_tag 'introtag1.jpg' %></div>
+            <% end %>
+
           </div>
         </div>
       </div>
@@ -113,9 +155,33 @@
       <div class="span4" style="float: left;">
         <div id="myCarousel" class="carousel slide" >
           <div class="carousel-inner">
-            <div class="active item"><%= image_tag 'sample3.jpg' %></div>
-            <div class="item"><%= image_tag 'sample2.jpg' %></div>
-            <div class="item"><%= image_tag 'sample1.jpg' %></div>
+
+            <% if @identity_auth %>
+              <% if @user_friends_array.size > 1  %>
+                <div class="active item">
+                  <%= image_tag(@user_friends_array[1][2], {:width => 281}) %>
+                  <div class="carousel-caption">
+                    <h4><%= @user_friends_array[1][1] %></h4>
+                  </div>
+                </div>
+                <% @user_friends_array[1][3].each do |p| %>
+                  <div class="item"><%= image_tag p.images.standard_resolution.url %>
+                  <div class="carousel-caption">
+                    <h4><%= @user_friends_array[1][1] %></h4>
+                  </div>
+                  </div>
+                <% end %>
+                <% else %>
+              <!--DISPLAY "INVITE YOUR FRIENDS" IMAGES-->
+              <div class="active item"><%= image_tag 'sample3.jpg' %></div>
+              <div class="item"><%= image_tag 'sample2.jpg' %></div>
+              <div class="item"><%= image_tag 'sample1.jpg' %></div>
+              <% end %>
+            <% else %>
+              <div class="active item"><%= image_tag 'sample3.jpg' %></div>
+              <div class="item"><%= image_tag 'sample2.jpg' %></div>
+              <div class="item"><%= image_tag 'sample1.jpg' %></div>
+            <% end %>
           </div>
         </div>
       </div>
