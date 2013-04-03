@@ -78,12 +78,6 @@ class PhotosController < ApplicationController
     end
   end
 
-  # def self.get_games
-  #   games = LOCATION_GAMES.collect do |key, value|
-  #     key
-  #   end
-  # end
-
   location_games :downtown, :midtown, :downtown_brooklyn #, :world_trade, :dumbo
 
   social_games :user_media_feed #, :user_recent_media
@@ -106,8 +100,6 @@ class PhotosController < ApplicationController
     render "index"
   end
 
-  # GET /photos/1
-  # GET /photos/1.json
   def show
     @game = params[:game]
     @photo = Photo.find(params[:id])
@@ -135,12 +127,6 @@ class PhotosController < ApplicationController
     lat = coordinates.split(",")[0].gsub("[", "").to_f
     lon = coordinates.split(",")[1].gsub("[", "").to_f
     redirect_to photo_path(params[:photo_id], :locale_lat => lat, :locale_lon => lon)
-  end
-
-  def index_popular
-    @photos = Photo.instagram_media_popular({})
-
-    render "index"
   end
 
 end
