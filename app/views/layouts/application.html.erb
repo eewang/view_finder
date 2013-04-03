@@ -21,13 +21,13 @@
             <%= link_to "Logout", logout_path %>
           <% else %>
             <% unless current_page?(new_user_path) %>
-              <%= link_to("Sign Up", new_user_path) %> |
+              <%= link_to("Sign Up", new_user_path) %> 
             <% end %>
             <% unless current_page?(login_path) %>
               <%= link_to("Login", login_path) %> |
             <% end %>
             <% unless current_page?(login_path) %>
-              <%= link_to 'Sign in', 'auth/instagram' %>
+              <%= link_to 'Sign in with Instagram', '/auth/instagram' %>
             <% end %>
           <% end %>
 

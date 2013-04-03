@@ -48,8 +48,8 @@ class AuthenticationsController < ApplicationController
       @auth = Identity.create_from_hash(auth, current_user)
     end
     session[:instagram] ||= {}
-    session[:instagram][:uid] = @instagram_identity.uid
-    session[:instagram][:token] = @instagram_identity.token
+    session[:instagram][:uid] = @auth.uid
+    session[:instagram][:token] = @auth.token
     # if User.find_by_name(request.env["omniauth.auth"][:info][:name])
     #   redirect_to login_path, :notice => "Instagram authentication successful.Please log in"
     # else

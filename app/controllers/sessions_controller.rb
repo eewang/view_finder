@@ -1,13 +1,10 @@
 class SessionsController < ApplicationController
-  skip_before_filter :login_required
+  skip_before_filter :login_required, :except => "destroy"
 
   def index
   end
 
   def new
-    session = nil
-    current_user = nil
-    binding.pry
   end
 
   def create
@@ -27,8 +24,10 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session = nil
+    session[:user_id] = nil
+    session[:instagram] = nil
     current_user = nil
+
     redirect_to login_path, :notice => "Logged out!"
   end
 
