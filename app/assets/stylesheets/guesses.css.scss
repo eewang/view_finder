@@ -33,3 +33,10 @@ h5 {
 #user_guess {
   background-color:#014733;
 }
+
+.flip_image {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
