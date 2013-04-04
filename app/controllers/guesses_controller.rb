@@ -45,7 +45,7 @@ class GuessesController < ApplicationController
 
   # POST /guesses
   def create
-    # params from ajax
+    # sample params from ajax
       # {latitude: "40.754853", longitude: "-73.984124", photo_id: 142}
 
     # => Find out if the user already made a guess on that photo.
@@ -61,7 +61,7 @@ class GuessesController < ApplicationController
       guess.save
     end
     
-    # => Instead of rendering a view, this action renders a redirect url in a json object
+    # => Instead of rendering a view or redirecting, this action renders a redirect url in a json object
     url = guess_path(guess)
     render :json => {:redirect_url => url }
   end
