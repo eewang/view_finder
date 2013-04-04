@@ -160,7 +160,7 @@
         </div>
         
         <div class="span8 offset1">
-          <% if @photo.guessed_by?(current_user) %>
+          <% unless @photo.guessed_by?(current_user) %>
             <button class="styled-button-5">Guess!</button>
           <% else %>
             <button class="styled-button-5">See Guesses!</button>
