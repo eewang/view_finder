@@ -13,217 +13,223 @@
     <br>
     <div class="row-fluid">
       <div class="span5"> <!-- Map with guesses -->
-        <div id="mapdiv"></div>
+        <div class="row">
+          <div id="mapdiv"></div>
 
-        <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?v=3&sensor=false&key=AIzaSyDAKHFvdMkBADVQC6MgWfqmhDDX4RUqAjo" %>
-        
-        <script>
-          google.maps.event.addDomListener(window, "load", function() {
-            //
-            // initialize map
-            //
-            var i;
-            var latlong;
-            var map;
-            var guesses_count = <%= @guess.photo.guesses.size %>
-            // Create an array of styles.
-            var styles = [
-              {
-                stylers: [
-                  { hue: "#00ffe6" },
-                  { saturation: -20 }
-                ]
-              },{
-                featureType: "road",
-                elementType: "geometry",
-                stylers: [
-                  { lightness: 100 },
-                  { visibility: "simplified" }
-                ]
-              },{
-                featureType: "road",
-                elementType: "labels",
-                stylers: [
-                  { visibility: "on" }
-                ]
-              }
-            ];
-
-            // Create a new StyledMapType object, passing it the array of styles,
-            // as well as the name to be displayed on the map type control.
-            var styledMap = new google.maps.StyledMapType(styles,
-              {name: "Jazzy Jeff"});
-
-            console.log(guesses_count);
-            var currentPhoto = "/photos/" + <%= @guess.photo.id %> + ".json"
-            $.get(currentPhoto, function(data) {
-              latlong = data
-              var map = new google.maps.Map(document.getElementById("mapdiv"), {
-                center: new google.maps.LatLng(latlong.latitude, latlong.longitude),
-                zoom: 13,
-                mapTypeControlOptions: {
-                  mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
+          <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?v=3&sensor=false&key=AIzaSyDAKHFvdMkBADVQC6MgWfqmhDDX4RUqAjo" %>
+          
+          <script>
+            google.maps.event.addDomListener(window, "load", function() {
+              //
+              // initialize map
+              //
+              var i;
+              var latlong;
+              var map;
+              var guesses_count = <%= @guess.photo.guesses.size %>
+              // Create an array of styles.
+              var styles = [
+                {
+                  stylers: [
+                    { hue: "#00ffe6" },
+                    { saturation: -20 }
+                  ]
+                },{
+                  featureType: "road",
+                  elementType: "geometry",
+                  stylers: [
+                    { lightness: 100 },
+                    { visibility: "simplified" }
+                  ]
+                },{
+                  featureType: "road",
+                  elementType: "labels",
+                  stylers: [
+                    { visibility: "on" }
+                  ]
                 }
-                
-              });
+              ];
 
-                //Associate the styled map with the MapTypeId and set it to display.
-                map.mapTypes.set('map_style', styledMap);
-                map.setMapTypeId('map_style');
+              // Create a new StyledMapType object, passing it the array of styles,
+              // as well as the name to be displayed on the map type control.
+              var styledMap = new google.maps.StyledMapType(styles,
+                {name: "Jazzy Jeff"});
 
-              //
-              // initialize marker
-              //
-
-              var marker_photo = new google.maps.Marker({
-                map: map,
-              });
-
-              var marker_user_guess = new google.maps.Marker({
-                map: map,
-              });
-
-
-              marker_photo.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
-              marker_user_guess.setIcon('<%= asset_path 'guessmarker.png' %>')
-              
-              // intercept map and marker movements
-              
-              google.maps.event.addListener(map, "idle", function() {
-
-                <% @guesses = @guess.photo.guesses.delete_if { |item| item.id == @guess.id } %>
-                
-                <% (1..@guesses.size).each do |i| %>
-                  var marker_guess = new google.maps.Marker({
-                    map: map
-                  });
-                
-                  marker_guess.setPosition(new google.maps.LatLng(
-                    <%= @guesses[i-1].latitude %>,
-                    <%= @guesses[i-1].longitude %>
-                    ))
-
-                  marker_guess.setTitle("test");
-
-                <% end %>
-
-                  marker_photo.setPosition(new google.maps.LatLng(
-                    <%= @guess.photo.latitude %>,
-                    <%= @guess.photo.longitude %>
-                    ));
-
-                  marker_user_guess.setPosition(new google.maps.LatLng(
-                    <%= @guess.latitude %>,
-                    <%= @guess.longitude %>
-                    ));
-
-
-                google.maps.event.addListener(marker_guess, "mouseover", function(mapEvent) {
-                  marker_guess.setIcon('<%= asset_path 'mouseout.png' %>');
-                  // do something with associated div
-                  
-                  // $('.map_link').addClass('hover_link');
-
-                });
-                google.maps.event.addListener(marker_guess, "mouseout", function(mapEvent) {
-                  marker_guess.setIcon('<%= asset_path 'othermarker.png' %>');
-
-                  // $('.map_link').removeClass('hover_link');
-
-                });
-
-                google.maps.event.addListener(marker_user_guess, "mouseover", function(mapEvent) {
-                  marker_user_guess.setIcon('<%= asset_path 'mouseout.png' %>');
-                  // do something with associated div
-                  
-                  // $('.map_link').addClass('hover_link');
-                  
-                });
-                google.maps.event.addListener(marker_user_guess, "mouseout", function(mapEvent) {
-                  marker_user_guess.setIcon('<%= asset_path 'guessmarker.png' %>');
-
-                  // $('.map_link').removeClass('hover_link');
-
-                });
-
-              });  
-
-              //
-              // hover effects linked to leaderboard
-              //
-
-
-
-
-              //
-              // initialize geocoder
-              //
-              var geocoder = new google.maps.Geocoder();
-              google.maps.event.addDomListener(document.getElementById("mapform"), "submit", function(domEvent) {
-                if (domEvent.preventDefault){
-                  domEvent.preventDefault();
-                } else {
-                  domEvent.returnValue = false;
-                }
-                geocoder.geocode({
-                  address: document.getElementById("mapinput").value
-                }, function(results, status) {
-                  if (status == google.maps.GeocoderStatus.OK) {
-                    var result = results[0];
-                    document.getElementById("mapinput").value = result.formatted_address;
-                    if (result.geometry.viewport) {
-                      map.fitBounds(result.geometry.viewport);
-                    }
-                    else {
-                      map.setCenter(result.geometry.location);
-                    }
-                  } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-                    alert("Sorry, the geocoder failed to locate the specified address.");
-                  } else {
-                    alert("Sorry, the geocoder failed with an internal error.");
+              console.log(guesses_count);
+              var currentPhoto = "/photos/" + <%= @guess.photo.id %> + ".json"
+              $.get(currentPhoto, function(data) {
+                latlong = data
+                var map = new google.maps.Map(document.getElementById("mapdiv"), {
+                  center: new google.maps.LatLng(latlong.latitude, latlong.longitude),
+                  zoom: 13,
+                  mapTypeControlOptions: {
+                    mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
                   }
+                  
                 });
+
+                  //Associate the styled map with the MapTypeId and set it to display.
+                  map.mapTypes.set('map_style', styledMap);
+                  map.setMapTypeId('map_style');
+
+                //
+                // initialize marker
+                //
+
+                var marker_photo = new google.maps.Marker({
+                  map: map,
+                });
+
+                var marker_user_guess = new google.maps.Marker({
+                  map: map,
+                });
+
+
+                marker_photo.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
+                marker_user_guess.setIcon('<%= asset_path 'guessmarker.png' %>')
+                
+                // intercept map and marker movements
+                
+                google.maps.event.addListener(map, "idle", function() {
+
+                  <% @guesses = @guess.photo.guesses.delete_if { |item| item.id == @guess.id } %>
+                  
+                  <% (1..@guesses.size).each do |i| %>
+                    var marker_guess = new google.maps.Marker({
+                      map: map
+                    });
+                  
+                    marker_guess.setPosition(new google.maps.LatLng(
+                      <%= @guesses[i-1].latitude %>,
+                      <%= @guesses[i-1].longitude %>
+                      ))
+
+                    marker_guess.setTitle("test");
+
+                  <% end %>
+
+                    marker_photo.setPosition(new google.maps.LatLng(
+                      <%= @guess.photo.latitude %>,
+                      <%= @guess.photo.longitude %>
+                      ));
+
+                    marker_user_guess.setPosition(new google.maps.LatLng(
+                      <%= @guess.latitude %>,
+                      <%= @guess.longitude %>
+                      ));
+
+
+                  google.maps.event.addListener(marker_guess, "mouseover", function(mapEvent) {
+                    marker_guess.setIcon('<%= asset_path 'mouseout.png' %>');
+                    // do something with associated div
+                    
+                    // $('.map_link').addClass('hover_link');
+
+                  });
+                  google.maps.event.addListener(marker_guess, "mouseout", function(mapEvent) {
+                    marker_guess.setIcon('<%= asset_path 'othermarker.png' %>');
+
+                    // $('.map_link').removeClass('hover_link');
+
+                  });
+
+                  google.maps.event.addListener(marker_user_guess, "mouseover", function(mapEvent) {
+                    marker_user_guess.setIcon('<%= asset_path 'mouseout.png' %>');
+                    // do something with associated div
+                    
+                    // $('.map_link').addClass('hover_link');
+                    
+                  });
+                  google.maps.event.addListener(marker_user_guess, "mouseout", function(mapEvent) {
+                    marker_user_guess.setIcon('<%= asset_path 'guessmarker.png' %>');
+
+                    // $('.map_link').removeClass('hover_link');
+
+                  });
+
+                });  
+
+                //
+                // hover effects linked to leaderboard
+                //
+
+
+
+
+                //
+                // initialize geocoder
+                //
+                var geocoder = new google.maps.Geocoder();
+                google.maps.event.addDomListener(document.getElementById("mapform"), "submit", function(domEvent) {
+                  if (domEvent.preventDefault){
+                    domEvent.preventDefault();
+                  } else {
+                    domEvent.returnValue = false;
+                  }
+                  geocoder.geocode({
+                    address: document.getElementById("mapinput").value
+                  }, function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                      var result = results[0];
+                      document.getElementById("mapinput").value = result.formatted_address;
+                      if (result.geometry.viewport) {
+                        map.fitBounds(result.geometry.viewport);
+                      }
+                      else {
+                        map.setCenter(result.geometry.location);
+                      }
+                    } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
+                      alert("Sorry, the geocoder failed to locate the specified address.");
+                    } else {
+                      alert("Sorry, the geocoder failed with an internal error.");
+                    }
+                  });
+                });
+              })
+
+            });
+
+          </script>
+          <script>
+            $(document).ready(function(){
+
+              $('.map_link').mouseover(function(){
+                $(this).addClass('hover_link');
+                
               });
-            })
+                     
+              $('.map_link').mouseout(function(){
+                $(this).removeClass('hover_link');
 
-          });
-
-        </script>
-        <script>
-          $(document).ready(function(){
-
-            $('.map_link').mouseover(function(){
-              $(this).addClass('hover_link');
-              
-            });
-                   
-            $('.map_link').mouseout(function(){
-              $(this).removeClass('hover_link');
+              });
 
             });
+          </script>
+        </div> <!-- map with div -->
+        <div class="span5">
 
-          });
-        </script>
+          <%= render 'address' %>
+          
+        </div>
       </div>
+    <!-- The guessed photo -->
+    <div class="span5" style="overflow: hidden; float: left; max-width: 400px; height: 250px;" id="mapdiv">
+      <%= image_tag(@guess.photo_image)%>
+    </div>
+    
+    <div class="span5" style="text-align:center;"><br>
+      <%= link_to "Play the Next Photo!", "/users/#{current_user.id}/#{@guess.photo.game.to_s}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px; float:none; letter-spacing:1px;")%>
+    </div>
 
-      <!-- The guessed photo -->
-      <div class="span5" style="overflow: hidden; float: left; max-width: 400px; height: 250px;" id="mapdiv">
-        <%= image_tag(@guess.photo_image)%>
-      </div>
-      
-      <div class="span5" style="text-align:center;"><br>
-        <%= link_to "Play the Next Photo!", "/users/#{current_user.id}/#{@guess.photo.game.to_s}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px; float:none; letter-spacing:1px;")%>
-      </div>
-
-      <!-- Leaderboard -->
-      <div class="span5" style="float:left;">
-         <br>
-        <h5>LEADERBOARD</h5>
-        <%= image_tag("laurel.svg", :width => "60px", :class => "flip_image") %>
-        <span class="label label-success">Winner!</span>
-        <%= image_tag("laurel.svg", :width => "60px") %>
-        <%= render :partial => 'leaderboard', :collection => @photo_guesses, :as => 'guess' %>
-      </div>
+    <!-- Leaderboard -->
+    <div class="span5" style="float:left;">
+       <br>
+      <h5>LEADERBOARD</h5>
+      <%= image_tag("laurel.svg", :width => "60px", :class => "flip_image") %>
+      <span class="label label-success">Winner!</span>
+      <%= image_tag("laurel.svg", :width => "60px") %>
+      <%= render :partial => 'leaderboard', :collection => @photo_guesses, :as => 'guess' %>
+    </div>
 
 
 

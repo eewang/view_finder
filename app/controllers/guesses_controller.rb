@@ -48,13 +48,17 @@ class GuessesController < ApplicationController
     # sample params from ajax
       # {latitude: "40.754853", longitude: "-73.984124", photo_id: 142}
 
+    # get params ready for mass assignment
+    params.delete(:action)
+    params.delete(:controller)
+
     # => Find out if the user already made a guess on that photo.
     guess = current_user.guesses.where(:photo_id => params[:photo_id]).first
 
     # => If there is no guess, create one.
     if guess.nil?
       target = Photo.where(:id => params[:photo_id]).first
-      guess = current_user.guesses.create(params)
+      guess = current_user.guesses.build(params)
       guess.street_address = guess.coordinates_to_address
       guess.proximity_to_answer_in_feet = guess.distance_from_target_in_feet(target).round
 
