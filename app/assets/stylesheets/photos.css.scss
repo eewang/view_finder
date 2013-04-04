@@ -112,6 +112,15 @@ background-color:#c9d787;
   padding-right: 50px;
   float:right;
 }
+.view_play_button:hover {
+  padding-left: 270px;
+  padding-right:90px;
+  float:right;
+  -webkit-transition: all 1s ease; 
+  -moz-transition: all 1s ease; 
+  -o-transition: all 1s ease; 
+  background-color: #ff9900;
+}
 
 @-webkit-keyframes spaceboots {
   0% { -webkit-transform: translate(2px, 1px) rotate(0deg); }
