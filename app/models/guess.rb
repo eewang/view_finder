@@ -4,6 +4,8 @@ class Guess < ActiveRecord::Base
   belongs_to :user
   belongs_to :photo
 
+  validates :proximity_to_answer_in_feet, :presence => true
+
   delegate :latitude, :longitude, :image, :user_name, :location, :guesses, :to => :photo, :prefix => true
 
   delegate :name, :email, :to => :user, :prefix => true

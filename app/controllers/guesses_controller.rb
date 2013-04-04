@@ -12,6 +12,7 @@ class GuessesController < ApplicationController
   def show
     @guess = Guess.find(params[:id])
     @photo_guesses = Guess.photo_guesses_sorted(@guess.photo)
+    @photo_guesses = @photo_guesses.shift(8) if @photo_guesses.size > 8
     game = @guess.photo.game
     # @next_photo = session[game][:photos][session[game][:photos].index(@guess.photo_id) + 1]
 

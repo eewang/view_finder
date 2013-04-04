@@ -10,16 +10,20 @@ h5 {
 }
 
 .map_link {
-  border-radius:30px;  
+  border-radius:20px;
+  background-color:#242424;
 }
 
 .hover_link {
-  background-color:#fecc67;
-  color: #000;
+  background-color:#014733;
 }
 
  #mapdiv {
  	height: 600px; 
  	max-width: 600px; 
  	border:solid 5px #0e8f7e;
+}
+
+#user_guess {
+  background-color:#014733;
 }
