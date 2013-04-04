@@ -37,7 +37,7 @@ class PhotosController < ApplicationController
         @coordinates = LOCATION_GAMES[game.to_sym][:coordinates]
         radius = LOCATION_GAMES[game.to_sym][:radius]
         size = LOCATION_GAMES[game.to_sym][:size]
-        user = User.where(:id => current_user[:id]).first
+        user = current_user
         # Load game photos
         @photos = Photo.game_photos_random(@coordinates, radius, user, size)
         @photos.each do |p|
@@ -47,6 +47,7 @@ class PhotosController < ApplicationController
         end
         # Loads game photo ids into user session
         self.create_game(@game, @coordinates, @photos)
+        @start_photo = session[game][:photos].empty? ? 0 : Photo.first_unguessed_photo(session[game][:photos], current_user)
         # Perform asynchronous Instagram API call
         InstagramWorker.perform_async(@coordinates)
         # Convert game photos to map markers
@@ -56,13 +57,14 @@ class PhotosController < ApplicationController
       end
 
       define_method "saved_#{game}_game" do 
-        user = User.where(:id => current_user[:id]).first
+        user = current_user
         photo_ids = session[game][:photos]
         @coordinates = session[game][:coordinates]
         @game = session[game][:game]
         @photos = photo_ids.collect do |id|
           @photo = Photo.find(id)
         end
+        @start_photo = session[game][:photos].empty? ? 0 : Photo.first_unguessed_photo(photo_ids, current_user)
         render "index"
       end
     end
