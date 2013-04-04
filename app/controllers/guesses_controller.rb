@@ -10,28 +10,16 @@ class GuessesController < ApplicationController
   end
 
   def show
-    @guesses_count = 0
-    # if @photo.guessed_by?(current_user)
-      current_guess = Guess.find(params[:id])
-      @all_guesses = Guess.photo_guesses_sorted(current_guess.photo)
+    @guess = Guess.find(params[:id])
+    @photo_guesses = Guess.photo_guesses_sorted(@guess.photo)
+    @photo_guesses = @photo_guesses.shift(8) if @photo_guesses.size > 8
+    game = @guess.photo.game
+    # @next_photo = session[game][:photos][session[game][:photos].index(@guess.photo_id) + 1]
 
-      if @all_guesses.size > 5
-        @all_guesses = all_guesses.delete_if { |g| g.user.id == current_guess.user.id }
-        @current_guess = current_guess
-      end
-
-      @user_in_top_5 = false
-      @user_in_top_5 = true if @current_guess
-
-      @guesses_count = @current_guess.photo.guesses.size if @current_guess
-
-      respond_to do |format|
-        format.html # show.html.erb
-        format.json { render json: @current_guess }
-      end
-    # else
-      # redirect_to photo_show(@photo)
-    # end
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @guess }
+    end
   end
 
   def new
@@ -55,7 +43,7 @@ class GuessesController < ApplicationController
 
     if guess.nil?
       target = Photo.where(:id => params[:photo_id]).first
-      guess = current_user.guesses.build(params)
+      guess = current_user.guesses.create(params)
       guess.street_address = guess.coordinates_to_address
       guess.proximity_to_answer_in_feet = guess.distance_from_target_in_feet(target).round
 

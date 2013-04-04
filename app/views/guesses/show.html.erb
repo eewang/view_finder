@@ -5,12 +5,9 @@
 
     <p id="notice"><%= notice %></p>
     <br>
-
-    <% if @current_guess %>
     <h4>
-      Congrats! Your guess was about <%= @current_guess.proximity_to_answer_in_feet %> feet away from the target! 
+      Congrats! Your guess was about <%= @guess.proximity_to_answer_in_feet %> feet away (~ <%= @guess.proximity_to_answer_in_feet.to_f / 5280 %> miles) from the target! 
     </h4>
-    <% end %>
 
     <br>
     <div class="row-fluid">
@@ -27,7 +24,7 @@
             var i;
             var latlong;
             var map;
-            var guesses_count = <%= @guesses_count %>
+            var guesses_count = <%= @guess.photo.guesses.size %>
             // Create an array of styles.
             var styles = [
               {
@@ -56,9 +53,8 @@
             var styledMap = new google.maps.StyledMapType(styles,
               {name: "Jazzy Jeff"});
 
-            <% if @current_guess %>
             console.log(guesses_count);
-            var currentPhoto = "/photos/" + <%= @current_guess.photo.id %> + ".json"
+            var currentPhoto = "/photos/" + <%= @guess.photo.id %> + ".json"
             $.get(currentPhoto, function(data) {
               latlong = data
               var map = new google.maps.Map(document.getElementById("mapdiv"), {
@@ -69,7 +65,7 @@
                 }
                 
               });
-            <% end %>
+
                 //Associate the styled map with the MapTypeId and set it to display.
                 map.mapTypes.set('map_style', styledMap);
                 map.setMapTypeId('map_style');
@@ -222,15 +218,8 @@
       <div class="span5" style="float:left;">
          <br>
         <h5>LEADERBOARD</h5>
-        <span class="label label-success">Success</span><br>
-        <%= render :partial => 'leaderboard', :collection => @all_guesses, :as => 'guess' %>
-        <% if @user_in_top_5 %>
-          <div class="map_link" id="user_guess" >
-            User Name = <%= @current_guess.user_name %><br>
-            Proximity = <%= @current_guess.proximity_to_answer_in_feet %> feet<br> 
-            Guess time ago = <%= @current_guess.distance_of_time_in_hours_and_minutes(@current_guess.created_at, Time.now) %>
-          </div><br>
-        <% end %>
+        <span class="label label-success">Winner!</span><br>
+        <%= render :partial => 'leaderboard', :collection => @photo_guesses, :as => 'guess' %>
       </div>
 
 
