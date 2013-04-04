@@ -17,6 +17,10 @@ class SessionsController < ApplicationController
         session[:instagram][:uid] = @instagram_identity.uid
         session[:instagram][:token] = @instagram_identity.token
       end
+      client = Instagram.client(:access_token => @instagram_identity.token)
+      test = client.user(@instagram_identity.uid)
+      @instagram_identity.avatar = test.profile_picture
+      @instagram_identity.save
       redirect_to root_path, :notice => "Logged in!"
     else
       redirect_to login_path, :notice => "Invalid email or password"
