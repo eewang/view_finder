@@ -43,17 +43,13 @@ $(document).ready(function(){
                   <% method = "POST" %>
                 <% end %>
                 <%= form_tag :url => "/#{route}/#{link}", :method => "#{method}" do %>
-                <div class="row">
-                  <div class="span3"><em>
-                    <%= link_to "Shuffle", "/photos/#{@game}", :class => "styled-button-6", :style => "font-size: 1.3em;" %></em>
-                  </div>
-                  <div class="span6">
+                <div class="row" style="text-align:center;">
+                    <%= link_to "Shuffle", "/photos/#{@game}", :class => "styled-button-6 shuffle_action", :style => "font-size: 1.3em; float:left;" %></em>
                     <% if p.guessed_by?(current_user) %>
-                      <%= link_to "VIEW", "/#{route}/#{link}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px;") %>
+                      <%= link_to "VIEW", "/#{route}/#{link}", :class => "styled-button-5 view_play_button" %>
                     <% else %>
-                      <%= submit_tag "PLAY!", :class => "styled-button-5" %>
+                      <%= submit_tag "PLAY!", :class => "styled-button-5 view_play_button" %>
                     <% end %>
-                  </div>
                 </div>
                   <br>
                  <% @guessed_count = @photos.count { |p| p.guessed_by?(current_user) } %>
