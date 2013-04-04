@@ -26,6 +26,10 @@ class SessionsController < ApplicationController
   def destroy
     session[:user_id] = nil
     session[:instagram] = nil
+    session[:social] = nil
+    session[:downtown] = nil
+    session[:downtown_brooklyn] = nil
+    session[:midtown] = nil
     current_user = nil
 
     redirect_to login_path, :notice => "Logged out!"

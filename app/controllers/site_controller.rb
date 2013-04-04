@@ -17,12 +17,17 @@ class SiteController < ApplicationController
           friend_count = @user_friends.size < 3 ? @user_friends.size : 3
           (1..friend_count).each do |i|
             friend = @user_friends[i-1]
+            friend_photo_ids = friend[1].collect { |photo|
+              photo.id
+            }.delete_if { |item| item.nil? }
             friend_identity = Identity.find_by_uid(friend[0])
             @user_friends_array[i-1] ||= []
             @user_friends_array[i-1] << friend[0]
             @user_friends_array[i-1] << friend_identity.login_name
             @user_friends_array[i-1] << friend_identity.avatar
             @user_friends_array[i-1] << friend[1]
+            session[:social] ||= {}
+            session[:social][friend_identity.login_name.to_sym] ||= friend_photo_ids
           end
         end
       end

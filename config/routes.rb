@@ -15,7 +15,14 @@ ViewFinder::Application.routes.draw do
     post "users/:id/#{key.to_s}" => "photos#play"
   end
 
+  get "photos/friend_1" => "photos#friends_feed_1"
+  get "photos/friend_2" => "photos#friends_feed_2"
+
+  post "photos/friend_1" => "photos#play"
+  post "photos/friend_2" => "photos#play"
+
   get "photos/user_media_feed" => "photos#user_media_feed"
+
   post "photos/user_media_feed" => "photos#play"
 
 

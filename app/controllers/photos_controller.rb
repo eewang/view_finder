@@ -40,6 +40,7 @@ class PhotosController < ApplicationController
         user = current_user
         # Load game photos
         @photos = Photo.game_photos_random(@coordinates, radius, user, size)
+        # Determines game metadata
         @photos.each do |p|
           p.locale_lat = LOCATION_GAMES[game.to_sym][:coordinates][0]
           p.locale_lon = LOCATION_GAMES[game.to_sym][:coordinates][1]
@@ -51,7 +52,7 @@ class PhotosController < ApplicationController
         # Perform asynchronous Instagram API call
         InstagramWorker.perform_async(@coordinates)
         # Convert game photos to map markers
-        @json = @photos.to_gmaps4rails
+        # @json = @photos.to_gmaps4rails
         # Render view
         render "index"
       end
@@ -75,7 +76,7 @@ class PhotosController < ApplicationController
       define_method "#{game}" do |options = {}|
         @game = game
         @photos = Photo.send("#{game}", options)[0..5]
-        @start_photo = 0
+        @start_photo = 0 # CHANGE START PHOTO TO FIRST UNGUESSED
         render "index"
       end
 
@@ -87,6 +88,28 @@ class PhotosController < ApplicationController
   location_games :downtown, :midtown, :downtown_brooklyn #, :world_trade, :dumbo
 
   social_games :user_media_feed #, :user_recent_media
+
+  def friends_feed_1
+    social_games = session[:social]
+    friend_1_pics = social_games[social_games.keys[0]].shuffle[0..5]
+    @photos = friend_1_pics.collect do |pic_id|
+      Photo.find(pic_id)
+    end
+    @start_photo = 0 # CHANGE START PHOTO TO FIRST UNGUESSED
+
+    render "index"
+  end  
+
+  def friends_feed_2
+    social_games = session[:social]
+    friend_2_pics = social_games[social_games.keys[1]].shuffle[0..5]
+    @photos = friend_2_pics.collect do |pic_id|
+      Photo.find(pic_id)
+    end
+    @start_photo = 0 # CHANGE START PHOTO TO FIRST UNGUESSED
+
+    render "index"
+  end
 
   def create_game(game, coordinates, photos)
     session[game] = nil

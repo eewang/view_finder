@@ -32,8 +32,9 @@ class Identity < ActiveRecord::Base
     f_photos = {}
     friends_list.each do |f|
       if Identity.includes_instagram_user?(f.id)
+        i = InstagramWrapper.new
         f_photos[f.id] ||= []
-        f_photos[f.id] = (Instagram.user_recent_media(f.id).collect { |photo| photo }) # if Photo::TAGS.any? { |tag| photo.caption ? photo.caption.text.include?(tag) : false }
+        f_photos[f.id] = (Photo.instagram_user_recent_media(:user => f.id).collect { |photo| photo }) # if Photo::TAGS.any? { |tag| photo.caption ? photo.caption.text.include?(tag) : false }
         f_photos[f.id].delete_if { |photo| photo.nil? }
       end
     end
