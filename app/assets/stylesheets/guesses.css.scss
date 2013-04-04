@@ -10,6 +10,7 @@ h5 {
 }
 
 .map_link {
+<<<<<<< HEAD
   border-radius:30px;  
   letter-spacing: 3px;
 }
@@ -17,15 +18,22 @@ h5 {
 	font-family: 'Helvetica Neue', sans-serif;
 	font-size: 18px;
 	color: #fff;
+=======
+  border-radius:20px;
+  background-color:#242424;
+>>>>>>> f5af1c4ff33eb234e5893b0a6a7768a6ee061adc
 }
 
 .hover_link {
-  background-color:#fecc67;
-  color: #000;
+  background-color:#014733;
 }
 
  #mapdiv {
  	height: 600px; 
  	max-width: 600px; 
  	border:solid 5px #0e8f7e;
+}
+
+#user_guess {
+  background-color:#014733;
 }

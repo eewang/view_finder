@@ -10,14 +10,18 @@ class GuessesController < ApplicationController
   end
 
   def show
-    @guess = Guess.find(params[:id])
-    @photo_guesses = Guess.photo_guesses_sorted(@guess.photo)
-    game = @guess.photo.game
-    # @next_photo = session[game][:photos][session[game][:photos].index(@guess.photo_id) + 1]
+      @guess = Guess.find(params[:id])
+    if @guess.photo.guessed_by?(current_user)
+      @photo_guesses = Guess.photo_guesses_sorted(@guess.photo)
+      @photo_guesses = @photo_guesses.shift(8) if @photo_guesses.size > 8
+      game = @guess.photo.game
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @guess }
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @guess }
+      end
+    else
+      redirect_to photo_path(@guess.photo), :alert => "You have to guess first, cheater!"
     end
   end
 

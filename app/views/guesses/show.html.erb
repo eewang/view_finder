@@ -6,7 +6,7 @@
     <p id="notice"><%= notice %></p>
     <br>
     <h4>
-      Congrats! Your guess was about <%= @guess.distance_from_target_in_feet(@guess.photo).round %> feet away (~ <%= @guess.distance_from_target_in_miles(@guess.photo).round(2) %> miles) from the target! 
+      Congrats! Your guess was about <%= @guess.proximity_to_answer_in_feet %> feet away (~ <%= (@guess.proximity_to_answer_in_feet.to_f / 5280).round(2) %> miles) from the target! 
     </h4>
 
     <br>
@@ -217,9 +217,8 @@
       <!-- Leaderboard -->
       <div class="span5" style="float:left;">
          <br>
-        <h3>LEADERBOARD</h3>
-        <hr>
-        <span class="label label-success">Success</span><br>
+        <h5>LEADERBOARD</h5>
+        <span class="label label-success">Winner!</span><br>
         <%= render :partial => 'leaderboard', :collection => @photo_guesses, :as => 'guess' %>
       </div>
 
