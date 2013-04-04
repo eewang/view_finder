@@ -7,7 +7,6 @@ class SessionsController < ApplicationController
   def new
     session = nil
     current_user = nil
-    binding.pry
   end
 
   def create
