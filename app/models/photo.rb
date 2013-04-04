@@ -61,7 +61,7 @@ class Photo < ActiveRecord::Base
     self.guesses.all.collect { |guess| guess.user.id }.include?(user.id)
   end
 
-  def self.user_media_feed(options = {})
+  def self.user_media_feed(options)
     @photos_all = Photo.instagram_user_media_feed({}).shuffle
     # @photos_tagged = @photos_all.collect do |photo|
     #   photo #if TAGS.any? { |tag| photo.caption.include?(tag) }

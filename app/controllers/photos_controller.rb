@@ -74,9 +74,13 @@ class PhotosController < ApplicationController
     social_games.each do |game|
       define_method "#{game}" do |options = {}|
         @game = game
-        @photos = Photo.send("#{game}", options).shuffle[0..5]
+        @photos = Photo.send("#{game}", options)[0..5]
+        @start_photo = 0
         render "index"
       end
+
+      # Add ability to save user friends games
+
     end
   end
 
