@@ -6,7 +6,7 @@
     <p id="notice"><%= notice %></p>
     <br>
     <h4>
-      Congrats! Your guess was about <%= @guess.proximity_to_answer_in_feet %> feet away (~ <%= @guess.proximity_to_answer_in_feet.to_f / 5280 %> miles) from the target! 
+      Congrats! Your guess was about <%= @guess.proximity_to_answer_in_feet %> feet away (~ <%= (@guess.proximity_to_answer_in_feet.to_f / 5280).round(2) %> miles) from the target! 
     </h4>
 
     <br>
