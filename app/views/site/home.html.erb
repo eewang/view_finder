@@ -26,32 +26,32 @@
 <br>
   <div class="row-fluid">
 
-    <!-- Downtown Manhattan -->
+    <!-- Midtown Manhattan -->
     <div class="span4">
       <div id="myCarousel" class="carousel slide" data-interval="10">
         <div class="carousel-inner">
           <div class="item active">
-            <%= link_to image_tag("introbox1.png"), photos_downtown_path %>
+            <%= link_to image_tag("introbox1.png"), photos_midtown_path %>
           </div>
           <% @myfavorite[0].each do |f| %>
           <div class="item">
-            <%= link_to image_tag(f.image), photos_downtown_path %>
+            <%= link_to image_tag(f.image), photos_midtown_path %>
           </div>
           <% end %>
         </div>
       </div>
     </div>
 
-    <!-- Midtown Manhattan -->
+    <!-- Downtown Manhattan -->
     <div class="span4">
       <div id="myCarousel2" class="carousel slide" data-interval="10">
         <div class="carousel-inner">
           <div class="item active">
-            <%= link_to image_tag("introbox3.png"), photos_midtown_path %>
+            <%= link_to image_tag("introbox3.png"), photos_downtown_path %>
           </div>
           <% @myfavorite[1].each do |f| %>
           <div class="item">
-            <%= link_to image_tag(f.image), photos_midtown_path %>
+            <%= link_to image_tag(f.image), photos_downtown_path %>
           </div>
           <% end %>
         </div>

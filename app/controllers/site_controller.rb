@@ -35,7 +35,7 @@ class SiteController < ApplicationController
     else
       user = 0
     end
-    @games = [:downtown, :midtown, :downtown_brooklyn]
+    @games = [:midtown, :downtown, :downtown_brooklyn]
     @myfavorite = @games.collect do |game|
       game_attributes = self.game_info(game)
       Photo.game_photos_random(
