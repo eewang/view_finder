@@ -1,6 +1,6 @@
-<div class="map_link" id="" >
-User Name = <%= guess.user_name %><br>
-Proximity = <%= guess.proximity_to_answer_in_feet %> feet<br> 
-Guess time ago = <%= guess.distance_of_time_in_hours_and_minutes(guess.created_at, Time.now) %>
+<div class="map_link" id="">
+<h4><%= guess.user_name.upcase %></h4>
+<%= guess.proximity_to_answer_in_feet %> feet from actual location<br> 
+Guessed <%= guess.distance_of_time_in_hours_and_minutes(guess.created_at, Time.now) %> ago
 </div><br>
 

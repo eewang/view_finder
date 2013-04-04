@@ -11,7 +11,7 @@
 
     <br>
     <div class="row-fluid">
-      <div class="span5"> <!-- Map with guesses -->`
+      <div class="span5"> <!-- Map with guesses -->
         <div id="mapdiv"></div>
 
         <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?v=3&sensor=false&key=AIzaSyDAKHFvdMkBADVQC6MgWfqmhDDX4RUqAjo" %>
@@ -217,7 +217,8 @@
       <!-- Leaderboard -->
       <div class="span5" style="float:left;">
          <br>
-        <h5>LEADERBOARD</h5>
+        <h3>LEADERBOARD</h3>
+        <hr>
         <span class="label label-success">Success</span><br>
         <%= render :partial => 'leaderboard', :collection => @photo_guesses, :as => 'guess' %>
       </div>
