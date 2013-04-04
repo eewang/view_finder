@@ -1,6 +1,6 @@
 <script>
 $(document).ready(function(){
-  $(".guessed").css("background-color", "#888");
+  $(".guessed").css("background-color", "#c9d787");
 })
 
 
@@ -32,7 +32,7 @@ $(document).ready(function(){
         <div class="carousel-inner">
           <% @photos.each do |p| %>
             
-              <div class="<% if @photos.index(p) == 0 %>active<% end %> item vfyw">
+              <div class="<% if @photos.index(p) == @start_photo %>active<% end %> item vfyw">
                 <% if p.guessed_by?(current_user) %>
                   <% route = "guesses" %>
                   <% link = p.guesses.where(:user_id => current_user.id).first.id %>
@@ -42,12 +42,12 @@ $(document).ready(function(){
                   <% link = @game %>
                   <% method = "POST" %>
                 <% end %>
-                <%= form_tag :url => "http://www.wheresthatgram.com/#{route}/#{link}", :method => "#{method}" do %>
+                <%= form_tag :url => "/#{route}/#{link}", :method => "#{method}" do %>
                 <div class="row">
-                  <div class="styled-button-6 span3">
-                    <%= link_to "Shuffle", "/photos/#{@game}" %>
+                  <div class="span3"><em>
+                    <%= link_to "Shuffle", "/photos/#{@game}", :class => "styled-button-6", :style => "font-size: 1.3em;" %></em>
                   </div>
-                  <div class="span4">
+                  <div class="span6">
                     <% if p.guessed_by?(current_user) %>
                       <%= link_to "VIEW", "/#{route}/#{link}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px;") %>
                     <% else %>

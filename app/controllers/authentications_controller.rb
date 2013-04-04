@@ -1,6 +1,4 @@
 class AuthenticationsController < ApplicationController
-  # GET /authentications
-  # GET /authentications.json
   skip_before_filter :login_required
 
   def index
@@ -12,8 +10,6 @@ class AuthenticationsController < ApplicationController
     end
   end
 
-  # GET /authentications/1
-  # GET /authentications/1.json
   def show
     @authentication = Authentication.find(params[:id])
 
@@ -23,8 +19,6 @@ class AuthenticationsController < ApplicationController
     end
   end
 
-  # GET /authentications/new
-  # GET /authentications/new.json
   def new
     @authentication = Authentication.new
 
@@ -34,13 +28,10 @@ class AuthenticationsController < ApplicationController
     end
   end
 
-  # GET /authentications/1/edit
   def edit
     @authentication = Authentication.find(params[:id])
   end
 
-  # POST /authentications
-  # POST /authentications.json
   def create
     session[:instagram] = nil
     auth = request.env["omniauth.auth"]
@@ -48,20 +39,12 @@ class AuthenticationsController < ApplicationController
       @auth = Identity.create_from_hash(auth, current_user)
     end
     session[:instagram] ||= {}
-    session[:instagram][:uid] = @instagram_identity.uid
-    session[:instagram][:token] = @instagram_identity.token
-    # if User.find_by_name(request.env["omniauth.auth"][:info][:name])
-    #   redirect_to login_path, :notice => "Instagram authentication successful.Please log in"
-    # else
-    #   redirect_to new_user_path, :notice => "Instagram authentication successful. Please sign up"
-    # end
+    session[:instagram][:uid] = @auth.uid
+    session[:instagram][:token] = @auth.token
 
     redirect_to root_path, :notice => "Instagram authentication successful."
-    # render :text => request.env["omniauth.auth"].to_yaml
   end
 
-  # PUT /authentications/1
-  # PUT /authentications/1.json
   def update
     @authentication = Authentication.find(params[:id])
 
@@ -76,8 +59,6 @@ class AuthenticationsController < ApplicationController
     end
   end
 
-  # DELETE /authentications/1
-  # DELETE /authentications/1.json
   def destroy
     @authentication = Authentication.find(params[:id])
     @authentication.destroy

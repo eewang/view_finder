@@ -58,5 +58,10 @@ module ViewFinder
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    if Rails.env == "production"
+        config.middleware.use("Rack::GoogleAnalytics", :web_property_id => "UA-38259585-2")
+    end
+
   end
 end

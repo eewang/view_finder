@@ -1,7 +1,5 @@
 class GuessesController < ApplicationController
 
-  # GET /guesses
-  # GET /guesses.json
   def index
     @guesses = Guess.all
 
@@ -11,9 +9,8 @@ class GuessesController < ApplicationController
     end
   end
 
-  # GET /guesses/1
-  # GET /guesses/1.json
   def show
+    @guesses_count = 0
     # if @photo.guessed_by?(current_user)
       current_guess = Guess.find(params[:id])
       @all_guesses = Guess.photo_guesses_sorted(current_guess.photo)
@@ -26,17 +23,17 @@ class GuessesController < ApplicationController
       @user_in_top_5 = false
       @user_in_top_5 = true if @current_guess
 
+      @guesses_count = @current_guess.photo.guesses.size if @current_guess
+
       respond_to do |format|
         format.html # show.html.erb
-        format.json { render json: @guess }
+        format.json { render json: @current_guess }
       end
     # else
       # redirect_to photo_show(@photo)
     # end
   end
 
-  # GET /guesses/new
-  # GET /guesses/new.json
   def new
     @guess = Guess.new
 
@@ -46,13 +43,10 @@ class GuessesController < ApplicationController
     end
   end
 
-  # GET /guesses/1/edit
   def edit
     @guess = Guess.find(params[:id])
   end
 
-  # POST /guesses
-  # POST /guesses.json
   def create
     params.delete :controller
     params.delete :action
@@ -61,30 +55,19 @@ class GuessesController < ApplicationController
 
     if guess.nil?
       target = Photo.where(:id => params[:photo_id]).first
-      guess = current_user.guesses.create(params)
+      guess = current_user.guesses.build(params)
       guess.street_address = guess.coordinates_to_address
       guess.proximity_to_answer_in_feet = guess.distance_from_target_in_feet(target).round
 
       guess.save
     end
     
-    url = "http://wheresthatgram.com/guesses/#{guess.id}"
+    url = guess_path(guess)
     
     render :json => {:redirect_url => url }
 
-
-    
-    # if @guess.try(:has_valid_location?)
-    #   @guess.save
-    #   @guess.address_to_coordinates
-    #   redirect_to guess_path(@guess)
-    # else
-    #   render "error"
-    # end
   end
 
-  # PUT /guesses/1
-  # PUT /guesses/1.json
   def update
     @guess = Guess.find(params[:id])
 
@@ -99,8 +82,6 @@ class GuessesController < ApplicationController
     end
   end
 
-  # DELETE /guesses/1
-  # DELETE /guesses/1.json
   def destroy
     @guess = Guess.find(params[:id])
     @guess.destroy

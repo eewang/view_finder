@@ -5,9 +5,12 @@
 
     <p id="notice"><%= notice %></p>
     <br>
+
+    <% if @current_guess %>
     <h4>
-      Congrats! Your guess was about <%= @guess.distance_from_target_in_feet(@guess.photo).round %> feet away (~ <%= @guess.distance_from_target_in_miles(@guess.photo).round(2) %> miles) from the target! 
+      Congrats! Your guess was about <%= @current_guess.proximity_to_answer_in_feet %> feet away from the target! 
     </h4>
+    <% end %>
 
     <br>
     <div class="row-fluid">
@@ -24,7 +27,7 @@
             var i;
             var latlong;
             var map;
-            var guesses_count = <%= @guess.photo.guesses.size %>
+            var guesses_count = <%= @guesses_count %>
             // Create an array of styles.
             var styles = [
               {
@@ -43,7 +46,7 @@
                 featureType: "road",
                 elementType: "labels",
                 stylers: [
-                  { visibility: "off" }
+                  { visibility: "on" }
                 ]
               }
             ];
@@ -53,8 +56,9 @@
             var styledMap = new google.maps.StyledMapType(styles,
               {name: "Jazzy Jeff"});
 
+            <% if @current_guess %>
             console.log(guesses_count);
-            var currentPhoto = "/photos/" + <%= @guess.photo.id %> + ".json"
+            var currentPhoto = "/photos/" + <%= @current_guess.photo.id %> + ".json"
             $.get(currentPhoto, function(data) {
               latlong = data
               var map = new google.maps.Map(document.getElementById("mapdiv"), {
@@ -65,7 +69,7 @@
                 }
                 
               });
-
+            <% end %>
                 //Associate the styled map with the MapTypeId and set it to display.
                 map.mapTypes.set('map_style', styledMap);
                 map.setMapTypeId('map_style');

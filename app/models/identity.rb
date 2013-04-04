@@ -28,12 +28,6 @@ class Identity < ActiveRecord::Base
     InstagramWrapper.new.user_follows(:user => self.uid)
   end
 
-  # def self.friends_with_identities(friends_list)
-  #   Identity.all.collect do |i|
-  #     i.uid if friends_list
-  #   end
-  # end
-
   def friends_media(friends_list)
     f_photos = {}
     friends_list.each do |f|

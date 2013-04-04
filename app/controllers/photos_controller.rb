@@ -37,7 +37,7 @@ class PhotosController < ApplicationController
         @coordinates = LOCATION_GAMES[game.to_sym][:coordinates]
         radius = LOCATION_GAMES[game.to_sym][:radius]
         size = LOCATION_GAMES[game.to_sym][:size]
-        user = User.where(:id => current_user[:id]).first
+        user = current_user
         # Load game photos
         @photos = Photo.game_photos_random(@coordinates, radius, user, size)
         @photos.each do |p|
@@ -47,6 +47,7 @@ class PhotosController < ApplicationController
         end
         # Loads game photo ids into user session
         self.create_game(@game, @coordinates, @photos)
+        @start_photo = session[game][:photos].empty? ? 0 : Photo.first_unguessed_photo(session[game][:photos], current_user)
         # Perform asynchronous Instagram API call
         InstagramWorker.perform_async(@coordinates)
         # Convert game photos to map markers
@@ -56,13 +57,14 @@ class PhotosController < ApplicationController
       end
 
       define_method "saved_#{game}_game" do 
-        user = User.where(:id => current_user[:id]).first
+        user = current_user
         photo_ids = session[game][:photos]
         @coordinates = session[game][:coordinates]
         @game = session[game][:game]
         @photos = photo_ids.collect do |id|
           @photo = Photo.find(id)
         end
+        @start_photo = session[game][:photos].empty? ? 0 : Photo.first_unguessed_photo(photo_ids, current_user)
         render "index"
       end
     end
@@ -77,12 +79,6 @@ class PhotosController < ApplicationController
       end
     end
   end
-
-  # def self.get_games
-  #   games = LOCATION_GAMES.collect do |key, value|
-  #     key
-  #   end
-  # end
 
   location_games :downtown, :midtown, :downtown_brooklyn #, :world_trade, :dumbo
 
@@ -106,8 +102,6 @@ class PhotosController < ApplicationController
     render "index"
   end
 
-  # GET /photos/1
-  # GET /photos/1.json
   def show
     @game = params[:game]
     @photo = Photo.find(params[:id])
@@ -135,12 +129,6 @@ class PhotosController < ApplicationController
     lat = coordinates.split(",")[0].gsub("[", "").to_f
     lon = coordinates.split(",")[1].gsub("[", "").to_f
     redirect_to photo_path(params[:photo_id], :locale_lat => lat, :locale_lon => lon)
-  end
-
-  def index_popular
-    @photos = Photo.instagram_media_popular({})
-
-    render "index"
   end
 
 end
