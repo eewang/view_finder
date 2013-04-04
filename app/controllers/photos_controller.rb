@@ -1,5 +1,5 @@
 class PhotosController < ApplicationController
-  skip_before_filter :login_required, :only => ["index", "test"]
+  skip_before_filter :login_required, :only => ["index"]
 
   LOCATION_GAMES = {
     :downtown => {
