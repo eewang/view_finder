@@ -38,12 +38,20 @@ class GuessesController < ApplicationController
     @guess = Guess.find(params[:id])
   end
 
+
+
+
+
+
+  # POST /guesses
   def create
-    params.delete :controller
-    params.delete :action
-    
+    # params from ajax
+      # {latitude: "40.754853", longitude: "-73.984124", photo_id: 142}
+
+    # => Find out if the user already made a guess on that photo.
     guess = current_user.guesses.where(:photo_id => params[:photo_id]).first
 
+    # => If there is no guess, create one.
     if guess.nil?
       target = Photo.where(:id => params[:photo_id]).first
       guess = current_user.guesses.create(params)
@@ -53,11 +61,15 @@ class GuessesController < ApplicationController
       guess.save
     end
     
+    # => Instead of rendering a view, this action renders a redirect url in a json object
     url = guess_path(guess)
-    
     render :json => {:redirect_url => url }
-
   end
+
+
+
+
+
 
   def update
     @guess = Guess.find(params[:id])
