@@ -210,15 +210,17 @@
         <%= image_tag(@guess.photo_image)%>
       </div>
       
-      <div class="span6"><br>
-        <%= link_to "Play the Next Photo!", "/users/#{current_user.id}/#{@guess.photo.game.to_s}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px; float:left; letter-spacing:1px;")%>
+      <div class="span5" style="text-align:center;"><br>
+        <%= link_to "Play the Next Photo!", "/users/#{current_user.id}/#{@guess.photo.game.to_s}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px; float:none; letter-spacing:1px;")%>
       </div>
 
       <!-- Leaderboard -->
       <div class="span5" style="float:left;">
          <br>
         <h5>LEADERBOARD</h5>
-        <span class="label label-success">Winner!</span><br>
+        <%= image_tag("laurel.svg", :width => "60px", :class => "flip_image") %>
+        <span class="label label-success">Winner!</span>
+        <%= image_tag("laurel.svg", :width => "60px") %>
         <%= render :partial => 'leaderboard', :collection => @photo_guesses, :as => 'guess' %>
       </div>
 
