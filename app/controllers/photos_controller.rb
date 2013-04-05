@@ -47,8 +47,9 @@ class PhotosController < ApplicationController
           p.save
         end
         # Loads game photo ids into user session
-        self.create_game(@game, @coordinates, @photos)
+        self.create_game({:game => @game, :coordinates => @coordinates, :photos => @photos})
         @start_photo = session[game][:photos].empty? ? 0 : Photo.first_unguessed_photo(session[game][:photos], current_user)
+        @guessed_count = @photos.count { |p| p.guessed_by?(current_user) }
         # Perform asynchronous Instagram API call
         InstagramWorker.perform_async(@coordinates)
         # Convert game photos to map markers
@@ -94,34 +95,71 @@ class PhotosController < ApplicationController
 
   social_games :user_media_feed #, :user_recent_media
 
-  def friends_feed_1
-    social_games = session[:social]
-    friend_1_pics = social_games[social_games.keys[0]].shuffle[0..5]
-    @photos = friend_1_pics.collect do |pic_id|
+  def friend_feed
+    friend_photos = params[:friend_name]
+    @photos = session[:social][friend_photos.to_sym].shuffle[0..5].collect do |pic_id|
       Photo.find(pic_id)
     end
     @start_photo = 0 # CHANGE START PHOTO TO FIRST UNGUESSED
-
-    render "index"
-  end  
-
-  def friends_feed_2
-    social_games = session[:social]
-    friend_2_pics = social_games[social_games.keys[1]].shuffle[0..5]
-    @photos = friend_2_pics.collect do |pic_id|
-      Photo.find(pic_id)
-    end
-    @start_photo = 0 # CHANGE START PHOTO TO FIRST UNGUESSED
-
+    @game = "friend/#{friend_photos}"
+    @guessed_count = @photos.count { |p| p.guessed_by?(current_user) }
+    self.create_game({:game => friend_photos, :photos => @photos})
     render "index"
   end
 
-  def create_game(game, coordinates, photos)
+  def saved_friend_feed
+    friend = params["friend_name"]
+    user = current_user
+    photo_ids = session[friend][:photos]
+    # @coordinates = session[game][:coordinates]
+    @game = session[friend][:game]
+    @photos = photo_ids.collect do |id|
+      @photo = Photo.find(id)
+    end
+    @guessed_count = @photos.count { |p| p.guessed_by?(current_user) }
+    if @guessed_count == @photos.size
+      @start_photo = @photos.size
+    else
+      @start_photo = session[friend][:photos].empty? ? 0 : Photo.first_unguessed_photo(photo_ids, current_user)
+    end
+    render "index"
+  end    
+
+  # def friends_feed_1
+  #   social_games = session[:social]
+  #   friend_1_pics = social_games[social_games.keys[0]].shuffle[0..5]
+  #   @photos = friend_1_pics.collect do |pic_id|
+  #     Photo.find(pic_id)
+  #   end
+  #   @start_photo = 0 # CHANGE START PHOTO TO FIRST UNGUESSED
+  #   @guessed_count = @photos.count { |p| p.guessed_by?(current_user) }
+  #   binding.pry
+  #   render "index"
+  # end  
+
+  # def friends_feed_2
+  #   social_games = session[:social]
+  #   friend_2_pics = social_games[social_games.keys[1]].shuffle[0..5]
+  #   @photos = friend_2_pics.collect do |pic_id|
+  #     Photo.find(pic_id)
+  #   end
+  #   @start_photo = 0 # CHANGE START PHOTO TO FIRST UNGUESSED
+  #   @guessed_count = @photos.count { |p| p.guessed_by?(current_user) }
+
+  #   render "index"
+  # end
+
+  def create_game(options)
+    game = options[:game]
     session[game] = nil
     session[game] ||= {}
-    session[game][:photos] ||= []
-    session[game][:coordinates] ||= coordinates
     session[game][:game] ||= game
+    photos = options[:photos]
+    session[game][:photos] ||= []
+    if options[:coordinates]
+      coordinates = options[:coordinates]
+      session[game][:coordinates] ||= coordinates
+    end
     photos.each do |photo|
       session[game][:photos].push(photo.id)
     end
@@ -164,7 +202,8 @@ class PhotosController < ApplicationController
     end
     lat = coordinates.split(",")[0].gsub("[", "").to_f
     lon = coordinates.split(",")[1].gsub("[", "").to_f
-    redirect_to photo_path(params[:photo_id], :locale_lat => lat, :locale_lon => lon)
+
+    redirect_to photo_path(:id => params[:photo_id], :locale_lat => lat, :locale_lon => lon)
   end
 
 end

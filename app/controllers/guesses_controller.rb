@@ -10,7 +10,7 @@ class GuessesController < ApplicationController
   end
 
   def show
-      @guess = Guess.find(params[:id])
+    @guess = Guess.find(params[:id])
     if @guess.photo.guessed_by?(current_user)
       @photo_guesses = Guess.photo_guesses_sorted(@guess.photo)
       @photo_guesses = @photo_guesses.shift(8) if @photo_guesses.size > 8
@@ -37,11 +37,6 @@ class GuessesController < ApplicationController
   def edit
     @guess = Guess.find(params[:id])
   end
-
-
-
-
-
 
   # POST /guesses
   def create

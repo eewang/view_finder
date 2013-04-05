@@ -46,7 +46,7 @@ $(document).ready(function(){
                   <% method = "GET" %>
                 <% else %>
                   <% route = "photos" %>
-                  <% link = @game %>
+                  <% link = p.game %>
                   <% method = "POST" %>
                 <% end %>
                 <%= form_tag :url => "/#{route}/#{link}", :method => "#{method}" do %>

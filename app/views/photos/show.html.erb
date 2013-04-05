@@ -147,13 +147,6 @@
           }, 'json');
 
         });
-
-
-
-
-
-
-
       });
 
     </script>
@@ -176,7 +169,7 @@
         
         <div class="span10" style="text-align:center;">
           <% unless @photo.guessed_by?(current_user) %>
-            <button class="styled-button-5" id="submit_guess" style="float:none">Guess!</button>
+            <button class="styled-button-5" id="submit_guess" style="float:none" >Guess!</button>
           <% else %>
             <button class="styled-button-5" id="submit_guess" style="float:none">See Guesses!</button>
           <% end %>
@@ -184,7 +177,7 @@
         </div>
       </div>
       <div class="span10" style="text-align:center;">
-        <%= link_to "Return to Game", "/users/#{current_user.id}/#{@photo.game.to_s}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px;")%>
+        <%= link_to "Return to Game", "/users/#{current_user.id}/games/#{@photo.game.to_s}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px;")%>
       </div>
 
     </div>
