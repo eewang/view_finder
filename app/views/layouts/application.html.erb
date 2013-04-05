@@ -47,8 +47,8 @@
           <strong><%= link_to "ViewFinder", root_path, :class => "brand" %></strong>
           <!-- <div class="container-fluid nav-collapse"> -->
             <ul style="list-style: none;">
-              <li style="display: inline-block;"><%= link_to "Downtown Manhattan", photos_downtown_path %></li>
               <li><%= link_to "Midtown Manhattan", photos_midtown_path  %></li>
+              <li style="display: inline-block;"><%= link_to "Downtown Manhattan", photos_downtown_path %></li>
               <li><%= link_to "Downtown Brooklyn", photos_downtown_brooklyn_path %></li>
               <% if current_user %>
                 <li><%= link_to "See My Games", "/users/#{current_user.id}" %></li>

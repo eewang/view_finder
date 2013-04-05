@@ -144,6 +144,8 @@ class Photo < ActiveRecord::Base
     Photo.game_photos_set(coordinates, distance, user).shuffle[0..size-1]
   end
 
+  ### END GAMEPLAY LOGIC ###
+
   def game
     game_coords = {}
     distances = {}
@@ -156,6 +158,10 @@ class Photo < ActiveRecord::Base
       distances[game] ||= dist      
     end
     @game = game_coords.keys[distances.index(distances.min)]
+  end
+
+  def tagged?
+    TAGS.any? { |tag| self.caption.include?(tag) }
   end
 
 end

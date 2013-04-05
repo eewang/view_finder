@@ -142,9 +142,13 @@ class PhotosController < ApplicationController
       @guess = @photo.guesses.build
     end
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @photo }
+    if @photo.tagged?
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @photo }
+      end
+    else
+      redirect_to root_path, :notice => "Sorry, that photo has not been tagged with #viewfinder or #vfyw"
     end
   end
 
