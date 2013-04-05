@@ -65,9 +65,12 @@ class PhotosController < ApplicationController
         @photos = photo_ids.collect do |id|
           @photo = Photo.find(id)
         end
-        @start_photo = session[game][:photos].empty? ? 0 : Photo.first_unguessed_photo(photo_ids, current_user)
         @guessed_count = @photos.count { |p| p.guessed_by?(current_user) }
-        binding.pry
+        if @guessed_count == @photos.size
+          @start_photo = @photos.size
+        else
+          @start_photo = session[game][:photos].empty? ? 0 : Photo.first_unguessed_photo(photo_ids, current_user)
+        end
         render "index"
       end
     end
