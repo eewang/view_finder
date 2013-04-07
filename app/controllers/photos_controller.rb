@@ -83,6 +83,7 @@ class PhotosController < ApplicationController
         @game = game
         @photos = Photo.send("#{game}", options)[0..5]
         @start_photo = 0 # CHANGE START PHOTO TO FIRST UNGUESSED
+        @guessed_count = @photos.count { |p| p.guessed_by?(current_user) }
         render "index"
       end
 

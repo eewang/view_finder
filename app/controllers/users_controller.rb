@@ -27,6 +27,7 @@ class UsersController < ApplicationController
   def show
     if params[:id].to_i == current_user.id 
       @user = User.find(current_user.id)
+      @guesses = @user
       render "show" 
     else
       render "error"

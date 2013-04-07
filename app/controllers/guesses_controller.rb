@@ -45,6 +45,7 @@ class GuessesController < ApplicationController
       # {latitude: "40.754853", longitude: "-73.984124", photo_id: 142}
 
     # get params ready for mass assignment
+    params.delete("game")
     params.delete(:action)
     params.delete(:controller)
 
@@ -65,11 +66,6 @@ class GuessesController < ApplicationController
     url = guess_path(guess)
     render :json => {:redirect_url => url }
   end
-
-
-
-
-
 
   def update
     @guess = Guess.find(params[:id])
