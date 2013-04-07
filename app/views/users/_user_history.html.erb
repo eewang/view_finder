@@ -1,0 +1,9 @@
+<h3>User Stats</h3>
+<% @user.guesses.each do |g| %>
+  <h7>Current Rank<h7>
+  <% @photo_guesses = Guess.photo_guesses_sorted(g.photo) %>
+  <p>You are currently <%= @photo_guesses.index(g) + 1 %> of <%= @photo_guesses.size %> with a distance of <%= g.proximity_to_answer_in_feet %></p>
+  <p>The current leader is <%= @photo_guesses.first.user_name %> with a distance of <%= @photo_guesses.first.proximity_to_answer_in_feet %></p>
+  <%= image_tag(g.photo_image) %>
+  <br><br>
+<% end %>

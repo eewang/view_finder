@@ -1,26 +1,9 @@
 <p id="notice"><%= notice %></p>
 
 <%= @user.name %>
-<h3>Current Saved Games</h3>
-<h5>Location Games</h5>
-<% session.keys.each do |s| %>
-  <% if PhotosController::LOCATION_GAMES.has_key?(s.to_sym) %>
-    <%= link_to s.split("_").collect { |s| s.capitalize }.join(" "), "/users/#{current_user.id}/games/#{s}" %>
-    <br><br>
-  <% end %>
-<% end %>
-<hr>
-<h5>Social Games</h5>
-<% if s = "social" %>
-  <% session["social"].keys.each do |friend| %>
-  <% if session.keys.include?(friend.to_s) %>
-    <%= link_to friend, "/users/#{current_user.id}/#{friend}", :friend => friend %>
-  <% end %>
-  <br><br>
-  <% end %>
-<% end %>
-
+<%= render :partial => "user_games" %>
 <br>
+<%= render :partial => "user_history" %>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Return To Home', root_path %>
