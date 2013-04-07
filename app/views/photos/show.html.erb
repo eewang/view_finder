@@ -7,6 +7,7 @@
 <%= javascript_tag do %>
   window.photo_id = '<%= j @photo.id.to_s %>';
 <% end %>
+
 <div class="row-fluid">
   <div class="span6">
   <div id="mapdiv" style="height: 400px; max-width: 600px;"></div>
@@ -23,6 +24,7 @@
         var locallat;
         var locallon;
         var photo_id = <%= @photo.id.to_s %>;
+        var game = "<%= @game %>";
         var currentPhoto = "/photos/" + photo_id + ".json";
         var style = [
          {
@@ -136,8 +138,9 @@
             "latitude":locallat,
             "longitude":locallon,
             "photo_id":photo_id,
+            "game":game
           }
-
+          console.log(parameters);
           // POST(where?, what?, on success?)
           $.post('/guesses', parameters, function(json){
             console.log(json);
@@ -177,7 +180,12 @@
         </div>
       </div>
       <div class="span10" style="text-align:center;">
-        <%= link_to "Return to Game", "/users/#{current_user.id}/games/#{@photo.game.to_s}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px;")%>
+        <% if params["game"].include?("friend") %>
+          <% url = "/users/#{current_user.id}/#{params["game"].split("/")[1]}" %>
+        <% else %>
+          <% url = "/users/#{current_user.id}/games/#{params["game"]}" %>
+        <% end %>
+        <%= link_to "Return to Game", url, :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px;")%>
       </div>
 
     </div>

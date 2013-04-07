@@ -112,7 +112,7 @@ class PhotosController < ApplicationController
     user = current_user
     photo_ids = session[friend][:photos]
     # @coordinates = session[game][:coordinates]
-    @game = session[friend][:game]
+    @game = "friend/#{session[friend][:game]}"
     @photos = photo_ids.collect do |id|
       @photo = Photo.find(id)
     end
@@ -124,30 +124,6 @@ class PhotosController < ApplicationController
     end
     render "index"
   end    
-
-  # def friends_feed_1
-  #   social_games = session[:social]
-  #   friend_1_pics = social_games[social_games.keys[0]].shuffle[0..5]
-  #   @photos = friend_1_pics.collect do |pic_id|
-  #     Photo.find(pic_id)
-  #   end
-  #   @start_photo = 0 # CHANGE START PHOTO TO FIRST UNGUESSED
-  #   @guessed_count = @photos.count { |p| p.guessed_by?(current_user) }
-  #   binding.pry
-  #   render "index"
-  # end  
-
-  # def friends_feed_2
-  #   social_games = session[:social]
-  #   friend_2_pics = social_games[social_games.keys[1]].shuffle[0..5]
-  #   @photos = friend_2_pics.collect do |pic_id|
-  #     Photo.find(pic_id)
-  #   end
-  #   @start_photo = 0 # CHANGE START PHOTO TO FIRST UNGUESSED
-  #   @guessed_count = @photos.count { |p| p.guessed_by?(current_user) }
-
-  #   render "index"
-  # end
 
   def create_game(options)
     game = options[:game]
@@ -200,10 +176,16 @@ class PhotosController < ApplicationController
     else
       coordinates = params[:coordinates]
     end
+    game = params["game"]
     lat = coordinates.split(",")[0].gsub("[", "").to_f
     lon = coordinates.split(",")[1].gsub("[", "").to_f
 
-    redirect_to photo_path(:id => params[:photo_id], :locale_lat => lat, :locale_lon => lon)
+    redirect_to photo_path(
+      :id => params[:photo_id], 
+      :locale_lat => lat, 
+      :locale_lon => lon,
+      :game => game
+      )
   end
 
 end

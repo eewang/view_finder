@@ -218,6 +218,7 @@
     </div>
     
     <div class="span5" style="text-align:center;"><br>
+      <% binding.pry %>
       <%= link_to "Play the Next Photo!", "/users/#{current_user.id}/games/#{@guess.photo.game.to_s}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px; float:none; letter-spacing:1px;")%>
     </div>
 
