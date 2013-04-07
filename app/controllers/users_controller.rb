@@ -44,6 +44,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def signup_modal
+    render :partial => "new_user_modal"
+  end
+
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])

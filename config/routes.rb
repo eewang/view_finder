@@ -7,6 +7,8 @@ ViewFinder::Application.routes.draw do
   match 'auth/instagram/callback/' => 'authentications#create'
 
   root :to => 'site#home'
+  get 'login_modal' => 'sessions#login_modal'
+  get 'signup_modal' => 'users#signup_modal'
 
   PhotosController::LOCATION_GAMES.each do |key, value|
     get "photos/#{key.to_s}" => "photos##{key.to_s}"
@@ -36,6 +38,7 @@ ViewFinder::Application.routes.draw do
   get 'photos/vfyw' => 'photos#photo_tag'
 
   get 'users/:id/feed' => "photos#user_media_feed"
+
 
   resources :users, :sessions, :authentications, :guesses
 

@@ -1,0 +1,26 @@
+<div class="row-fluid">
+  <div class="span18">
+    <%= bootstrap_flash %>
+    <% if current_user %>
+      Logged in as: <%= current_user.name %> |
+      <%= link_to("Logout", logout_path, :id => "logout") %>
+      <% if session[:instagram].nil? %>
+        | <%= link_to 'Sign in with Instagram', '/auth/instagram' %>
+      <% end %>
+    <% else %>
+      <% if current_page?(root_path) %>
+        <%= link_to("Sign Up", new_user_path) %> |
+        <%= link_to("Login", login_path, :id => "login") %>  |
+        <%= link_to("Sign in with Instagram", '/auth/instagram') %>
+      <% end %>
+      <% if current_page?(login_path) %>
+        <%= link_to("Sign Up", new_user_path) %> |
+        <%= link_to("Sign in with Instagram", '/auth/instagram') %>
+      <% end %>
+      <% if current_page?(new_user_path) %>
+        <%= link_to("Login", login_path, :id => "login") %>  |
+        <%= link_to("Sign in with Instagram", '/auth/instagram') %>
+      <% end %>
+    <% end %>          
+  </div>
+</div><!--/row-->

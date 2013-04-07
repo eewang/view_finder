@@ -13,53 +13,11 @@
 
 
     <div class="container-fluid">
-      <div class="row-fluid">
-        <div class="span18">
-          <%= bootstrap_flash %>
-          <% if current_user %>
-            Logged in as: <%= current_user.name %> |
-            <%= link_to "Logout", logout_path %>
-            <% if session[:instagram].nil? %>
-              | <%= link_to 'Sign in with Instagram', '/auth/instagram' %>
-            <% end %>
-          <% else %>
-            <% if current_page?(root_path) %>
-              <%= link_to("Sign Up", new_user_path) %> |
-              <%= link_to("Login", login_path) %>  |
-              <%= link_to("Sign in with Instagram", '/auth/instagram') %>
-            <% end %>
-            <% if current_page?(login_path) %>
-              <%= link_to("Sign Up", new_user_path) %> |
-              <%= link_to("Sign in with Instagram", '/auth/instagram') %>
-            <% end %>
-            <% if current_page?(new_user_path) %>
-              <%= link_to("Login", login_path) %>  |
-              <%= link_to("Sign in with Instagram", '/auth/instagram') %>
-            <% end %>
-          <% end %>          
-        </div>
-      </div><!--/row-->
-<div class="back"></div>
-          <%= yield %>
-    <div class="navigator-erin navbar-fluid-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <strong><%= link_to "ViewFinder", root_path, :class => "brand" %></strong>
-          <!-- <div class="container-fluid nav-collapse"> -->
-            <ul style="list-style: none;">
-              <li><%= link_to "Midtown Manhattan", photos_midtown_path  %></li>
-              <li style="display: inline-block;"><%= link_to "Downtown Manhattan", photos_downtown_path %></li>
-              <li><%= link_to "Downtown Brooklyn", photos_downtown_brooklyn_path %></li>
-              <% if current_user %>
-                <li><%= link_to "See My Games", "/users/#{current_user.id}" %></li>
-              <% end %>
-            </ul>
-          <!-- </div> --><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-
-          <%= yield :scripts %>
+      <%= render :partial => "site/nav_sessions" %>
+    <div class="back"></div>
+      <%= yield %>
+      <%= yield :scripts %>
+      <%= render :partial => "site/footer" %>
 
     </div> <!-- /container -->
 

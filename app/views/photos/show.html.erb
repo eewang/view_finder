@@ -140,10 +140,9 @@
 
           // POST(where?, what?, on success?)
           $.post('/guesses', parameters, function(json){
-
+            console.log(json);
             // Redirect to '/guesses/59', for example.
             window.location.href = json.redirect_url;
-
           }, 'json');
 
         });
@@ -170,6 +169,7 @@
         <div class="span10" style="text-align:center;">
           <% unless @photo.guessed_by?(current_user) %>
             <button class="styled-button-5" id="submit_guess" style="float:none" >Guess!</button>
+            <%#= link_to "Return to Game", "/users/#{current_user.id}/games/#{@photo.game.to_s}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px;")%>
           <% else %>
             <button class="styled-button-5" id="submit_guess" style="float:none">See Guesses!</button>
           <% end %>

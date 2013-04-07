@@ -1,0 +1,23 @@
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Please Login</h3>
+  </div>
+  <div class="modal-body">
+    <h1>Login</h1>
+
+    <%= form_tag(sessions_path, :remote => true) do |f| %>
+
+      <%= label_tag :email %>
+      <%= text_field_tag :email %><br>
+
+      <%= label_tag :password %>
+      <%= password_field_tag :password %><br>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <%= submit_tag "Login", :class => "btn btn-primary", :id => "login_submit" %>
+    <% end %>
+  </div>
+</div>
