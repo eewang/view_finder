@@ -65,7 +65,7 @@ class GuessesController < ApplicationController
       guess.save
     end
     
-    # => Instead of rendering a view or redirecting, this action renders a redirect url in a json object
+    # => Instead of rendering a view or redirecting, this action renders a redirect url
     url = guess_path(guess)
     render :json => {:redirect_url => url }
   end
