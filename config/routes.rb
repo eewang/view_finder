@@ -4,7 +4,7 @@ ViewFinder::Application.routes.draw do
 
   mount Sidekiq::Web, at: '/sidekiq'
 
-  match '/auth/instagram/callback/' => 'authentications#create'
+  match 'auth/instagram/callback/' => 'authentications#create'
 
   root :to => 'site#home'
   
