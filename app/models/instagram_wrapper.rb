@@ -28,8 +28,9 @@ class InstagramWrapper
   end
 
   def user_recent_media(options)
-    instagram_user = options[:user] ? options[:user] : nil
-    Instagram.user_recent_media(instagram_user)
+    instagram_user_id = options[:user] ? options[:user] : nil
+    instagram_user = Identity.find_by_uid(instagram_user_id)
+    Instagram.user_recent_media(:user => instagram_user_id, :access_token => instagram_user.token)
   end
 
   def user_media_feed(options)
