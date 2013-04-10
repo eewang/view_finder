@@ -47,6 +47,7 @@ gem 'slim'
 gem 'watir-webdriver'
 gem 'watir-rails'
 gem 'exception_notification'
+gem 'debugger'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

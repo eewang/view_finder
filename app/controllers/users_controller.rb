@@ -5,17 +5,17 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   
-  def oauth_failure
-    user_code = params[:code]
-    uri = URI('https://api.instagram.com/oauth/access_token/')
-    HTTParty.post(uri, 
-      {'client_id' => ENV['INSTAGRAM_APP_ID'],
-        'client_secret' => ENV['INSTAGRAM_SECRET'],
-        'grant_type' => 'authorization_code',
-        'redirect_uri' => ENV['INSTAGRAM_REDIRECT'],
-        'code' => user_code
-      })
-  end
+  # def oauth_failure
+  #   user_code = params[:code]
+  #   uri = URI('https://api.instagram.com/oauth/access_token/')
+  #   HTTParty.post(uri, 
+  #     {'client_id' => ENV['INSTAGRAM_APP_ID'],
+  #       'client_secret' => ENV['INSTAGRAM_SECRET'],
+  #       'grant_type' => 'authorization_code',
+  #       'redirect_uri' => ENV['INSTAGRAM_REDIRECT'],
+  #       'code' => user_code
+  #     })
+  # end
 
   def index
     @users = User.all
