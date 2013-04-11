@@ -42,7 +42,11 @@ class AuthenticationsController < ApplicationController
     session[:instagram][:uid] = @auth.uid
     session[:instagram][:token] = @auth.token
 
-    redirect_to root_path, :notice => "Instagram authentication successful."
+    if @auth.user_id
+      redirect_to root_path, :notice => "Instagram authentication successful."
+    else
+      redirect_to new_user_path, :notice => "Please signup for ViewFinder."
+    end
   end
 
   def update

@@ -1,45 +1,27 @@
-<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="mySignupModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel">Please Sign-Up</h3>
   </div>
   <div class="modal-body">
-    <%= form_for(@user) do |f| %>
-      <% if @user.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+    <%= form_tag(users_path, :remote => true) do |f| %>
 
-          <ul>
-          <% @user.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-          </ul>
-        </div>
-      <% end %>
+      <%= label_tag :name %><br>
+      <%= text_field_tag :name %>
 
-      <%= f.label :name %><br>
-      <%= f.text_field :name %>
+      <%= label_tag :email %><br>
+      <%= email_field_tag :email %>
 
-      <%= f.label :email %><br>
-      <%= f.email_field :email %>
+      <%= label_tag :password %><br>
+      <%= password_field_tag :password %>
 
-      <%= f.label :password %><br>
-      <%= f.password_field :password %>
-
-      <%= f.label :password_confirmation %><br>
-      <%= f.password_field :password_confirmation %>
-
-      <div class="actions">
-        <%= f.submit %>
-      </div>
-    <% end %>
+      <%= label_tag :password_confirmation %><br>
+      <%= password_field_tag :password_confirmation %>
 
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <div class="actions">
       <%= submit_tag "Sign-Up", :class => "btn btn-primary", :id => "signup_submit" %>
-    </div>
     <% end %>
   </div>
 </div>

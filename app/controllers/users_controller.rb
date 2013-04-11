@@ -1,7 +1,7 @@
 require 'net/http'
 
 class UsersController < ApplicationController
-  skip_before_filter :login_required, :only => [:new, :create, :oauth_failure, :index]
+  skip_before_filter :login_required, :only => [:new, :create, :oauth_failure, :index, :signup_modal]
   # GET /users
   # GET /users.json
   
@@ -57,16 +57,27 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(params[:user])
+    @user = User.new
+    @user.name = params["user"]["name"]
+    @user.password = params["user"]["password"]
+    @user.email = params["user"]["email"]
 
-    respond_to do |format|
-      if @user.save
-        session[:user_id] = @user.id
-        format.html { redirect_to root_path, notice: 'User was successfully created.' }
-        format.json { render json: @user, status: :created, location: @user }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+    if @user.save
+      session[:user_id] = @user.id
+      respond_to do |f|
+        f.js {
+          render 'user_create.js.erb', :notice => "User created successfully!"
+        }
+        f.html { redirect_to root_path, :notice => "User created successfully!" }
+      end
+    else
+      respond_to do |f|
+      f.js {
+        render 'user_create.js.erb', :notice => "Sorry, something went wrong. Please try again."
+      }
+      f.html { 
+        redirect_to new_user_path, :notice => "Sorry, something went wrong. Please try again."
+      }
       end
     end
   end

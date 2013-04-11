@@ -32,7 +32,7 @@ class SessionsController < ApplicationController
 
     respond_to do |f|
       f.js {
-        render 'create.js.erb', :notice => "Logged in!"
+        render 'session_create.js.erb', :notice => "Logged in!"
       }
       f.html {}
     end
