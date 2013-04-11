@@ -5,7 +5,11 @@ class SessionsController < ApplicationController
   end
 
   def new
-    redirect_to root_path, :notice => "Please click 'Login'"
+    if session[:user_id]
+      redirect_to root_path, :notice => "You are already logged in"
+    else
+      redirect_to root_path, :notice => "Please click 'Login'"
+    end
   end
 
   def login_modal

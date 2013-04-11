@@ -58,6 +58,11 @@ class UsersController < ApplicationController
     @user.email = params["email"]
     if @user.save
       session[:user_id] = @user.id
+      if session[:instagram]
+        @identity = Identity.find_by_uid(session[:instagram][:uid])
+        @identity.user_id = @user.id
+        @identity.save
+      end
       respond_to do |f|
         f.js {
           render 'user_create.js.erb', :notice => "User created successfully!"
