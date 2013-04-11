@@ -38,8 +38,9 @@ class InstagramWrapper
   end
 
   def user_follows(options)
-    instagram_user = options[:user] ? options[:user] : nil
-    Instagram.user_follows(instagram_user)
+    instagram_user_id = options[:user] ? options[:user] : nil
+    instagram_user = Identity.find_by_uid(instagram_user_id)
+    Instagram.user_follows(:user => instagram_user_id, :access_token => instagram_user.token)
   end
 
 end

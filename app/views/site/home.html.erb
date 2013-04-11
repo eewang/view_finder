@@ -30,13 +30,9 @@
     <div class="span4">
       <div id="myCarousel" class="carousel slide" data-interval="10">
         <div class="carousel-inner">
-          <div class="item active">
-            <%= link_to image_tag("introbox1.png"), photos_midtown_path %>
-          </div>
-          <% @myfavorite[0].each do |f| %>
-          <div class="item">
-            <%= link_to image_tag(f.image), photos_midtown_path %>
-          </div>
+          <%= location_game_cover("introbox1.png", photos_midtown_path) %>
+          <% @myfavorite[0].each do |photo| %>
+            <%= location_game(photo, photos_midtown_path) %>
           <% end %>
         </div>
       </div>
@@ -46,13 +42,9 @@
     <div class="span4">
       <div id="myCarousel2" class="carousel slide" data-interval="10">
         <div class="carousel-inner">
-          <div class="item active">
-            <%= link_to image_tag("introbox3.png"), photos_downtown_path %>
-          </div>
-          <% @myfavorite[1].each do |f| %>
-          <div class="item">
-            <%= link_to image_tag(f.image), photos_downtown_path %>
-          </div>
+          <%= location_game_cover("introbox3.png", photos_downtown_path) %>
+          <% @myfavorite[1].each do |photo| %>
+            <%= location_game(photo, photos_downtown_path) %>
           <% end %>
         </div>
       </div>
@@ -62,13 +54,9 @@
     <div class="span4">
       <div id="myCarousel3" class="carousel slide" data-interval="10">
         <div class="carousel-inner">
-          <div class="item active">
-            <%= link_to image_tag("introbox2.png"), photos_downtown_brooklyn_path %>
-          </div>
-          <% @myfavorite[2].each do |f| %>
-          <div class="item">
-            <%= link_to image_tag(f.image), photos_downtown_brooklyn_path %>
-          </div>
+          <%= location_game_cover("introbox2.png", photos_downtown_brooklyn_path) %>
+          <% @myfavorite[2].each do |photo| %>
+            <%= location_game(photo, photos_downtown_brooklyn_path) %>
           <% end %>
         </div>
       </div>
@@ -100,13 +88,8 @@
                 </div>
               <% end %>
             <% else %>
-              <% if current_user %>
-                <% url = "auth/instagram" %>
-              <% else %>
-                <% url = login_path %>
-              <% end %>  
-              <div class="active item"><%= link_to image_tag('introfriend1.jpg', {:width => 1000}), url %></div>
-              <div class="item"><%= link_to image_tag('introfriend2.jpg', {:width => 1000}), url %></div>
+              <%= user_feed("active") %>
+              <%= user_feed %>
             <% end %>
           </div>
         </div>
@@ -121,28 +104,21 @@
             <% if @identity_auth %>
               <% if !@user_friends_array.empty?  %>
                 <div class="active item">
-                  <%= link_to image_tag(@user_friends_array[0][2], {:width => 300}), photos_friend_1_path %>
-                  <div class="carousel-caption">
-                    <h4><%= @user_friends_array[0][1] %></h4>
-                  </div>
+                  <%= friend_feed_avatar(@user_friends_array[0]) %>
+                  <%= friend_feed_caption(@user_friends_array[0]) %>
                 </div>
                 <% @user_friends_array[0][3].each do |p| %>
-                  <div class="item"><%= link_to image_tag(p.image), photos_friend_1_path %>
-                    <div class="carousel-caption">
-                      <h4><%= @user_friends_array[0][1] %></h4>
-                    </div>
-                  </div>
+                <div class="item">
+                <%= friend_feed_image(p, @user_friends_array[0]) %>
+                <%= friend_feed_caption(@user_friends_array[0]) %>
+                </div>
                 <% end %>
                 <% else %>
                 <!--DISPLAY "INVITE YOUR FRIENDS" IMAGES-->
-                <div class="active item"><%= image_tag 'introtag3.jpg' %></div>
-                <div class="item"><%= image_tag 'introtag2.jpg' %></div>
-                <div class="item"><%= image_tag 'introtag1.jpg' %></div>
+                <%= intro_photos_carousel(['introtag3.jpg', 'introtag2.jpg', 'introtag1.jpg']) %>
               <% end %>
             <% else %>
-              <div class="active item"><%= image_tag 'introtag3.jpg' %></div>
-              <div class="item"><%= image_tag 'introtag2.jpg' %></div>
-              <div class="item"><%= image_tag 'introtag1.jpg' %></div>
+              <%= intro_photos_carousel(['introtag3.jpg', 'introtag2.jpg', 'introtag1.jpg']) %>
             <% end %>
 
           </div>
@@ -159,28 +135,21 @@
             <% if @identity_auth %>
               <% if @user_friends_array.size > 1  %>
                 <div class="active item">
-                  <%= image_tag(@user_friends_array[1][2], {:width => 300}) %>
-                  <div class="carousel-caption">
-                    <h4><%= @user_friends_array[1][1] %></h4>
-                  </div>
+                  <%= friend_feed_avatar(@user_friends_array[1]) %>
+                  <%= friend_feed_caption(@user_friends_array[1]) %>
                 </div>
                 <% @user_friends_array[1][3].each do |p| %>
-                  <div class="item"><%= link_to image_tag(p.image), photos_friend_2_path %>
-                  <div class="carousel-caption">
-                    <h4><%= @user_friends_array[1][1] %></h4>
-                  </div>
-                  </div>
+                <div class="item">
+                <%= friend_feed_image(p, @user_friends_array[1]) %>
+                <%= friend_feed_caption(@user_friends_array[1]) %>
+                </div>
                 <% end %>
                 <% else %>
               <!--DISPLAY "INVITE YOUR FRIENDS" IMAGES-->
-              <div class="active item"><%= image_tag 'sample3.jpg' %></div>
-              <div class="item"><%= image_tag 'sample2.jpg' %></div>
-              <div class="item"><%= image_tag 'sample1.jpg' %></div>
+              <%= intro_photos_carousel(['sample3.jpg', 'sample2.jpg', 'sample1.jpg']) %>
               <% end %>
             <% else %>
-              <div class="active item"><%= image_tag 'sample3.jpg' %></div>
-              <div class="item"><%= image_tag 'sample2.jpg' %></div>
-              <div class="item"><%= image_tag 'sample1.jpg' %></div>
+              <%= intro_photos_carousel(['sample3.jpg', 'sample2.jpg', 'sample1.jpg']) %>
             <% end %>
           </div>
         </div>

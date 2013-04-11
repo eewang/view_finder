@@ -21,4 +21,10 @@ class User < ActiveRecord::Base
     Identity.find_by_provider_and_user_id(provider, self.id) ? true : false
   end
 
+  def guessed_photos
+    self.guesses.collect do |guess|
+      guess.photo
+    end
+  end
+
 end

@@ -5,6 +5,15 @@ class SessionsController < ApplicationController
   end
 
   def new
+    if session[:user_id]
+      redirect_to root_path, :notice => "You are already logged in"
+    else
+      redirect_to root_path, :notice => "Please click 'Login'"
+    end
+  end
+
+  def login_modal
+    render :partial => "login_modal"
   end
 
   def create
@@ -21,10 +30,18 @@ class SessionsController < ApplicationController
         @instagram_identity.avatar = test.profile_picture
         @instagram_identity.save
       end
-      redirect_to root_path, :notice => "Logged in!"
+      # redirect_to root_path, :notice => "Logged in!"
     else
-      redirect_to login_path, :notice => "Invalid email or password"
+      # redirect_to login_path, :notice => "Invalid email or password"
     end
+
+    respond_to do |f|
+      f.js {
+        render 'session_create.js.erb', :notice => "Logged in!"
+      }
+      f.html {}
+    end
+
   end
 
   def destroy
@@ -36,7 +53,12 @@ class SessionsController < ApplicationController
     session[:midtown] = nil
     current_user = nil
 
-    redirect_to login_path, :notice => "Logged out!"
+    respond_to do |f|
+      f.js { }
+      f.html {
+        redirect_to root_path, :notice => "Logged out!"
+      }
+    end
   end
 
   def auth_instagram

@@ -1,15 +1,9 @@
 <p id="notice"><%= notice %></p>
 
 <%= @user.name %>
-<h3>Current Games</h3>
-<% session.keys.each do |s| %>
-  <% if PhotosController::LOCATION_GAMES.has_key?(s.to_sym) %>
-    <%= link_to s.split("_").collect { |s| s.capitalize }.join(" "), "/users/#{current_user.id}/#{s}" %>
-    <br><br>
-  <% end %>
-<% end %>
-
+<%= render :partial => "user_games" %>
 <br>
+<%= render :partial => "user_history" %>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Return To Home', root_path %>

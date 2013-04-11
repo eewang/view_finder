@@ -10,7 +10,7 @@ class GuessesController < ApplicationController
   end
 
   def show
-      @guess = Guess.find(params[:id])
+    @guess = Guess.find(params[:id])
     if @guess.photo.guessed_by?(current_user)
       @photo_guesses = Guess.photo_guesses_sorted(@guess.photo)
       @photo_guesses = @photo_guesses.shift(8) if @photo_guesses.size > 8
@@ -38,17 +38,14 @@ class GuessesController < ApplicationController
     @guess = Guess.find(params[:id])
   end
 
-
-
-
-
-
   # POST /guesses
   def create
+
     # sample params from ajax
       # {latitude: "40.754853", longitude: "-73.984124", photo_id: 142}
 
     # get params ready for mass assignment
+    params.delete("game")
     params.delete(:action)
     params.delete(:controller)
 
@@ -66,14 +63,10 @@ class GuessesController < ApplicationController
     end
     
     # => Instead of rendering a view or redirecting, this action renders a redirect url
+
     url = guess_path(guess)
     render :json => {:redirect_url => url }
   end
-
-
-
-
-
 
   def update
     @guess = Guess.find(params[:id])

@@ -1,7 +1,7 @@
 class Identity < ActiveRecord::Base
   attr_accessible :provider, :uid, :user_id, :token, :login_name, :avatar
   belongs_to :user
-  validates_presence_of :user_id, :uid, :provider
+  validates_presence_of :uid, :provider, :token
   validates_uniqueness_of :uid, :scope => :provider
 
   def self.find_from_hash(hash)
@@ -9,15 +9,26 @@ class Identity < ActiveRecord::Base
   end
 
   def self.create_from_hash(hash, user = nil)
-    user ||= User.create_from_hash!(hash)
-    Identity.create(
-      :user_id => user.id, 
-      :uid => hash["uid"], 
-      :provider => hash["provider"], 
-      :token => hash["credentials"]["token"], 
-      :login_name => hash["info"]["nickname"], 
-      :avatar => hash["info"]["image"]
-      )
+    if user
+      identity = Identity.create(
+        :user_id => user.id, 
+        :uid => hash["uid"], 
+        :provider => hash["provider"], 
+        :token => hash["credentials"]["token"], 
+        :login_name => hash["info"]["nickname"], 
+        :avatar => hash["info"]["image"]
+        )
+    else
+      identity = Identity.new(
+        :uid => hash["uid"], 
+        :provider => hash["provider"], 
+        :token => hash["credentials"]["token"], 
+        :login_name => hash["info"]["nickname"], 
+        :avatar => hash["info"]["image"]
+        )
+      identity.save
+    end
+    identity
   end
 
   def self.includes_instagram_user?(instagram_uid)
