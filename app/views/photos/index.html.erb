@@ -40,23 +40,11 @@ $(document).ready(function(){
         <div class="carousel-inner">
           <% @photos.each do |p| %>
                 <div class="<% if @photos.index(p) == @start_photo %>active<% end %> item vfyw">
-                <% if p.guessed_by?(current_user) %>
-                  <% route = "guesses" %>
-                  <% link = p.guesses.where(:user_id => current_user.id).first.id %>
-                  <% method = "GET" %>
-                <% else %>
-                  <% route = "photos" %>
-                  <% link = p.game %>
-                  <% method = "POST" %>
-                <% end %>
-                <%= form_tag :url => "/#{route}/#{link}", :method => "#{method}" do %>
+
+                <%= form_tag :url => "/#{route(p, current_user)}/#{link(p, current_user)}", :method => "#{method(p, current_user)}" do %>
                 <div class="row" style="text-align:center;">
                     <%= link_to "Shuffle", "/photos/#{@game}", :class => "styled-button-6 shuffle_action", :style => "font-size: 1.3em; float:left;" %></em>
-                    <% if p.guessed_by?(current_user) %>
-                      <%= link_to "VIEW", "/#{route}/#{link}", :class => "styled-button-5 view_play_button" %>
-                    <% else %>
-                      <%= submit_tag "PLAY!", :class => "styled-button-5 view_play_button" %>
-                    <% end %>
+                    <%= view_play(p, current_user) %>
                 </div>
                   <br>
                 <center class="styled-button-5" style="background: #516057;">Guessed <%= @guessed_count %> of <%= @photos.size %></center>
