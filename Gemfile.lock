@@ -57,6 +57,8 @@ GEM
     debugger-linecache (1.2.0)
     debugger-ruby_core_source (1.2.0)
     erubis (2.7.0)
+    exception_notification (3.0.1)
+      actionmailer (>= 3.0.4)
     execjs (1.4.0)
       multi_json (~> 1.0)
     facter (1.6.18)
@@ -201,6 +203,7 @@ DEPENDENCIES
   binding_of_caller
   coffee-rails (~> 3.2.1)
   debugger
+  exception_notification
   figaro
   geocoder
   gmaps4rails

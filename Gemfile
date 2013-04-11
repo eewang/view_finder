@@ -44,6 +44,7 @@ gem 'geocoder'
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'slim'
+gem 'exception_notification'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
