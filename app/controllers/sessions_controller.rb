@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_filter :login_required, :except => "destroy"
+  skip_before_filter :login_required
 
   def index
   end

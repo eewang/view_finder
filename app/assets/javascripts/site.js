@@ -34,11 +34,5 @@ $(document).ready(function(){
     $('#myLoginModal').remove();
   })
 
-  $('#logout').click(function(e){
-    e.preventDefault();
-    $.get('logout', function(html, status){
-      console.log(html);
-    })
-  })
 
 })
