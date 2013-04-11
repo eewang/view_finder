@@ -29,7 +29,7 @@ module SiteHelper
       end
     else
       content_tag :div, :class => "item" do
-        link_to(image_tag('introfriend1.jpg', {:width => 1000}),
+        link_to(image_tag('introfriend2.jpg', {:width => 1000}),
                 user_logged_in)
       end
     end

@@ -13,11 +13,11 @@ $(document).ready(function(){
     })
   })
 
-  $('#signup_submit').click(function(e){
-    alert("hello");
-    $('#mySignupModal').modal('toggle');
-    $('#mySignupModal').remove();
-  })
+  // $('#signup_submit').click(function(e){
+  //   alert("hello");
+  //   $('#mySignupModal').modal('toggle');
+  //   $('#mySignupModal').remove();
+  // })
 
   $('#login').click(function(e){
     e.preventDefault();

@@ -37,12 +37,7 @@ class UsersController < ApplicationController
   # GET /users/new
   # GET /users/new.json
   def new
-    @user = User.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @user }
-    end
+    redirect_to root_path, :notice => "Please click 'Sign Up'"
   end
 
   def signup_modal
@@ -58,10 +53,9 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new
-    @user.name = params["user"]["name"]
-    @user.password = params["user"]["password"]
-    @user.email = params["user"]["email"]
-
+    @user.name = params["name"]
+    @user.password = params["password"]
+    @user.email = params["email"]
     if @user.save
       session[:user_id] = @user.id
       respond_to do |f|

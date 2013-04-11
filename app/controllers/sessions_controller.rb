@@ -5,6 +5,7 @@ class SessionsController < ApplicationController
   end
 
   def new
+    redirect_to root_path, :notice => "Please click 'Login'"
   end
 
   def login_modal
