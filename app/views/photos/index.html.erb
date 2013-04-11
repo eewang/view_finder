@@ -13,9 +13,13 @@ $(document).ready(function(){
   <div class="row-fluid show-grid1">
     <% if @guessed_count == @photos.size %>
       <div class="span8 offset2" style="background-color:#38AB81;">
+      <% if @photos.empty? %>
+        <span>Sorry, we don't have any photos for <%= @game.to_s.titleize %>. Go out and take photos in <%= @game.to_s.titleize %> with #viewfinder!</span>
+      <% else %>
       <span>Good Job! You've finished a game. Press 'Shuffle' to play another <%= @game.to_s.titleize %> game again.
       </span>
-    </div>`
+      <% end %>
+    </div>
       <% @start_photo = 0 %>
     <% else %>
     <div class="span8 offset2">
@@ -38,6 +42,9 @@ $(document).ready(function(){
       
         
         <div class="carousel-inner">
+          <% if @photos.empty? %>
+            <%= image_tag('iphone_photo_2.jpg', :id => 'empty_stock') %>
+          <% else %>
           <% @photos.each do |p| %>
                 <div class="<% if @photos.index(p) == @start_photo %>active<% end %> item vfyw">
 
@@ -60,6 +67,8 @@ $(document).ready(function(){
                   </div>
                 <% end %>
               <% end %>
+              <% end %>
+            <% end %>
               </div>
 
             <%# else %>
