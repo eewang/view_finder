@@ -206,7 +206,7 @@
             });
           </script>
         </div> <!-- map with div -->
-        <div class="span5">
+        <div class="span5" id="photo_address">
 
           <%= render 'address' %>
           
@@ -217,13 +217,13 @@
       <%= image_tag(@guess.photo_image)%>
     </div>
     
-    <div class="span5" style="text-align:center;"><br>
+    <div class="span5 game_buttons" style="text-align:center;"><br>
 
       <%= link_to "Play the Next Photo!", "/users/#{current_user.id}/games/#{@guess.photo.game.to_s}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px; float:none; letter-spacing:1px;")%>
     </div>
 
     <!-- Leaderboard -->
-    <div class="span5" style="float:left;">
+    <div class="span5" style="float:left;" id="leaderboard">
        <br>
       <h5>LEADERBOARD</h5>
       <%= image_tag("laurel.svg", :width => "60px", :class => "flip_image") %>

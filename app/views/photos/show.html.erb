@@ -9,7 +9,7 @@
 <% end %>
 
 <div class="row-fluid">
-  <div class="span6">
+  <div class="span6" id="mapcontainer">
   <div id="mapdiv" style="height: 400px; max-width: 600px;"></div>
     <%= javascript_include_tag "http://maps.googleapis.com/maps/api/js?v=3&sensor=false&key=AIzaSyDAKHFvdMkBADVQC6MgWfqmhDDX4RUqAjo" %>
     <script>
@@ -154,10 +154,10 @@
     </script>
 
     </div>
-<div class="span5">
+<div class="span5"  id="photocontainer">
   <div class="row">
-    <div  id="mapdiv" style="overflow: hidden; float: left; max-width: 400px; height: 250px;">
-      <%= image_tag @photo.image, :width => "300px" %>
+    <div id="mapdiv">
+      <%= image_tag @photo.image %>
     </div>
   </div>
     <div class="row"><br>
@@ -169,7 +169,7 @@
           <span id="showhtml">Drag the marker and make your</span>
         </div>
         
-        <div class="span10" style="text-align:center;">
+        <div class="span10 game_buttons">
           <% unless @photo.guessed_by?(current_user) %>
             <button class="styled-button-5" id="submit_guess" style="float:none" >Guess!</button>
             <%#= link_to "Return to Game", "/users/#{current_user.id}/games/#{@photo.game.to_s}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px;")%>
@@ -179,7 +179,7 @@
           <br><br>
         </div>
       </div>
-      <div class="span10" style="text-align:center;">
+      <div class="span10 game_buttons" style="text-align:center;">
         <% if params["game"].include?("friend") %>
           <% url = "/users/#{current_user.id}/#{params["game"].split("/")[1]}" %>
         <% else %>
