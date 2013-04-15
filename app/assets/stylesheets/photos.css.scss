@@ -130,6 +130,28 @@ background-color:#c9d787;
   -webkit-animation-timing-function: linear;
 }
 
+#photocontainer {
+  #mapdiv {
+    overflow: hidden; 
+    float: left; 
+    max-width: 400px; 
+    height: 250px;
+  }
+
+  img {
+    width: 300px;
+  }
+}
+
+.game_buttons {
+  text-align:center;
+}
+
+#logo_image {
+  margin-bottom: 2em;
+  margin-top: 2em;
+}
+
 @media (max-width: 479px) {
   .container {
     width: auto;
@@ -137,16 +159,24 @@ background-color:#c9d787;
 
   .row-fluid {
     margin-left: 0% !important;
+    width: 100%;
+    text-align: center;
+
+    .span8, .span5 {
+      width: 100%;
+    }
   }
 
   #photos_index_header {
-    line-height: 2em;
+    line-height: 3em;
+    font-size: 6pt;
+    min-height: 3em;
   }
 
   .shuffle_action, .view_play_button {
     padding-left: 1em;
     padding-right: 1em;
-    font-size: 1em !important;
+    font-size: 0.8em !important;
   }
 
   .view_play_button:hover {
@@ -161,6 +191,7 @@ background-color:#c9d787;
 
   .guess_count {
     margin-top: -0.5em;
+    font-size: 0.9em;
   }
 
   .carousel-indicators {
@@ -172,13 +203,55 @@ background-color:#c9d787;
   }
 
   #marker_sign {
-    width: 120%;
+    width: 20em;
+    text-align: center;
+
+    span {
+      font-size: 11pt;
+    }
   }
 
   #submit_guess {
     padding-left: 1em;
     padding-right: 1em;
     font-size: 1em;
+  }
+
+  #mapcontainer {
+    width: 20em;
+    margin-bottom: 1em;
+  }
+
+  #mapdiv {
+    width: 20em;
+  }
+
+  #photocontainer {
+    margin-left: 0em;
+
+    #mapdiv {
+      height: 100%;
+    }
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .game_buttons {
+    width: 20em !important;
+  }
+
+  #leaderboard {
+    width: 20em;
+  }
+
+  #photo_address {
+    width: 100%;
+  }
+
+  .offset2 {
+    margin-left: 0em !important;
   }
 
 }
