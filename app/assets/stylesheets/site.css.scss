@@ -3,9 +3,10 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .btn-link {
-    padding: 10px 10px;
-    background: #a0e0a9;
+  padding: 10px 10px;
+  background: #a0e0a9;
 }
+
 /*#title-placeholder {
 	padding: 20px 80px;
   background-color: #F89883;
@@ -13,6 +14,7 @@
 #title-placeholder img {
 	max-width: 150px;
 }*/
+
 .show-grid [class*="span"] {
 	background-color: #a0e0a9;
 	color: #FFF;
@@ -38,4 +40,58 @@
 	top: 0;
 	left: 0;
 	z-index: 1000;
+}
+
+@media (max-width: 479px) {
+	#myLoginModal, #mySignupModal {
+		width: 80%;
+		line-height: 1em;
+		overflow: scroll;
+		position: absolute;
+		/*margin-left: 20em;*/
+	}
+
+	.modal {
+		margin-left: -10em;
+	}
+
+	.nav-box {
+		margin-top: 1em !important;
+		min-width: 100%;
+		margin-left: 0% !important;
+		font-size: 10pt !important;
+		letter-spacing: 1px;
+		line-height: 1px;
+	}
+
+	.show-grid-contribute {
+		font-size: 1.5em;
+		line-height: 1.5em;
+
+	}
+
+	.navbar-inner {
+		margin-top: 1em;
+		margin-left: 1.2em;
+	}
+
+	.location_game {
+		width: 100% !important;
+		margin-left: 0% !important;
+	}
+
+	body {
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+
+	.container-fluid {
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+
+	label {
+		margin-bottom: 0em;
+	}
+
 }

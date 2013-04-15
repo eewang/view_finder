@@ -129,3 +129,56 @@ background-color:#c9d787;
   -webkit-animation-iteration-count: infinite;
   -webkit-animation-timing-function: linear;
 }
+
+@media (max-width: 479px) {
+  .container {
+    width: auto;
+  }
+
+  .row-fluid {
+    margin-left: 0% !important;
+  }
+
+  #photos_index_header {
+    line-height: 2em;
+  }
+
+  .shuffle_action, .view_play_button {
+    padding-left: 1em;
+    padding-right: 1em;
+    font-size: 1em !important;
+  }
+
+  .view_play_button:hover {
+    padding-left: 2em;
+    padding-right:2em;
+    float:right;
+    -webkit-transition: all 1s ease; 
+    -moz-transition: all 1s ease; 
+    -o-transition: all 1s ease; 
+    background-color: #ff9900;
+  }
+
+  .guess_count {
+    margin-top: -0.5em;
+  }
+
+  .carousel-indicators {
+    margin-top: 1.2em;
+  }
+
+  .game_image {
+    margin-top: 1em;
+  }
+
+  #marker_sign {
+    width: 120%;
+  }
+
+  #submit_guess {
+    padding-left: 1em;
+    padding-right: 1em;
+    font-size: 1em;
+  }
+
+}

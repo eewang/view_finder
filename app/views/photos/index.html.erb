@@ -22,7 +22,7 @@ $(document).ready(function(){
     </div>
       <% @start_photo = 0 %>
     <% else %>
-    <div class="span8 offset2">
+    <div class="span8 offset2" id="photos_index_header">
       <span>CAN YOU GUESS THIS PLACE?</span>
     </div>
     <% end %>
@@ -54,12 +54,12 @@ $(document).ready(function(){
                     <%= view_play(p, current_user) %>
                 </div>
                   <br>
-                <center class="styled-button-5" style="background: #516057;">Guessed <%= @guessed_count %> of <%= @photos.size %></center>
+                <center class="styled-button-5 guess_count" style="background: #516057;">Guessed <%= @guessed_count %> of <%= @photos.size %></center>
                 <br>
                   <% if @guessed_count == @photos.size %>
                     <div><h3>Good Job! You've finished the game. Press 'Shuffle' to play #{@game} again.</h3></div>
                   <% else %>
-                    <%= image_tag p.image %>
+                    <%= image_tag p.image, :class => "game_image" %>
                   <br>
                     <input name="coordinates" type="hidden" value="<%= @coordinates %>" />
                     <input name="game" type="hidden" value="<%= @game %>" />
