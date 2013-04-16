@@ -1,6 +1,6 @@
 class SiteController < ApplicationController
 
-  skip_before_filter :login_required, :only => ["home"]
+  skip_before_filter :login_required, :only => ["home", "about"]
 
   def home
     flash[:auth_notice] = "Please login before authenticating"
@@ -63,6 +63,9 @@ class SiteController < ApplicationController
 
   def game_size(game)
     PhotosController::LOCATION_GAMES[game][:size]
+  end
+
+  def about
   end
 
 end

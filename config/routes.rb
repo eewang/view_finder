@@ -39,6 +39,7 @@ ViewFinder::Application.routes.draw do
 
   get 'users/:id/feed' => "photos#user_media_feed"
 
+  get 'about' => 'site#about', :as => "about"
 
   resources :users, :sessions, :authentications, :guesses
 
