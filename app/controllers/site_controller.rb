@@ -10,7 +10,7 @@ class SiteController < ApplicationController
       # client = Instagram.client(:access_token => @identity_auth.token)
       if @identity_auth
         client = Instagram.client(:access_token => session["instagram"][:token])
-        @user_feed = client.user_media_feed
+        @user_feed = client.user_media_feed(:user => session["instagram"][:uid])
         @user_friends = Photo.instagram_friend_feed(@identity_auth)
         if !@user_friends.nil?
           @user_friends_array = []

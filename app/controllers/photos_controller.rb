@@ -79,7 +79,7 @@ class PhotosController < ApplicationController
 
   def self.social_games(*social_games)
     social_games.each do |game|
-      define_method "#{game}" do |options = {}|
+      define_method "#{game}" do |options = {:user => session[:instagram][:uid]}|
         @game = game
         @photos = Photo.send("#{game}", options)[0..5]
         @start_photo = 0 # CHANGE START PHOTO TO FIRST UNGUESSED

@@ -34,7 +34,9 @@ class InstagramWrapper
   end
 
   def user_media_feed(options)
-    Instagram.user_media_feed(options)
+    instagram_user_id = options[:user] ? options[:user] : nil
+    instagram_user = Identity.find_by_uid(instagram_user_id)
+    Instagram.user_media_feed(:user => instagram_user_id, :access_token => instagram_user.token)
   end
 
   def user_follows(options)

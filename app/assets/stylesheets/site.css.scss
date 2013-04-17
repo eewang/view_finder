@@ -51,6 +51,18 @@
 		/*margin-left: 20em;*/
 	}
 
+	.friend_feed {
+		width: 150%;
+
+		.carousel-caption h4 {
+			font-size: 1em;
+		}
+	}
+
+	#last_friend_feed {
+		padding-left: 3em;
+	}
+
 	.modal {
 		margin-left: -10em;
 	}
@@ -92,6 +104,17 @@
 
 	label {
 		margin-bottom: 0em;
+	}
+
+	#footer_link_lists li {
+		margin: 0;
+		display: block;
+	}
+
+	.about {
+		img {
+			width: 100% !important;
+		}
 	}
 
 }

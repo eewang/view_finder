@@ -36,7 +36,7 @@ module SiteHelper
   end
 
   def friend_feed_avatar(collection)
-    link_to(image_tag(collection[2], :width => 300),
+    link_to(image_tag(collection[2], :width => 600),
             :controller => "photos",
             :action => "friend_feed",
             :friend_name => collection[1])

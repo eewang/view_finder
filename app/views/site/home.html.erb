@@ -97,9 +97,9 @@
 
     <!-- Second row, first column -->
       
-      <div class="span4" style="float: left;">
+      <div class="span4 friend_feed" style="float: left;" >
         <div id="myCarousel" class="carousel slide" >
-          <div class="carousel-inner">
+          <div class="carousel-inner friend_feed" id="first_friend_feed">
 
             <% if @identity_auth %>
               <% if !@user_friends_array.empty?  %>
@@ -130,7 +130,7 @@
 
       <div class="span4" style="float: left;">
         <div id="myCarousel" class="carousel slide" >
-          <div class="carousel-inner">
+          <div class="carousel-inner friend_feed" id="last_friend_feed">
 
             <% if @identity_auth %>
               <% if @user_friends_array.size > 1  %>
