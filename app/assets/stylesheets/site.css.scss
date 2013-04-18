@@ -42,6 +42,10 @@
 	z-index: 1000;
 }
 
+#footer {
+	text-align: center;
+}
+
 @media (max-width: 479px) {
 	#myLoginModal, #mySignupModal {
 		width: 80%;
