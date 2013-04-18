@@ -32,29 +32,21 @@ class PhotosController < ApplicationController
   def self.location_games(*games)
     games.each do |game|
       define_method "#{game}" do
-        # Set game parameters
         @game = game
         @coordinates = LOCATION_GAMES[game.to_sym][:coordinates]
         radius = LOCATION_GAMES[game.to_sym][:radius]
         size = LOCATION_GAMES[game.to_sym][:size]
         user = current_user
-        # Load game photos
         @photos = Photo.game_photos_random(@coordinates, radius, user, size)
-        # Determines game metadata
         @photos.each do |p|
           p.locale_lat = LOCATION_GAMES[game.to_sym][:coordinates][0]
           p.locale_lon = LOCATION_GAMES[game.to_sym][:coordinates][1]
           p.save
         end
-        # Loads game photo ids into user session
         self.create_game({:game => @game, :coordinates => @coordinates, :photos => @photos})
         @start_photo = session[game][:photos].empty? ? 0 : Photo.first_unguessed_photo(session[game][:photos], current_user)
         @guessed_count = @photos.count { |p| p.guessed_by?(current_user) }
-        # Perform asynchronous Instagram API call
         InstagramWorker.perform_async(@coordinates)
-        # Convert game photos to map markers
-        # @json = @photos.to_gmaps4rails
-        # Render view
         render "index"
       end
 

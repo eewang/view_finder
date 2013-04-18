@@ -70,8 +70,6 @@ class Photo < ActiveRecord::Base
   end
 
   def self.instagram_friend_feed(instagram_user)
-    # Get all people an authenticated user follows
-    # Go through each user and determine how much they have tagged #vfyw or #viewfinder recently
     media = instagram_user.friends_media(instagram_user.friends_list)
     friend_photos = instagram_user.viewfinder_sorted_friends_list(media)
     return friend_photos
@@ -87,14 +85,7 @@ class Photo < ActiveRecord::Base
 
   def self.first_unguessed_photo(array, user)
     array.index { |photo_id| !Photo.find(photo_id).guessed_by?(user) }
-    # reverse_array = array.reverse
-    # last_guessed_photo_index = Photo.any_guessed_by?(array, user) ? reverse_array.index { |photo_id| Photo.find(photo_id).guessed_by?(user)} : 1
-    # start_photo = array.index(reverse_array[last_guessed_photo_index - 1])
   end
-
-  # def self.any_guessed_by?(array, user)
-  #   true if array.index { |photo_id| Photo.find(photo_id).guessed_by?(user) }
-  # end
 
   # LOCATION GAMEPLAY LOGIC
 
