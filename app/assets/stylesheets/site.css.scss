@@ -1,0 +1,120 @@
+// Place all the styles related to the site controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.btn-link {
+  padding: 10px 10px;
+  background: #a0e0a9;
+}
+
+/*#title-placeholder {
+	padding: 20px 80px;
+  background-color: #F89883;
+}
+#title-placeholder img {
+	max-width: 150px;
+}*/
+
+.show-grid [class*="span"] {
+	background-color: #a0e0a9;
+	color: #FFF;
+	letter-spacing: 5px;
+	text-align: center;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	min-height: 40px;
+	line-height: 40px;
+}
+.instruct {
+	align:center;
+}
+
+#avatar {
+	position: relative;
+}
+
+#login_name {
+	position: absolute;
+	font-size: 30pt;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+}
+
+@media (max-width: 479px) {
+	#myLoginModal, #mySignupModal {
+		width: 80%;
+		line-height: 1em;
+		overflow: scroll;
+		position: absolute;
+		/*margin-left: 20em;*/
+	}
+
+	.friend_feed {
+		width: 150%;
+
+		.carousel-caption h4 {
+			font-size: 1em;
+		}
+	}
+
+	#last_friend_feed {
+		padding-left: 3em;
+	}
+
+	.modal {
+		margin-left: -10em;
+	}
+
+	.nav-box {
+		margin-top: 1em !important;
+		min-width: 100%;
+		margin-left: 0% !important;
+		font-size: 10pt !important;
+		letter-spacing: 1px;
+		line-height: 1px;
+	}
+
+	.show-grid-contribute {
+		font-size: 1.5em;
+		line-height: 1.5em;
+
+	}
+
+	.navbar-inner {
+		margin-top: 1em;
+		margin-left: 1.2em;
+	}
+
+	.location_game {
+		width: 100% !important;
+		margin-left: 0% !important;
+	}
+
+	body {
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+
+	.container-fluid {
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+
+	label {
+		margin-bottom: 0em;
+	}
+
+	#footer_link_lists li {
+		margin: 0;
+		display: block;
+	}
+
+	.about {
+		img {
+			width: 100% !important;
+		}
+	}
+
+}

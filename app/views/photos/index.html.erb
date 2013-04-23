@@ -56,16 +56,12 @@ $(document).ready(function(){
                   <br>
                 <center class="styled-button-5 guess_count" style="background: #516057;">Guessed <%= @guessed_count %> of <%= @photos.size %></center>
                 <br>
-                  <% if @guessed_count == @photos.size %>
-                    <div><h3>Good Job! You've finished the game. Press 'Shuffle' to play #{@game} again.</h3></div>
-                  <% else %>
-                    <%= image_tag p.image, :class => "game_image" %>
+                  <%= image_tag p.image, :class => "game_image" %>
                   <br>
                     <input name="coordinates" type="hidden" value="<%= @coordinates %>" />
                     <input name="game" type="hidden" value="<%= @game %>" />
                     <input name="photo_id" type="hidden" value="<%= p.id %>" />
                   </div>
-                <% end %>
               <% end %>
               <% end %>
             <% end %>
