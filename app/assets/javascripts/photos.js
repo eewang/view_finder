@@ -4,7 +4,10 @@
 
 $(function(){
   $('.carousel-index').carousel('pause');
+  $(".zoom-in").imageLens();
+
 });
+
 
   // $(".modal-footer > input").click(function(){
   //   event.preventDefault();

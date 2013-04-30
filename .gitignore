@@ -18,3 +18,4 @@
 /config/application.yml
 
 .DS_Store
+\app/assets/stylesheets/.site.css.scss.erb.swp 
