@@ -55,7 +55,6 @@
               var styledMap = new google.maps.StyledMapType(styles,
                 {name: "Jazzy Jeff"});
 
-              console.log(guesses_count);
               var currentPhoto = "/photos/" + <%= @guess.photo.id %> + ".json"
               $.get(currentPhoto, function(data) {
                 latlong = data

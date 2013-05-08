@@ -1,6 +1,10 @@
 class AuthenticationsController < ApplicationController
   skip_before_filter :login_required
 
+  def instagram_disable
+    redirect_to root_path, :alert => "Please note that Instagram authentication has been disabled."
+  end
+
   def index
     @authentications = Authentication.all
 

@@ -15,7 +15,8 @@ module SiteHelper
 
   def user_logged_in
     if current_user
-      url = "auth/instagram"
+      url = "/instagram"
+      # url = "auth/instagram"
     else
       url = login_path
     end

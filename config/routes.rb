@@ -4,6 +4,7 @@ ViewFinder::Application.routes.draw do
 
   mount Sidekiq::Web, at: '/sidekiq'
 
+  get '/instagram' => 'authentications#instagram_disable', :as => :instagram_disable
   match '/auth/instagram/callback/' => 'authentications#create'
 
   root :to => 'site#home'

@@ -4,7 +4,6 @@ class SiteController < ApplicationController
 
   def home
     flash[:auth_notice] = "Please login before authenticating"
-    flash.keep
     if current_user
       @identity_auth = Identity.find_by_user_id(current_user.id)
       # client = Instagram.client(:access_token => @identity_auth.token)
