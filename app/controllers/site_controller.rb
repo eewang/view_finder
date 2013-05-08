@@ -3,7 +3,8 @@ class SiteController < ApplicationController
   skip_before_filter :login_required, :only => ["home", "about"]
 
   def home
-    flash[:auth_notice] = "Please login before authenticating"
+    # flash[:auth_notice] = "Please login before authenticating"
+
     if current_user
       @identity_auth = Identity.find_by_user_id(current_user.id)
       # client = Instagram.client(:access_token => @identity_auth.token)
@@ -32,6 +33,7 @@ class SiteController < ApplicationController
       end
       user = User.where(:id => current_user[:id]).first
     else
+      flash.notice = "Please feel free to login with guest@flatironschool.com (password: guest) to start playing!"
       user = 0
     end
     @games = [:midtown, :downtown, :downtown_brooklyn]
