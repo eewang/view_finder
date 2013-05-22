@@ -11,8 +11,11 @@
   border-radius: 3px;
   min-height: 40px;
   line-height: 40px;
-  padding: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 0.5em;
 }
+
 .show-grid1 [class*="span"] {
   background-color: #F89883;
   color: #FFF;

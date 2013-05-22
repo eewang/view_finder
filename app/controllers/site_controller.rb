@@ -67,6 +67,7 @@ class SiteController < ApplicationController
   end
 
   def about
+    render "site/about"
   end
 
 end
