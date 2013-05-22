@@ -1,52 +1,24 @@
 class PhotosController < ApplicationController
   skip_before_filter :login_required, :only => ["index"]
 
-  LOCATION_GAMES = {
-    :downtown => {
-      :coordinates => [40.72410403, -74.003047943],
-      :radius => 1.25,
-      :size => 6
-      },
-    :midtown => {
-      :coordinates => [40.754853,-73.984124],
-      :radius => 1,
-      :size => 6
-      },
-    :downtown_brooklyn => {
-      :coordinates => [40.6920706, -73.984535],
-      :radius => 1,
-      :size => 6
-      }
-    # :world_trade => {
-    #   :coordinates => [40.7117, -74.0125],
-    #   :radius => 1,
-    #   :size => 10
-    #   },
-    # :williamsburg => {
-    #   :coordinates => [40.706336, -73.953482],
-    #   :radius => 1,
-    #   :size => 10
-    #   }
-  }
-
   def self.location_games(*games)
     games.each do |game|
       define_method "#{game}" do
         @game = game
-        @coordinates = LOCATION_GAMES[game.to_sym][:coordinates]
-        radius = LOCATION_GAMES[game.to_sym][:radius]
-        size = LOCATION_GAMES[game.to_sym][:size]
+        @coordinates = Photo.location_games[game.to_sym][:coordinates]
+        radius = Photo.location_games[game.to_sym][:radius]
+        size = Photo.location_games[game.to_sym][:size]
         user = current_user
         @photos = Photo.game_photos_random(@coordinates, radius, user, size)
         @photos.each do |p|
-          p.locale_lat = LOCATION_GAMES[game.to_sym][:coordinates][0]
-          p.locale_lon = LOCATION_GAMES[game.to_sym][:coordinates][1]
+          p.locale_lat = Photo.location_games[game.to_sym][:coordinates][0]
+          p.locale_lon = Photo.location_games[game.to_sym][:coordinates][1]
           p.save
         end
         self.create_game({:game => @game, :coordinates => @coordinates, :photos => @photos})
         @start_photo = session[game][:photos].empty? ? 0 : Photo.first_unguessed_photo(session[game][:photos], current_user)
         @guessed_count = @photos.count { |p| p.guessed_by?(current_user) }
-        InstagramWorker.perform_async(@coordinates)
+        # InstagramWorker.perform_async(@coordinates)
         render "index"
       end
 
@@ -162,7 +134,7 @@ class PhotosController < ApplicationController
   def play
     if params[:coordinates].empty?
       @photo = Photo.find(params["photo_id"])
-      coordinates = PhotosController::LOCATION_GAMES[@photo.game][:coordinates].join(", ")
+      coordinates = Photo.location_games[@photo.game][:coordinates].join(", ")
       @photo.locale_lat = coordinates.split(",")[0].gsub("[", "").to_f
       @photo.locale_lon = coordinates.split(",")[1].gsub("[", "").to_f
       @photo.save

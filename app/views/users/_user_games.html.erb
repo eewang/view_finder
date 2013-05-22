@@ -1,7 +1,7 @@
 <h3>Current Saved Games</h3>
 <h5>Location Games</h5>
 <% session.keys.each do |s| %>
-  <% if PhotosController::LOCATION_GAMES.has_key?(s.to_sym) %>
+  <% if Photo.location_games.has_key?(s.to_sym) %>
     <%= link_to s.split("_").collect { |s| s.capitalize }.join(" "), "/users/#{current_user.id}/games/#{s}" %>
     <br><br>
   <% end %>

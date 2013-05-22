@@ -22,6 +22,7 @@
 set :environment, "development"
 set :output, {:error => "log/cron_error_log.log", :standard => "log/cron_log.log"}
 
-# every 1.minute do 
-#   rake "viewfinder:instagram"
-# end
+every 30.minutes do 
+  rake "app:viewfinder"
+  rake "app:vfyw"
+end
