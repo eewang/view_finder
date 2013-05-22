@@ -7,12 +7,4 @@
   <% end %>
 <% end %>
 <hr>
-<h5>Social Games</h5>
-<% if s = "social" %>
-  <% session["social"].keys.each do |friend| %>
-  <% if session.keys.include?(friend.to_s) %>
-    <%= link_to friend, "/users/#{current_user.id}/#{friend}", :friend => friend %>
-  <% end %>
-  <br><br>
-  <% end %>
-<% end %>
+<%# render :partial => "user_social_games" %>
