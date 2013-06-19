@@ -1,6 +1,8 @@
 module Locatable
 
   module InstanceMethods
+
+    # => What are my coordinates?
     def coordinates
       [self.latitude, self.longitude]
     end
@@ -10,6 +12,7 @@ module Locatable
       self.longitude = lon
     end
 
+    # => convert address to coords
     def address_to_coordinates
       query = Geocoder.search(self.street_address)
       query_lat = query[0].latitude
@@ -17,8 +20,9 @@ module Locatable
       self.set_coordinates(query_lat, query_lon)
     end
 
+    # => convert coords to address
     def coordinates_to_address
-      unless self.latitude.nil?
+      unless self.latitude.nil? || self.longitude.nil?
         Geocoder.search("#{self.latitude}, #{self.longitude}")[0].address
       end
     end
@@ -27,11 +31,11 @@ module Locatable
       true unless Geocoder.search(self.street_address).empty?
     end
     
-    def generate_street_address
-      unless self.latitude.nil? || self.longitude.nil?
-        Geocoder.search("#{self.latitude}, #{self.longitude}")[0].address
-      end
-    end
+    # def generate_street_address
+    #   unless self.latitude.nil? || self.longitude.nil?
+    #     Geocoder.search("#{self.latitude}, #{self.longitude}")[0].address
+    #   end
+    # end
 
     def distance_from_target_in_feet(target)
       self.distance_from_target_in_miles(target) * 5280
@@ -48,11 +52,11 @@ module Locatable
 
   end
 
-  module ClassMethods
-    def nearby(center, radius)
-      self.near(center, radius)
-    end
-  end
+  # module ClassMethods
+  #   def nearby(center, radius)
+  #     self.near(center, radius)
+  #   end
+  # end
 
 end
 

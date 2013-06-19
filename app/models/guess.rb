@@ -6,8 +6,10 @@ class Guess < ActiveRecord::Base
 
   validates :proximity_to_answer_in_feet, :presence => true
 
+  # Lets you call Guess.last.photo_latitude for example
   delegate :latitude, :longitude, :image, :user_name, :location, :guesses, :to => :photo, :prefix => true
 
+  # Lets you call Guess.last.user_name for example
   delegate :name, :email, :to => :user, :prefix => true
 
   include Locatable::InstanceMethods

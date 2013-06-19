@@ -125,6 +125,9 @@
           
         })
 
+
+
+
         // This happens when you click the guess button.
         $("#submit_guess").click(function(){
 
@@ -133,9 +136,10 @@
             "latitude":locallat,
             "longitude":locallon,
             "photo_id":photo_id,
-            "game":game
           }
+
           console.log(parameters);
+
           // POST(where?, what?, on success?)
           $.post('/guesses', parameters, function(json){
             console.log(json);
@@ -145,6 +149,9 @@
 
         });
       });
+
+
+
 
     </script>
 

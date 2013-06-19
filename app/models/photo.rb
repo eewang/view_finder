@@ -29,8 +29,9 @@ class Photo < ActiveRecord::Base
     end
   end
 
-  acts_as_gmappable :process_geocoding => false
+  # acts_as_gmappable :process_geocoding => false
 
+  # allows you to access instagram wrapper and save instagram photos
   acts_as_instagrammable :media_search, :tag_recent_media, :media_popular, :user_media_feed, :user_recent_media
 
   # Find/create photo in database related to Instagram pic
