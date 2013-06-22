@@ -1,6 +1,6 @@
 require 'bundler/capistrano' # for bundler support
 require 'sidekiq/capistrano'
-# require 'whenever/capistrano'
+require 'whenever/capistrano'
 
 load "deploy/assets"
 
