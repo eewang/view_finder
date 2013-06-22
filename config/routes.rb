@@ -11,7 +11,7 @@ ViewFinder::Application.routes.draw do
   get 'login_modal' => 'sessions#login_modal'
   get 'signup_modal' => 'users#signup_modal'
 
-  PhotosController::LOCATION_GAMES.each do |key, value|
+  Photo.location_games.each do |key, value|
     get "photos/#{key.to_s}" => "photos##{key.to_s}"
     post "photos/#{key.to_s}" => 'photos#play'
     get "users/:id/games/#{key.to_s}" => "photos#saved_#{key.to_s}_game"

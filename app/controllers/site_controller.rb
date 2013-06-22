@@ -55,15 +55,15 @@ class SiteController < ApplicationController
   end
 
   def game_coordinates(game)
-    PhotosController::LOCATION_GAMES[game][:coordinates]
+    Photo.location_games[game][:coordinates]
   end
 
   def game_radius(game)
-    PhotosController::LOCATION_GAMES[game][:radius]
+    Photo.location_games[game][:radius]
   end
 
   def game_size(game)
-    PhotosController::LOCATION_GAMES[game][:size]
+    Photo.location_games[game][:size]
   end
 
   def about

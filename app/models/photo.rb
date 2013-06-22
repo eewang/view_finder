@@ -2,6 +2,34 @@ class Photo < ActiveRecord::Base
 
   TAGS = ["#vfyw", "#viewfinder"]
 
+  LOCATION_GAMES = {
+    :downtown => {
+      :coordinates => [40.72410403, -74.003047943],
+      :radius => 1.25,
+      :size => 6
+      },
+    :midtown => {
+      :coordinates => [40.754853,-73.984124],
+      :radius => 1,
+      :size => 6
+      },
+    :downtown_brooklyn => {
+      :coordinates => [40.6920706, -73.984535],
+      :radius => 1,
+      :size => 6
+      }
+    # :world_trade => {
+    #   :coordinates => [40.7117, -74.0125],
+    #   :radius => 1,
+    #   :size => 10
+    #   },
+    # :williamsburg => {
+    #   :coordinates => [40.706336, -73.953482],
+    #   :radius => 1,
+    #   :size => 10
+    #   }
+  }
+
   belongs_to :user
   has_many :guesses
   has_many :users, :through => :guesses
@@ -140,7 +168,7 @@ class Photo < ActiveRecord::Base
   def game
     game_coords = {}
     distances = {}
-    PhotosController::LOCATION_GAMES.each do |key, value|
+    Photo.location_games.each do |key, value|
       game_coords[key] ||= []
       game_coords[key] = value[:coordinates]
     end
@@ -153,6 +181,16 @@ class Photo < ActiveRecord::Base
 
   def tagged?
     TAGS.any? { |tag| self.caption.include?(tag) }
+  end
+
+  def self.location_games
+    LOCATION_GAMES
+  end
+
+  def self.get_game_coordinates
+    Photo.location_games.collect do |game, detail|
+      detail[:coordinates]
+    end
   end
 
 end
