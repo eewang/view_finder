@@ -4,7 +4,7 @@ require 'whenever/capistrano'
 
 load "deploy/assets"
 
-set :whenever_command, "bundle exec whenever"
+set :whenever_command, "bundle exec whenever RAILS_ENV=production"
 set :application, "view_finder"
 set :repository,  "git@github.com:eewang/view_finder.git"
 

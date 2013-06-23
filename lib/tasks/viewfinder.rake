@@ -12,6 +12,11 @@ namespace :app do
     Photo.instagram_tag_recent_media(:tag => "vfyw")
   end
 
+  desc "Whenever gem test"
+  task :testcron => :environment do
+    puts "Testing cron tab successful at #{Time.now}"
+  end
+
   # desc "Get Instagram data for location games"
   # task :location => :environment do
   #   Photo.get_game_coordinates.each do |coordinates|
