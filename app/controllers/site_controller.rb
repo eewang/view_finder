@@ -4,7 +4,6 @@ class SiteController < ApplicationController
 
   def home
     # flash[:auth_notice] = "Please login before authenticating"
-
     if current_user
       @identity_auth = Identity.find_by_user_id(current_user.id)
       # client = Instagram.client(:access_token => @identity_auth.token)
@@ -33,7 +32,7 @@ class SiteController < ApplicationController
       end
       user = User.where(:id => current_user[:id]).first
     else
-      flash.notice = "Please feel free to login with guest@flatironschool.com (password: guest) to start playing!"
+      flash.notice = "Please sign-up or login to start playing!"
       user = 0
     end
     @games = [:midtown, :downtown, :downtown_brooklyn]
