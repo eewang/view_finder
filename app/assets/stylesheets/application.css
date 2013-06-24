@@ -30,3 +30,7 @@ div.marker-legend {
 		float: left;
 	}
 }
+.front-page {
+	max-width: 900px;
+	margin: auto;
+}
