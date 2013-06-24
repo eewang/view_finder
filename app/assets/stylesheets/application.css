@@ -24,3 +24,9 @@ li a:hover {
 	text-decoration: none;
 	background-color: #F89883;
 }
+div.marker-legend {
+	padding-top: 15px;
+	.span8 {
+		float: left;
+	}
+}
