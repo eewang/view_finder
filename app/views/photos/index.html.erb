@@ -50,7 +50,8 @@ $(document).ready(function(){
 
                 <%= form_tag :url => "/#{route(p, current_user)}/#{link(p, current_user)}", :method => "#{method(p, current_user)}" do %>
                 <div class="row" style="text-align:center;">
-                    <%= link_to "Shuffle", "/photos/#{@game}", :class => "styled-button-6 shuffle_action", :style => "font-size: 1.3em; float:left;" %></em>
+                    <%= %>
+                    <%= link_to "SHUFFLE", "/photos/#{@game}", :class => "styled-button-6 shuffle_action", :style => "font-size: 1.3em; float:left;" %></em>
                     <%= view_play(p, current_user) %>
                 </div>
                   <br>
