@@ -207,10 +207,13 @@
     <div class="span5" style="overflow: hidden; float: left; max-width: 400px; height: 250px;" id="mapdiv">
       <%= image_tag(@guess.photo_image)%>
     </div>
-    
+    <div class="span5 marker-legend"><%= image_tag 'guessmarker.png' %> : Your Guess<br>
+      <%= image_tag 'http://maps.google.com/mapfiles/ms/icons/red-dot.png' %> : Other's Guesses<br>
+      <%= image_tag 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' %> : Correct Location
+    </div>
     <div class="span5 game_buttons" style="text-align:center;"><br>
 
-      <%= link_to "Play the Next Photo!", "/users/#{current_user.id}/games/#{@guess.photo.game.to_s}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px; float:none; letter-spacing:1px;")%>
+      <%= link_to "Play the Next Photo!", "/users/#{current_user.id}/games/#{@guess.photo.game.to_s}", :class => "styled-button-5", :style => ("padding-top:5px; padding-bottom:5px; float:none; letter-spacing:1px;")%>  
     </div>
 
     <!-- Leaderboard -->
