@@ -51,6 +51,7 @@ end
 
 task :copy_application_yml, :roles => :app do
   upload("config/application.yml", "#{shared_path}/application.yml")
+  puts "application.yml copied to server!"
 end
 
 desc "tail production log files" 

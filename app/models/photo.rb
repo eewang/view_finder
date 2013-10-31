@@ -180,7 +180,7 @@ class Photo < ActiveRecord::Base
   end
 
   def tagged?
-    TAGS.any? { |tag| self.caption.include?(tag) }
+    self.caption ? TAGS.any? { |tag| self.caption.include?(tag) } : false
   end
 
   def self.location_games

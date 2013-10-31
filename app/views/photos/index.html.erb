@@ -1,10 +1,35 @@
 <script>
 $(document).ready(function(){
   $(".guessed").css("background-color", "#c9d787");
+
+  $('.view_play_button').on('click', function(e){
+    var photo = $(this).data('photo');
+    if (!$(".game_image[data-photo='"+photo+"']").data('tagged')) {
+      console.log('not tagged');
+      e.preventDefault();
+      $('.not-tagged').show();
+    }
+  });
+
+  $('.carousel-control').on('click', function(e){
+    $('.not-tagged').hide();
+  });
 })
-
-
 </script>
+
+<style>
+.img-container {
+  position: relative;
+}
+.not-tagged {
+  background-color: rgba(83, 210, 255, 0.5);
+  display: none;
+  line-height: 22pt;
+  padding: 1em;
+  font-size: 16pt;
+  text-align: center;
+}
+</style>
 
 <div class="container">
   <div class="row-fluid" id="logo_image">
@@ -50,14 +75,16 @@ $(document).ready(function(){
 
                 <%= form_tag :url => "/#{route(p, current_user)}/#{link(p, current_user)}", :method => "#{method(p, current_user)}" do %>
                 <div class="row" style="text-align:center;">
-                    <%= %>
                     <%= link_to "SHUFFLE", "/photos/#{@game}", :class => "styled-button-6 shuffle_action", :style => "font-size: 1.3em; float:left;" %></em>
                     <%= view_play(p, current_user) %>
                 </div>
                   <br>
                 <center class="styled-button-5 guess_count" style="background: #516057;">Guessed <%= @guessed_count %> of <%= @photos.size %></center>
                 <br>
-                  <%= image_tag p.image, :class => "game_image" %>
+                  <!-- <div class='img-container'> -->
+                    <p class="not-tagged">Sorry, that photo is not tagged with #viewfinder. Tell your friends to tag their photos with #viewfinder to play!</p>
+                    <%= image_tag p.image,:class => "game_image", data: {tagged: p.tagged?, photo: p.id} %>
+                  <!-- </div> -->
                   <br>
                     <input name="coordinates" type="hidden" value="<%= @coordinates %>" />
                     <input name="game" type="hidden" value="<%= @game %>" />

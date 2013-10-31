@@ -19,7 +19,10 @@ module PhotosHelper
               :class => "styled-button-5 view_play_button")
     else
       submit_tag("PLAY",
-                :class => "styled-button-5 view_play_button")
+                :class => "styled-button-5 view_play_button",
+                :data => {
+                  :photo => photo.id
+                  })
     end
   end
 
