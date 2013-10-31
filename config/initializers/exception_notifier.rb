@@ -1,4 +1,5 @@
 Rails.application.config.middleware.use ExceptionNotifier,
   :email_prefix => "ViewFinder Error:",
   :sender_address => %{"notifier" <postmaster@viewfinder.mailgun.org>},
-  :exception_recipients => %w{eugene.wang@flatironschool.com erin.lee@flatironschool.com jesse.larusso@flatironschool.com}
+  :exception_recipients => %w{eugene.wang@flatironschool.com}
+  # :exception_recipients => %w{eugene.wang@flatironschool.com erin.lee@flatironschool.com jesse.larusso@flatironschool.com}
