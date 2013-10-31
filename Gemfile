@@ -24,8 +24,14 @@ group :assets do
 end
 
 group :development do
-  gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'quiet_assets'
+end
+
+group :development, :test do
+  gem 'pry-debugger'
+  gem 'pry-rails'
+  gem 'better_errors'
 end
 
 group :production do 
@@ -38,7 +44,6 @@ gem 'omniauth-instagram'
 gem 'instagram'
 gem 'bcrypt-ruby'
 gem 'figaro'
-gem 'pry'
 gem 'httparty'
 gem 'geocoder'
 gem 'sidekiq'
@@ -47,7 +52,6 @@ gem 'slim'
 gem 'watir-webdriver'
 gem 'watir-rails'
 gem 'exception_notification'
-gem 'debugger'
 gem 'whenever'
 
 # To use ActiveModel has_secure_password
@@ -61,6 +65,3 @@ gem 'whenever'
 
 # Deploy with Capistrano
 # gem 'capistrano'
-
-# To use debugger
-gem 'debugger'

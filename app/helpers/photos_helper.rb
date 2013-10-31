@@ -16,7 +16,10 @@ module PhotosHelper
     if photo.guessed_by?(user)
       link_to("VIEW", 
               "/#{route(photo, user)}/#{link(photo, user)}",
-              :class => "styled-button-5 view_play_button")
+              :class => "styled-button-5 view_play_button",
+              :data => {
+                :photo => photo.id
+                })
     else
       submit_tag("PLAY",
                 :class => "styled-button-5 view_play_button",

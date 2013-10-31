@@ -53,12 +53,12 @@ GEM
     columnize (0.3.6)
     connection_pool (1.0.0)
     debug_inspector (0.0.2)
-    debugger (1.5.0)
+    debugger (1.6.2)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.2.0)
-      debugger-ruby_core_source (~> 1.2.0)
+      debugger-ruby_core_source (~> 1.2.3)
     debugger-linecache (1.2.0)
-    debugger-ruby_core_source (1.2.0)
+    debugger-ruby_core_source (1.2.3)
     erubis (2.7.0)
     exception_notification (3.0.1)
       actionmailer (>= 3.0.4)
@@ -98,7 +98,7 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    method_source (0.8.1)
+    method_source (0.8.2)
     mime-types (1.22)
     multi_json (1.7.2)
     multi_xml (0.5.3)
@@ -119,10 +119,15 @@ GEM
       oauth2 (~> 0.8.0)
       omniauth (~> 1.0)
     polyglot (0.3.3)
-    pry (0.9.12)
+    pry (0.9.12.2)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.4)
+    pry-debugger (0.2.2)
+      debugger (~> 1.3)
+      pry (~> 0.9.10)
+    pry-rails (0.3.2)
+      pry (>= 0.9.10)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
     rack (1.4.5)
@@ -181,7 +186,7 @@ GEM
     slim (1.3.6)
       temple (~> 0.5.5)
       tilt (~> 1.3.3)
-    slop (3.4.4)
+    slop (3.4.6)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -222,7 +227,6 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   coffee-rails (~> 3.2.1)
-  debugger
   exception_notification
   figaro
   geocoder
@@ -231,7 +235,8 @@ DEPENDENCIES
   instagram
   jquery-rails
   omniauth-instagram
-  pry
+  pry-debugger
+  pry-rails
   quiet_assets
   rack-google_analytics
   rails (= 3.2.12)
