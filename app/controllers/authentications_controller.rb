@@ -54,6 +54,10 @@ class AuthenticationsController < ApplicationController
     end
   end
 
+  def failure
+    redirect_to root_path, :alert => "Sorry, Instagram authentication failed."
+  end
+
   def update
     @authentication = Authentication.find(params[:id])
 

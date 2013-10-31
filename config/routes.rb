@@ -6,6 +6,7 @@ ViewFinder::Application.routes.draw do
 
   get '/instagram' => 'authentications#instagram_disable', :as => :instagram_disable
   match '/auth/instagram/callback/' => 'authentications#create'
+  match '/auth/failure', :to => 'authentications#failure'
 
   root :to => 'site#home'
   get 'login_modal' => 'sessions#login_modal'
