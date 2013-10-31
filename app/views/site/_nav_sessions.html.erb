@@ -5,25 +5,27 @@
       Logged in as: <%= current_user.name %> |
       <%= link_to("Logout", logout_path, :id => "logout") %>
       <% if session[:instagram].nil? %>
-        | <%= link_to("Sign in with Instagram", '/instagram') %>
+        <!-- | <%= link_to("Sign in with Instagram", '/instagram') %> -->
+        | <%= link_to("Sign in with Instagram", '/auth/instagram') %>
       <% end %>
     <% else %>
       <% if current_page?(root_path) %>
         <%= link_to("Sign Up", new_user_path, :id => "signup") %> |
         <%= link_to("Login", login_path, :id => "login") %> 
         <% if !session[:instagram] %>
-          | <%= link_to("Sign in with Instagram", '/instagram') %>
+          <!-- | <%= link_to("Sign in with Instagram", '/instagram') %> -->
+          | <%= link_to("Sign in with Instagram", '/auth/instagram') %>
         <% end %>
       <% end %>
       <% if current_page?(login_path) %>
         <%= link_to("Sign Up", new_user_path) %> |
-        <%= link_to("Sign in with Instagram", '/instagram') %>
-        <%#= link_to("Sign in with Instagram", '/auth/instagram') %>
+        <%#= link_to("Sign in with Instagram", '/instagram') %>
+        <%= link_to("Sign in with Instagram", '/auth/instagram') %>
       <% end %>
       <% if current_page?(new_user_path) %>
         <%= link_to("Login", login_path) %>  |
-        <%= link_to("Sign in with Instagram", '/instagram') %>
-        <%#= link_to("Sign in with Instagram", '/auth/instagram') %>
+        <%#= link_to("Sign in with Instagram", '/instagram') %>
+        <%= link_to("Sign in with Instagram", '/auth/instagram') %>
       <% end %>
     <% end %>          
   </div>
