@@ -39,7 +39,9 @@ class AuthenticationsController < ApplicationController
   def create
     session[:instagram] = nil
     auth = request.env["omniauth.auth"]
-    unless @auth = Identity.find_from_hash(auth)
+    if Identity.find_from_hash(auth)
+      @auth = Identity.update_from_hash(auth)
+    else
       @auth = Identity.create_from_hash(auth, current_user)
     end
     session[:instagram] ||= {}

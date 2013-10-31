@@ -8,6 +8,16 @@ class Identity < ActiveRecord::Base
     find_by_provider_and_uid(hash["provider"], hash["uid"])
   end
 
+  def self.update_from_hash(hash)
+    auth = self.find_from_hash(hash)
+    auth.update_attributes({
+      :token =>      hash['credentials']['token'],
+      :login_name => hash['info']['nickname'],
+      :avatar =>     hash['info']['image']  
+    })
+    return auth
+  end
+
   def self.create_from_hash(hash, user = nil)
     if user
       identity = Identity.create(
